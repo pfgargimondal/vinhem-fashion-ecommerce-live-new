@@ -47,6 +47,8 @@ export const Cart = () => {
   const { resetCart } = useCart();
   const { formatPrice } = useCurrency();
   const [hideDBAddress, setHideDBAddress] = useState(false);
+  // eslint-disable-next-line
+  const [shippingCharge, setShippingCharge] = useState("");
 
   // console.log(localStorage.getItem("selectedCurrency"), 'selectedCurrency');
 
@@ -75,6 +77,24 @@ export const Cart = () => {
   useEffect(() => {
     fetchCartlist();
   }, [fetchCartlist]);
+
+  const getShippingCharge = (countryName, weight) => {
+    const selected = shippingCountry.find(
+      (item) => item.country_name === countryName
+    );
+
+    if (!selected) return 0;
+
+    if (weight <= 999) {
+      return selected["0_999gms"];
+    } else if (weight <= 5000) {
+      return selected["1000_5000gms"];
+    } else {
+      return selected["5000_plus"] || 0;
+    }
+  };
+
+  // console.log(shippingCharge, 'shippingCharge');
 
   useEffect(() => {
     if (!token) return;
@@ -365,6 +385,12 @@ export const Cart = () => {
       ...shippingData,
       [name]: type === "checkbox" ? checked : newValue,
     });
+
+    if (name === "shipping_country") {
+      const charge = getShippingCharge(value, totalPrice.cart_totalWeight);
+      setShippingCharge(charge);
+    }
+
   };
 
 
@@ -1074,7 +1100,9 @@ export const Cart = () => {
                 <div className="col-lg-4">
                   <div className="diwebjrwert_right sticky-top">
                     <div className="dbjienwhrer">
-                      <button onClick={handleCouponToggle} className="btn btn-main coupn-btn bg-transparent text-dark w-100 mt-5 mb-4">View All Offer & Coupons <i class="bi bi-chevron-right"></i></button>
+                      <button onClick={handleCouponToggle} className="btn btn-main coupn-btn bg-transparent text-dark w-100 mt-5 mb-4">View All Offer & Coupons 
+                        {/* <i class="bi bi-chevron-right"></i> */}
+                      </button>
                     </div>
 
                     <h4 className="mb-4">CART SUMMARY</h4>
@@ -1222,7 +1250,7 @@ export const Cart = () => {
                               <label className="form-label">Shipping Address</label>
 
                               <button onClick={handleAddressToggle} className="btn btn-main bg-transparent text-black d-block w-100 mt-2">
-                                <i class="bi me-1 bi-plus-square"></i>
+                                {/* <i class="bi me-1 bi-plus-square"></i> */}
                                 
                                 ADD SHIPPING ADDRESS
                               </button>
@@ -1291,7 +1319,7 @@ export const Cart = () => {
                                   onClick={handleBillingAddressToggle} 
                                   className="btn btn-main bg-transparent text-black d-block w-100 mt-2"
                                 >
-                                  <i className="bi me-1 bi-plus-square"></i>
+                                  {/* <i className="bi me-1 bi-plus-square"></i> */}
                                   ADD BILLING ADDRESS
                                 </button>
                               </div>
@@ -1361,7 +1389,7 @@ export const Cart = () => {
                         <Table responsive>
                           <tbody>
                             <tr>
-                              <td>Cart Total</td>
+                              <td>Cart Total </td>
 
                               <td>
                                 {/* <i class="bi bi-currency-rupee"></i> */}
@@ -1370,7 +1398,7 @@ export const Cart = () => {
                             </tr>
 
                             <tr>
-                              <td>Shipping & Duties</td>
+                              <td>Shipping & Duties </td>
 
                               <td>
                                 {/* <i class="bi bi-currency-rupee"></i> */}
@@ -1380,7 +1408,7 @@ export const Cart = () => {
 
                             {appliedDiscount > 0 && (
                               <tr>
-                                <td>Coupon Discount</td>
+                                <td>Coupon Discount </td>
 
                                 <td>
                                   (-) 
@@ -1400,7 +1428,7 @@ export const Cart = () => {
                               <td className="dcvsdfggewe"><label>YOUR TOTAL SAVINGS</label></td>
                               <td>
                                 <span className="dcvsdfggewe">
-                                  {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount)}
+                                  - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount)}
                                 </span>
                               </td>
                             </tr>
@@ -1440,7 +1468,7 @@ export const Cart = () => {
                           className="btn btn-main w-100 mb-4"
                           onClick={handleCheckoutPayment}
                         >
-                          PROCEED TO CHECKOUT
+                          CONTINUE TO PAYMENT
                         </button>
                       </div>
 
@@ -1563,7 +1591,7 @@ export const Cart = () => {
                                         onChange={(e) => setPaymentMethod(e.target.value)}
                                       />
                                       <div className="ms-2">
-                                        <span className="title">UPI (Gpay, PhonePe, Paytm etc) <img className="dienwihejwr ms-1" src="images/upi.png" alt="" /></span>
+                                        <span className="title">UPI (Gpay, PhonePe, Paytm etc) : <img className="dienwihejwr ms-1" src="images/upi.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1582,7 +1610,7 @@ export const Cart = () => {
                                       />
 
                                       <div className="ms-2">
-                                        <span className="title">Credit Card <img className="dienwihejwr ms-1" src="images/credit-card.png" alt="" /></span>
+                                        <span className="title">Credit Card : <img className="dienwihejwr ms-1" src="images/credit-card.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1601,7 +1629,7 @@ export const Cart = () => {
                                       />
 
                                       <div className="ms-2">
-                                        <span className="title">Debit Card <img className="dienwihejwr ms-1" src="images/debit-card.png" alt="" /></span>
+                                        <span className="title">Debit Card : <img className="dienwihejwr ms-1" src="images/debit-card.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1620,7 +1648,7 @@ export const Cart = () => {
                                       />
 
                                       <div className="ms-2">
-                                        <span className="title">Netbanking <img className="sadwqeqwee ms-1" src="images/mobile-banking.png" alt="" /></span>
+                                        <span className="title">Net Banking : <img className="sadwqeqwee ms-1" src="images/mobile-banking.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1639,7 +1667,9 @@ export const Cart = () => {
                                       />
 
                                       <div className="ms-2">
-                                        <span className="title">Razor Pay <img className="dienwihejwr ms-1" src="images/razorpay.png" alt="" /></span>
+                                        <span className="title2">
+                                          {/* Razor Pay  */}
+                                          <img className="dienwihejwr ms-1" src="images/razorpay.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1658,7 +1688,9 @@ export const Cart = () => {
                                       />
 
                                       <div className="ms-2">
-                                        <span className="title">Pay Pal <img className="dienwihejwr ms-1" src="images/paypal.png" alt="" /></span>
+                                        <span className="title2">
+                                          {/* Pay Pal  */}
+                                        <img className="dienwihejwr ms-1" src="images/paypal.png" alt="" /></span>
                                       </div>
                                     </div>
                                   </label>
@@ -1697,8 +1729,8 @@ export const Cart = () => {
                                     onChange={(e) => setAgreeTerms(e.target.checked)}
                                   />
 
-                                  <label className="form-check-label" htmlFor="flexCheckDefasadsult">
-                                    I agree to the terms and conditions (<Link to="/terms-&-condition">read T&C</Link>)
+                                  <label className="form-check-label terms-label" htmlFor="flexCheckDefasadsult">
+                                    I agree to the terms and conditions (<Link className="tnc-link" to="/terms-&-condition">read T&C</Link>)
                                   </label>
                                 </div>
                               </div>

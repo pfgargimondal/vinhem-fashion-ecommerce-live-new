@@ -222,15 +222,21 @@
 }
 
 .coupn-btn.btn-main{
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border: 1px solid var(--light-background-color) !important;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  /* border: 1px solid var(--light-background-color) !important; */
   font-weight: 500;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid var(--pink-main-color)#840D56!important;
+  font-weight: 500;
+  background: var(--pink-main-color) !important;
+  color: #ffffff !important;
+  font-size: 1.1rem;
 }
 
 .coupn-btn.btn-main:hover{
-  background: #fff !important;
-  color: var(--pink-main-color) !important;
-  border: 1px solid var(--light-background-color) !important;
+  background: var(--pink-main-color) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--pink-main-color)#840D56!important;
 }
 
 .coupon-modal{
@@ -300,13 +306,18 @@
 /**/
 
 .dinwemojerr button.btn-main{
-  border-color: var(--light-background-color) !important;
-  color: var(--grey-border-color) !important;
+  /* border-color: var(--light-background-color) !important;
+  color: var(--grey-border-color) !important; */
+  border-color: var(--pink-main-color) !important;
+  color: #ffffff !important;
+  background: var(--pink-main-color) !important;
 }
 
 .dinwemojerr button.btn-main:hover{
-  background: #fff !important;
-  color: var(--grey-border-color) !important;
+  /* background: #fff !important;
+  color: var(--grey-border-color) !important; */
+  color: #ffffff !important;
+  background: var(--pink-main-color) !important;
 }
 
 .delojowerer{
@@ -563,6 +574,7 @@ h6.sadcadaededee,
 
 .cart-wrapper .dweoihrwerwer table tr td{
     font-size: 1rem;
+    /* font-weight: 500; */
 }
 
 

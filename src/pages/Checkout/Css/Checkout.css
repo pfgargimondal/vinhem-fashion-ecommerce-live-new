@@ -238,12 +238,22 @@
  .doiweuijrwerwer .radio-wrapper-26 label {
 	 text-align: left;
 	 min-width: 80%;
-	 padding: 1rem;
+	 /* padding: 1rem; */
+   width: 100%;
+   height: 60px;
+   padding: 10px;
+   line-height: 60px;
 	 border: none;
 	 border-radius: 6px;
 	 box-shadow: 0 0 0 1px #d8dee4;
 	 transition: all 0.2s ease;
-	 font-size: 0.875rem;
+	 font-size: 1rem;
+}
+.inputAndLeftText 
+{
+  /* line-height: 60px; */
+  margin-top: 9px;
+
 }
  .doiweuijrwerwer .radio-wrapper-26 label:not(:has(input:disabled)):hover {
 	 background: #f5f6f8;
@@ -254,12 +264,31 @@
 	 background: #f5f6f8;
 }
  .doiweuijrwerwer .radio-wrapper-26 label:has(input:checked) {
-	 box-shadow: 0 0 0 1.5px #000, 0 0 0 1px #d8dee4;
+	 box-shadow: 0 0 0 1.5px var(--pink-main-color), 0 0 0 1px #d8dee4;
+}
+
+.dfiwehrwerwe .form-check-input:checked {
+  box-shadow: 0 0 0 1.5px var(--pink-main-color) !important;
+  border-color: var(--pink-main-color) !important;
+  background-color: var(--pink-main-color) !important;
+}
+
+.dfiwehrwerwe .terms-label {
+  color: var(--pink-main-color);
+}
+
+.dfiwehrwerwe .terms-label .tnc-link {
+  color: #0056d2;    
+  text-decoration: underline;
+}
+
+.dfiwehrwerwe .terms-label .tnc-link:hover {
+  color: #003c9e;       
 }
 
  .doiweuijrwerwer .radio-wrapper-26 label .inputAndLeftText div {
 	 color: #000;
-	 line-height: 1.25rem;
+	 line-height: 1.50rem;
 	 display: flex;
 	 flex-direction: column;
 }
@@ -382,6 +411,13 @@
 
 .sjkdrvgnhbjkdf{
   color: green !important;
+}
+
+.title2 img 
+{
+  /* width: 9rem; */
+  height: 44px;
+  margin-top: -13px;
 }
 
 
