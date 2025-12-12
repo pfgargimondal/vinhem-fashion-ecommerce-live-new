@@ -931,7 +931,7 @@ export const ProductDetail = () => {
                         </span>
 
                         <span className="gdfg55 d-flex align-items-center ms-2">
-                          <i class="bi bi-currency-rupee"></i>
+                          {/* <i class="bi bi-currency-rupee"></i> */}
                           {formatPrice(productDetails?.data?.mrp_price)} 
                         </span>
 
