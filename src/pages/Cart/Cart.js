@@ -865,7 +865,7 @@ export const Cart = () => {
             id="controlled-tab-example"
             activeKey={key}
             onSelect={(k) => setKey(k)}
-            className="crt-top-tabs justify-content-center mb-3"
+            className="crt-top-tabs justify-content-center mb-3 drehbfsxgnfgn"
           >
             <Tab eventKey="cart" title="CART">
               <div className="row justify-content-between">
@@ -1120,12 +1120,14 @@ export const Cart = () => {
                 <div className="col-lg-4">
                   <div className="diwebjrwert_right sticky-top">
                     <div className="dbjienwhrer">
-                      <button onClick={handleCouponToggle} className="btn btn-main coupn-btn bg-transparent text-dark w-100 mt-5 mb-4">View All Offer & Coupons 
+                      <button onClick={handleCouponToggle} className="btn btn-main coupn-btn bg-transparent text-dark w-100 mt-5 mb-4">VIEW ALL OFFER & COUPONS 
                         {/* <i class="bi bi-chevron-right"></i> */}
                       </button>
                     </div>
-
-                    <h4 className="mb-4">CART SUMMARY</h4>
+                    <div className="srghbsdtnhfnjgh">
+                      <h4 className="mb-4">CART SUMMARY</h4>
+                    </div>
+                    
 
                     <div className="dweoihrwerwer p-2 mb-3">
                       <Table responsive>
@@ -1403,16 +1405,131 @@ export const Cart = () => {
 
                   <div className="col-lg-4">
                     <div className="diwebjrwert_right sfvswfrwerwr sticky-top">
-                      <h4 className="opsjdfohsij mb-0 pb-2">PRICE DETAILS</h4>
+                      <div className="sdegdsbhsdfgbnh mt-4 mb-4">
+                        <h4 className="opsjdfohsij mb-0 pb-2">ORDER SUMMARY</h4>
+                      </div>
+                      
+                      <div className="dweoihrwerwer p-2 mb-3">
+                      <Table responsive>
+                        <tbody>
+                          <tr>
+                            <td>Total MRP :</td>
 
-                      <div className="dweoihrwerwer sdfvdedwewerr p-1 mb-3">
+                            <td>
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.total_selling_price)}
+                              {/* {formatPrice(totalPrice.total_mrp_price)} */}
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td>Total Discount :</td>
+
+                            <td>
+                              (-) 
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.total_discount_price)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Customization Charges :</td>
+                            <td>
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.custom_fit_charges)}
+                            </td>
+                          </tr>
+                          {totalPrice.stiching_charges !== 0 && (
+                            <tr>
+                              <td>Stiching Charges :</td>
+
+                              <td>
+                                {/* <i class="bi bi-currency-rupee"></i> */}
+                                {formatPrice(totalPrice.stiching_charges)}
+                              </td>
+                            </tr>
+                          )}
+                          {totalPrice.total_add_on_charges !== '0' && (
+                            <tr>
+                              <td>Add On Charges :</td>
+                              <td>
+                                {/* <i class="bi bi-currency-rupee"></i> */}
+                                {formatPrice(totalPrice.total_add_on_charges)}
+                              </td>
+                            </tr>
+                          )}
+                       
+                          <tr>
+                            <td>Shipping & Duties </td>
+
+                              <td>
+                                {/* <i class="bi bi-currency-rupee"></i> */}
+                                {/* {formatPrice(totalPrice.shipping_charges)} */}
+                                {shippingCharge === null ?(
+                                  formatPrice(0)
+                                ) :(
+                                  formatPrice(shippingCharge)
+                                )}
+                                
+                              </td>
+                          </tr>
+                          {appliedDiscount > 0 && (
+                            <tr>
+                              <td>Coupon Discount :</td>
+
+                              <td>
+                                (-)
+                                {formatPrice(appliedDiscount)}
+                              </td>
+                            </tr>
+                          )}
+                          <tr>
+                            <td><b>TOTAL PAYABLE</b></td>
+                              <td>
+                                <b>{formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges) + Number(shippingCharge))}</b>
+                              </td>
+                          </tr>
+                        </tbody>
+                      </Table>                      
+                    </div>
+
+                    
+
+                    <div className="dweoihrwerwer sfvawxdsddqwdawd aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2 mb-3">
+                      <div className="doewjirwerwer dcvsdfggewe">
+                        <label>YOUR TOTAL SAVINGS</label>
+                      </div>
+
+                      <span>
+                        {/* <i class="bi bi-currency-rupee"></i>  */}
+                        - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount)}
+                      </span>
+                    </div>
+
+                    <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
+                      <div className="doewjirwerwer">
+                        <input type="checkbox" id="gft" className="m-1" />
+
+                        <label htmlFor="gft">This is a gift item</label>
+                      </div>
+
+                      <span>Free Gift Wrap</span>
+                    </div>
+
+                    <div className="oiasmdjweijrwerwer py-2 mb-4 d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-3">
+                      <label className="mb-0">Total Payable</label>
+                      <span className="mb-0">
+                        {/* <i class="bi bi-currency-rupee"></i> */}
+                        {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges))}
+                      </span>
+                      
+                    </div>
+                      {/* <div className="dweoihrwerwer sdfvdedwewerr p-1 mb-3">
                         <Table responsive>
                           <tbody>
                             <tr>
                               <td>Cart Total </td>
 
                               <td>
-                                {/* <i class="bi bi-currency-rupee"></i> */}
                                 {formatPrice(totalPrice.cart_totalPrice)}
                               </td>
                             </tr>
@@ -1421,8 +1538,6 @@ export const Cart = () => {
                               <td>Shipping & Duties </td>
 
                               <td>
-                                {/* <i class="bi bi-currency-rupee"></i> */}
-                                {/* {formatPrice(totalPrice.shipping_charges)} */}
                                 {shippingCharge === null ?(
                                   formatPrice(0)
                                 ) :(
@@ -1438,7 +1553,6 @@ export const Cart = () => {
 
                                 <td>
                                   (-) 
-                                  {/* <i class="bi bi-currency-rupee"></i> */}
                                   {formatPrice(appliedDiscount)}
                                 </td>
                               </tr>
@@ -1461,7 +1575,7 @@ export const Cart = () => {
 
                           </tbody>
                         </Table>                      
-                      </div>
+                      </div> */}
 {/* 
                       {appliedDiscount > 0 && (
                         <div className="oiasmdjweijrwerwer d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-4">
@@ -1756,7 +1870,7 @@ export const Cart = () => {
                                   />
 
                                   <label className="form-check-label terms-label" htmlFor="flexCheckDefasadsult">
-                                    I agree to the terms and conditions (<Link className="tnc-link" to="/terms-&-condition">read T&C</Link>)
+                                    I agree to the terms and conditions (<Link className="tnc-link" to="/terms-&-condition">Read T&C</Link>)
                                   </label>
                                 </div>
                               </div>
@@ -1769,22 +1883,62 @@ export const Cart = () => {
 
                   <div className="col-lg-4">
                     <div className="diwebjrwert_right sfvswfrwerwr sticky-top">
-                      <h4 className="opsjdfohsij mb-0 pb-2">PRICE DETAILS</h4>
+                      {/* <h4 className="opsjdfohsij mb-0 pb-2">PRICE DETAILS</h4> */}
+                      <div className="sdegdsbhsdfgbnh mt-4 mb-4">
+                        <h4 className="opsjdfohsij mb-0 pb-2">PRICE DETAILS</h4>
+                      </div>
 
-                      <div className="dweoihrwerwer sdfvdedwewerr p-1 mb-3">
-                        <Table responsive>
-                          <tbody>
+                      <div className="dweoihrwerwer p-2 mb-3">
+                      <Table responsive>
+                        <tbody>
+                          <tr>
+                            <td>Total MRP :</td>
+
+                            <td>
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.total_selling_price)}
+                              {/* {formatPrice(totalPrice.total_mrp_price)} */}
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td>Total Discount :</td>
+
+                            <td>
+                              (-) 
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.total_discount_price)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Customization Charges :</td>
+                            <td>
+                              {/* <i class="bi bi-currency-rupee"></i> */}
+                              {formatPrice(totalPrice.custom_fit_charges)}
+                            </td>
+                          </tr>
+                          {totalPrice.stiching_charges !== 0 && (
                             <tr>
-                              <td>Cart Total</td>
+                              <td>Stiching Charges :</td>
 
                               <td>
                                 {/* <i class="bi bi-currency-rupee"></i> */}
-                                {formatPrice(totalPrice.cart_totalPrice)}
+                                {formatPrice(totalPrice.stiching_charges)}
                               </td>
                             </tr>
-
+                          )}
+                          {totalPrice.total_add_on_charges !== '0' && (
                             <tr>
-                              <td>Shipping & Duties</td>
+                              <td>Add On Charges :</td>
+                              <td>
+                                {/* <i class="bi bi-currency-rupee"></i> */}
+                                {formatPrice(totalPrice.total_add_on_charges)}
+                              </td>
+                            </tr>
+                          )}
+                       
+                          <tr>
+                            <td>Shipping & Duties </td>
 
                               <td>
                                 {/* <i class="bi bi-currency-rupee"></i> */}
@@ -1794,37 +1948,60 @@ export const Cart = () => {
                                 ) :(
                                   formatPrice(shippingCharge)
                                 )}
+                                
                               </td>
-                            </tr>
-                            
-                            {appliedDiscount > 0 && (
-                              <tr className="oiasmdjweijrwerwer zsdvfdesdeadfrer mt-4">
-                                <td>Coupon Discount</td>
-
-                                <td>
-                                  (-) 
-                                  {/* <i class="bi bi-currency-rupee"></i> */}
-                                  {formatPrice(appliedDiscount)}
-                                </td>
-                              </tr>
-                            )}
-                            <tr className="dweoihrwerwer aiksndjhugwerwerw mb-3">
-                              <td className="doewjirwerwer"><label><b>TOTAL PAYABLE</b></label></td>
-                              <td>
-                                <span><b>{formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges) + Number(shippingCharge))}</b></span>
-                              </td>
-                            </tr>
-
-                            <tr className="dweoihrwerwer sfvawxdsddqwdawd aiksndjhugwerwerw border-0 mb-3">
-                              <td className="doewjirwerwer dcvsdfggewe"><label>YOUR TOTAL SAVINGS</label></td>
+                          </tr>
+                          {appliedDiscount > 0 && (
+                            <tr>
+                              <td>Coupon Discount :</td>
 
                               <td>
-                                <span>{formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount)}</span>
+                                (-)
+                                {formatPrice(appliedDiscount)}
                               </td>
                             </tr>
-                          </tbody>
-                        </Table>                      
+                          )}
+                          <tr>
+                            <td><b>TOTAL PAYABLE</b></td>
+                              <td>
+                                <b>{formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges) + Number(shippingCharge))}</b>
+                              </td>
+                          </tr>
+                        </tbody>
+                      </Table>                      
+                    </div>
+
+                    
+
+                    <div className="dweoihrwerwer sfvawxdsddqwdawd aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2 mb-3">
+                      <div className="doewjirwerwer dcvsdfggewe">
+                        <label>YOUR TOTAL SAVINGS</label>
                       </div>
+
+                      <span>
+                        {/* <i class="bi bi-currency-rupee"></i>  */}
+                        - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount)}
+                      </span>
+                    </div>
+
+                    <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
+                      <div className="doewjirwerwer">
+                        <input type="checkbox" id="gft" className="m-1" />
+
+                        <label htmlFor="gft">This is a gift item</label>
+                      </div>
+
+                      <span>Free Gift Wrap</span>
+                    </div>
+
+                    <div className="oiasmdjweijrwerwer py-2 mb-4 d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-3">
+                      <label className="mb-0">Total Payable</label>
+                      <span className="mb-0">
+                        {/* <i class="bi bi-currency-rupee"></i> */}
+                        {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges))}
+                      </span>
+                      
+                    </div>
                       {/* {appliedDiscount > 0 && (
                         <div className="oiasmdjweijrwerwer d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-4">
                           <p>Coupon Discount</p>
