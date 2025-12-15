@@ -152,9 +152,11 @@
   transition: 0.2s ease-in-out;
   line-height: 2.8;
   text-align: center;
-  background: var(--black-background-color);
+  background: var(--pink-main-color);
+  /* background: var(--black-background-color); */
   color: #fff;
-  border: 1px solid var(--black-background-color);
+  border: 1px solid var(--pink-main-color);
+  /* border: 1px solid var(--black-background-color); */
 }
 
 .doikwenirnwekhrwer button:hover{

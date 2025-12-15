@@ -701,6 +701,29 @@ export const ProductDetail = () => {
             <div className="container-fluid">
               <div className="row">
                 <div className="col-lg-6">
+                  <div className="breadcrumb">
+                    <ul className="ps-0 mb-0">
+                      <li>
+                        <Link to="/">Home</Link>
+                      </li>
+                      <li className="mx-2">/</li>
+                      <li>
+                        <Link to={`/${productDetails?.data?.product_category_slug}`}>
+                          {productDetails?.data?.product_category.charAt(0).toUpperCase() + productDetails?.data?.product_category.slice(1)}
+                        </Link>
+                      </li> 
+                      <li className="mx-2">/</li>
+                      <li>
+                        <Link to={`/${productDetails?.data?.product_category_slug}/${productDetails?.data?.product_sub_category_slug}`}>
+                          {productDetails?.data?.product_sub_category.charAt(0).toUpperCase() + productDetails?.data?.product_sub_category.slice(1)}
+                        </Link>
+                      </li>
+                      <li className="mx-2">/</li>
+                      <li>
+                        {productDetails?.data?.product_name}
+                      </li>
+                    </ul>
+                  </div>
                   <div className="deiwhirhwejpekr sticky-top">
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                       <Row>
@@ -927,7 +950,7 @@ export const ProductDetail = () => {
                     <div className="dfjghdfgdff58 mb-4">
                       <h4 className="d-flex mb-1">
                         <span className="discounted-price d-flex align-items-center">
-                          {formatPrice(productDetails?.data?.selling_price)}
+                          MRP : {formatPrice(productDetails?.data?.selling_price)}
                         </span>
 
                         <span className="gdfg55 d-flex align-items-center ms-2">
@@ -940,7 +963,7 @@ export const ProductDetail = () => {
                         </span>
                       </h4>
 
-                      <p className="mb-0">(inclusive of all taxes)</p>
+                      <p className="mb-0">(Inclusive of all taxes)</p>
                     </div>
 
                     <div className="jdfbdfgdf">
@@ -1020,6 +1043,7 @@ export const ProductDetail = () => {
                       {productDetails?.data?.stitching_option === 'Ready To Wear' && (
                         <div className="jlksdeflksdfk">
                           <label className="form-label"><b>Select Your Size</b></label>
+                          <hr class="mt-0" style={{width: "86%"}} />
                           <div className="row sdfasdctgerrrrwe mb-3">
                             <div className="col-lg-5 col-md-9 col-sm-9 col-9">
                               <div className="dgndfjgdf">
@@ -1057,8 +1081,13 @@ export const ProductDetail = () => {
                                       return sizeOrder.indexOf(prefixA) - sizeOrder.indexOf(prefixB);
                                     });
 
+                                    const formattedSizes = sorted.map(size => {
+                                      const [prefix, value] = size.split("-");
+                                      return `${prefix} - ${value}`;
+                                    });
+
                                     // Return sorted options
-                                    return sorted.map((size, index) => (
+                                    return formattedSizes.map((size, index) => (
                                       <option key={index} value={size}>
                                         {size}
                                       </option>
@@ -1288,7 +1317,7 @@ export const ProductDetail = () => {
 
                     <div className="dowejkrnwerwer d-flex mt-4">
                       <div className="doenwkjriwerwer">
-                        <h4 className="mb-0 me-2">You Pay: 
+                        <h4 className="mb-0 me-2">You Pay :&nbsp;
                           <span>
                           {/* <i class="fa-solid fa-indian-rupee-sign"></i> */}
                           {formatPrice(finalPrice.toFixed(2))}
@@ -1299,11 +1328,11 @@ export const ProductDetail = () => {
                       </div>
 
                       <div className="dfgndfjhgdf">
-                        <button className="btn btn-main btn-transparent px-3 me-1" onClick={handleAddToCart} disabled={cartLoading}>
+                        <button className="btn btn-main px-3 me-1" onClick={handleAddToCart} disabled={cartLoading}>
                           <i class="bi bi-bag me-1"></i> {cartLoading ? "Adding..." : "Add to Cart"}
                         </button>
 
-                        <button className="btn btn-main px-3" onClick={handleBuyNow}>
+                        <button className="btn btn-main btn-transparent px-3" onClick={handleBuyNow}>
                           <i class="bi bi-bag me-1"></i> Buy Now
                         </button>
                       </div>
@@ -1326,7 +1355,7 @@ export const ProductDetail = () => {
                         />
 
                         <button type="submit" className="btn btn-main position-absolute">
-                          Change
+                          Check
                         </button>
                       </form>
                     </div>
@@ -1404,9 +1433,11 @@ export const ProductDetail = () => {
                     </div>
 
                     <div className="diwenjrbwebrwehgrwer mt-5">
-                      <p className="sidifsdiyhr pb-2 me-2 mb-0">Offers Coupon are already applied do not forget to "Tap To Apply" on checkout page</p>
+                      <p className="sidifsdiyhr pb-2 me-2 mb-0">
+                        <b style={{fontSize:"1.3rem"}}>Offers - </b> Coupon are visible on checkout page do not forget "Tap To Apply"
+                      </p>
 
-                      <hr className="mt-0" style={{width: "86%"}} />
+                      <hr className="mt-0" style={{width: "90%"}} />
 
                       <div className="injdewrwer">
                         {/* <h4 className="mb-0 me-2">Coupon Code -</h4> */}

@@ -62,6 +62,10 @@
   justify-content: space-between;
 }
 
+.fgnjdfgfd h2{
+  font-size: 1.9rem !important;
+}
+
 .dfhdfhd {
   display: flex;
   align-items: baseline;
@@ -88,8 +92,8 @@
 }
 
 .gdfg55 {
-  color: var(--text-lighter-gray-color) !important;
-  font-size: 1.1rem !important;
+  color: #616161 !important;
+  font-size: 1.3rem !important;
   text-decoration: line-through;
 }
 
@@ -175,9 +179,10 @@
 }
 
 .dfgndfjhgdf .btn-transparent:hover {
-  background: var(--pink-hover-main-color) !important;
+  /* background: var(--pink-hover-main-color) !important; */
+  background: var(--pink-main-color) !important;
   color: #fff !important;
-  border-color: var(--pink-hover-main-color) !important;
+  border-color: var(--pink-main-color) !important;
   transition: 0.3s ease-in-out;
 }
 
@@ -275,7 +280,7 @@
   color: #fff;
 }
 .dikewnirhwerjwer .idnewihrwer_inner .odjjkwehrihwerewr p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 .dikewnirhwerjwer .idnewihrwer_inner .odjjkwehrihwerewr p span {
@@ -284,7 +289,7 @@
 }
 
 .dsclmer {
-  background: var(--light-background-color);
+  background: #f5f5f5;
   border-radius: 5px;
 }
 
@@ -319,7 +324,7 @@
 }
 .dopwejoirjhwer .col-lg-4:first-child button.btn-transparent:hover,
 .dopwejoirjhwer .col-lg-4:last-child button.btn-transparent:hover{
-  background: var(--pink-hover-main-color) !important;
+  background: var(--pink-main-color) !important;
   color: #fff;
 }
 .dopwejoirjhwer .col-lg-4:first-child button.btn-transparent:hover i,
@@ -381,6 +386,12 @@ p.sidifsdiyhr{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.container-fluid .breadcrumb ul li {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: -20px;
 }
 
 .small-image-tabs .nav-item {
@@ -1016,7 +1027,7 @@ p.sidifsdiyhr{
 
 .dowejkrnwerwer h4{
   color: var(--grey-border-color);
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   transform: translateY(11px);
 }
 
