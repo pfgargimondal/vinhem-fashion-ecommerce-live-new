@@ -1143,7 +1143,7 @@ export const Cart = () => {
                           </tr>
 
                           <tr>
-                            <td>Total Discount :</td>
+                            <td>Vinhem Discount :</td>
 
                             <td>
                               (-) 
@@ -1423,7 +1423,7 @@ export const Cart = () => {
                           </tr>
 
                           <tr>
-                            <td>Total Discount :</td>
+                            <td>Vinhem Discount :</td>
 
                             <td>
                               (-) 
@@ -1902,7 +1902,7 @@ export const Cart = () => {
                           </tr>
 
                           <tr>
-                            <td>Total Discount :</td>
+                            <td>Vinhem Discount :</td>
 
                             <td>
                               (-) 
