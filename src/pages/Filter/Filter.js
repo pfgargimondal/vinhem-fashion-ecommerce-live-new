@@ -198,44 +198,73 @@ export const Filter = () => {
   return (
     <div className="filter-wrapper pt-2">
       <div className="container-fluid">
-        <div className="breadcrumb">
-          <ul className="ps-0 mb-0">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            {category && (
-              <>
-                <li className="mx-2">/</li>
+        <div className={`doiejwoijrwer ${filterTopBannerHide.includes(category) && !subcategory ? "row" : ""}`}>
+          <div className={`dieihirweir ${filterTopBannerHide.includes(category) && !subcategory ? "col-lg-3" : ""}`}>
+            <div className="breadcrumb">
+              <ul className="ps-0 mb-0">
                 <li>
-                  <Link to={`/${category}`}>
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                  </Link>
+                  <Link to="/">Home</Link>
                 </li>
-              </>
-            )}
+                {category && (
+                  <>
+                    <li className="mx-2">/</li>
+                    <li>
+                      <Link to={`/${category}`}>
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      </Link>
+                    </li>
+                  </>
+                )}
 
-            {subcategory && (
-              <>
-                <li className="mx-2">/</li>
-                <li>
-                  <Link to={`/${category}/${subcategory}`}>
-                    {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+                {subcategory && (
+                  <>
+                    <li className="mx-2">/</li>
+                    <li>
+                      <Link to={`/${category}/${subcategory}`}>
+                        {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
 
-        <div className="alosjdjkhrjfse">
-          <h4 className="mb-0">
-            {category === "all-products"
-            ? "All Products"
-            : subcategory
-              ? `${toTitleCase(subcategory)} For ${toTitleCase(category)}`
-              : `All Products For ${toTitleCase(category)}`}
-          <span> - Showing {products?.length ?? 0} Results</span>
-          </h4>
+            <div className="alosjdjkhrjfse">
+              <h4 className="mb-0">
+                {category === "all-products"
+                ? "All Products"
+                : subcategory
+                  ? `${toTitleCase(subcategory)} For ${toTitleCase(category)}`
+                  : `All Products For ${toTitleCase(category)}`}
+              <span> - Showing {products?.length ?? 0} Results</span>
+              </h4>
+            </div>
+          </div>
+
+          {filterTopBannerHide.includes(category) && !subcategory && (
+            <div className={filterTopBannerHide.includes(category) && !subcategory ? "col-lg-9" : ""}>
+              <div
+                className="advtsmnt-bnnr overflow-hidden"
+                style={{ borderRadius: "1rem" }}
+              >
+                {allProductdata?.filter_banner
+                  ? (
+                      <img
+                        src={`${allProductdata?.banner_image_url}/${allProductdata?.filter_banner?.image}`}
+                        className="img-fluid w-100"
+                        alt=""
+                      />
+                    )
+                  : (
+                      <img
+                        src="images/fltrdbnnr.png"
+                        className="img-fluid w-100"
+                        alt=""
+                      />
+                    )}
+              </div>
+            </div>            
+          )}
         </div>
 
         {category && subcategory && (
@@ -289,36 +318,13 @@ export const Filter = () => {
                 }`}
                 id="res-filtr-nav"
               >
-              <FilterSection setResFltrMenu={setResFltrMenu} allFilterMappingdata={allFilterMappingdata} filterCategories={filterCategories} />
+              <FilterSection category={category} subcategory={subcategory} setResFltrMenu={setResFltrMenu} allFilterMappingdata={allFilterMappingdata} filterCategories={filterCategories} />
               </div>
             </div>
           </div>
 
           <div className="col-lg-9">
             <div className="filtered-products">
-              {filterTopBannerHide.includes(category) && !subcategory && (
-                <div
-                  className="advtsmnt-bnnr mb-4 overflow-hidden"
-                  style={{ borderRadius: "1rem" }}
-                >
-                  {allProductdata?.filter_banner
-                    ? (
-                        <img
-                          src={`${allProductdata?.banner_image_url}/${allProductdata?.filter_banner?.image}`}
-                          className="img-fluid w-100"
-                          alt=""
-                        />
-                      )
-                    : (
-                        <img
-                          src="images/fltrdbnnr.png"
-                          className="img-fluid w-100"
-                          alt=""
-                        />
-                      )}
-                </div>
-              )}
-
               <div className="iduhweihriweurwerwer row align-items-center pb-3">
                 <div className="col-lg-9">
                   <div className="idasijhdmsiejr d-flex align-items-center">
@@ -386,7 +392,7 @@ export const Filter = () => {
 
                       <option value="HIGH_TO_LOW">Price High to Low</option>
 
-                      <option value="DISCOUNT_LOW_TO_HIGH">Discount Low to High</option>
+                      <option value="DISCOUNT_HIGH_TO_LOW">Discount High to Low</option>
                     </select>
                   </div>
                 </div>

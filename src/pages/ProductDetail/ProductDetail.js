@@ -1044,8 +1044,8 @@ export const ProductDetail = () => {
                         <div className="jlksdeflksdfk">
                           <label className="form-label"><b>Select Your Size</b></label>
                           <hr class="mt-0" style={{width: "86%"}} />
-                          <div className="row sdfasdctgerrrrwe mb-3">
-                            <div className="col-lg-5 col-md-9 col-sm-9 col-9">
+                          <div className="d-flex align-items-center sdfasdctgerrrrwe mb-3">
+                            <div className="select-form-drpdwn me-3">
                               <div className="dgndfjgdf">
                                 <select
                                   name="product_size"
@@ -1094,15 +1094,14 @@ export const ProductDetail = () => {
                                     ));
                                   })()}
                                 </select>
-                                <p className="mt-2">
-                                  {productDetails?.data?.mto_quantity <= 5 && (
-                                    <>Only few left</>
-                                  )}
-                                </p>
+
+                                {productDetails?.data?.mto_quantity <= 5 && (
+                                  <p className="mt-2">Only few left</p>
+                                )}                      
                               </div>
                             </div>
 
-                            <div className="col-lg-4 col-md-3 col-sm-3 col-3">
+                            <div className="select-form-side">
                               <div className="dokewhkjrhuiwerwer skdncfjsdbcfksdnf">
                                 <button className="btn btn-main px-0" onClick={() => setShowSizeGuide(!showSizeGuide)}><img src="/images/ruler.png" alt="" /> Size Guide</button>
                               </div>
@@ -1114,8 +1113,8 @@ export const ProductDetail = () => {
                     </div>
 
                     <div className="row">
-                      <div className="fvgndfjgf col-lg-8 col-md-8 col-sm-9 col-9 d-flex align-items-center">
-                        <label htmlFor="" className="form-label me-1 mb-0">
+                      <div className="fvgndfjgf">
+                        <label htmlFor="" className="form-label me-1 mb-2">
                           Qty:
                         </label>
 
@@ -1125,7 +1124,7 @@ export const ProductDetail = () => {
                           value={selectedQuantity}
                           onChange={(e) => handleQuantitySelect(Number(e.target.value))}
                           disabled={!availableQty}
-                          className="form-select"
+                          className="form-select select-form-drpdwn"
                         >
                           {availableQty > 0 ? (
                             Array.from({ length: availableQty }, (_, i) => (
@@ -1171,15 +1170,15 @@ export const ProductDetail = () => {
                               </p>
                             </div>
 
-                            <div className="slkdnfkmslkmr row align-items-center">
-                              <div className="col-lg-8 col-md-8 col-sm-8 col-8">
+                            <div className="slkdnfkmslkmr d-flex align-items-center">
+                              <div className="select-form-drpdwn me-3">
                                 <select name="product_turbanSize" className="form-select" id="product_turbanSize" disabled={!isTurbanChecked}>
                                   <option selected value="">Select size</option>
                                   <option value="1">1</option>
                                 </select>
                               </div>
 
-                              <div className="col-lg-4 col-md-4 col-sm-4 col-4">
+                              <div className="select-form-side">
                                 <p className="chrt-sze mb-0" onClick={() => setTurbanModal(!turbanModal)}><i class="fa-solid fa-maximize"></i> Size Chart</p>
                               </div>
                             </div>
@@ -1253,8 +1252,8 @@ export const ProductDetail = () => {
                               </p>  
                             </div>
 
-                            <div className="slkdnfkmslkmr row align-items-center">
-                              <div className="col-lg-8 col-md-9 col-sm-9 col-9">
+                            <div className="slkdnfkmslkmr d-flex align-items-center">
+                              <div className="select-form-drpdwn me-3">
                                 <select name="product_mojriSize" className="form-select" id="product_mojriSize" disabled={!isMojriChecked}>
                                   <option value="" selected>Select Size</option>
                                     <option value="-- U.S. &amp; Canada ----" disabled="disabled" class="disableDdlItems">-- U.S. &amp; Canada ----</option>
@@ -1306,7 +1305,7 @@ export const ProductDetail = () => {
                                 </select>
                               </div>
 
-                              <div className="col-lg-4 col-md-3 col-sm-3 col-3">
+                              <div className="select-form-side">
                                 <p className="chrt-sze mb-0" onClick={() => setMojriModal(!mojriModal)}><i class="fa-solid fa-maximize"></i> Size Chart</p>
                               </div>
                             </div>
@@ -1317,14 +1316,14 @@ export const ProductDetail = () => {
 
                     <div className="dowejkrnwerwer d-flex align-items-center mt-4">
                       <div className="doenwkjriwerwer">
-                        <h4 className="mb-0 me-2">You Pay :&nbsp;
+                        <h4 className="mb-2 me-2">You Pay :&nbsp;
                           <span>
                           {/* <i class="fa-solid fa-indian-rupee-sign"></i> */}
                           {formatPrice(finalPrice.toFixed(2))}
                           </span>
                         </h4>
 
-                        <p class="mt-3 mb-0">(Incl. services)</p>
+                        <p class="mb-0">(Incl. services)</p>
                       </div>
 
                       <div className="dfgndfjhgdf">
@@ -1340,8 +1339,6 @@ export const ProductDetail = () => {
 
                     <div className="kjidbwejgrwerwer position-relative mt-5">
                       <i class="bi bi-geo-alt position-absolute"></i>
-
-
 
                       <form onSubmit={handleChangePincode}>
                         <input
@@ -1450,7 +1447,7 @@ export const ProductDetail = () => {
                                 return (
                                   <div
                                     key={index}
-                                    className="copn-cde text-center py-2 px-3 mb-2 me-2 rounded-2"
+                                    className="copn-cde text-center py-2 px-3 mb-2 me-5 rounded-2"
                                   >
                                     <h5 className="mb-0">
                                       {coupon.trim()}

@@ -363,8 +363,8 @@ export const FilterProvider = ({children}) => {
             return products.filter(product => product.new_arrival === "1" || product?.new_arrival === true);
         } else if (state.sortBy === "BEST_SELLER") {
             return products.filter(product => product.best_seller === "1");
-        } else if (state.sortBy === "DISCOUNT_LOW_TO_HIGH") {
-            return products.sort((a, b) => a.discount - b.discount);
+        } else if (state.sortBy === "DISCOUNT_HIGH_TO_LOW") {
+            return products.sort((a, b) => b.discount - a.discount);
         } else {
             return products;
         }

@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 
 
-export default function FilterSection({ setResFltrMenu, allFilterMappingdata, filterCategories }) {
+export default function FilterSection({ setResFltrMenu, allFilterMappingdata, filterCategories, category, subcategory }) {
   const { minPrice, maxPrice, setPrice, setMainCategory, setSubCategory, setFilterCategory, color, setColor, setMaterial, setDesigner, setPlusSize, setOccasion, setSize, setCelebrity, setShippingTime, resetFilter } = useFilter();
   const [selectedTheme, setSelectedTheme] = useState("");
   const [sbctgry, setSbctgry] = useState(null);
@@ -290,7 +290,7 @@ const handleMaxEnter = (e) => {
                               .filter(sub => !isSubCategoryURL || sub.subCategories_slug.toLowerCase() === urlSub)
                               .map(sub_category => (
                                 <div className="doewjroijwerwer mb-3" key={sub_category.id}>
-                                  <div className={`radio-wrapper-5 ps-3 justify-content-between align-items-center ${(sub_category.subCategories_slug === urlSub) ? "d-none" : ""}`}>
+                                  <div className={`radio-wrapper-5 ${!isSubCategoryURL && mainCategorySlug !== currentPath ? "ps-3" : "" }  justify-content-between align-items-center ${(sub_category.subCategories_slug === urlSub) ? "d-none" : ""}`}>
                                     <div className="doiwejirwer d-flex align-items-center">
                                       <div className="cdwehjirnweijrowejrowejr">
                                         <div className="checkbox-wrapper-33">
@@ -340,9 +340,9 @@ const handleMaxEnter = (e) => {
 
                                   {/* Always auto-open Inside Filters if URL has subcategory */}
                                   {(insdSbctgry === sub_category.id || sub_category.subCategories_slug === urlSub) && (
-                                    <div className="inside-sub-catgry-filter ps-3">
+                                    <div className={`inside-sub-catgry-filter ${!isSubCategoryURL && sub_category.filter_categories.length > 0 ? "ps-3" : ""}`}>
                                       {sub_category.filter_categories.map(filter_category => (
-                                        <div key={filter_category.id} className="radio-wrapper-5 ps-3 mb-3 justify-content-between align-items-center">
+                                        <div key={filter_category.id} className={`radio-wrapper-5 ${!isSubCategoryURL && sub_category.filter_categories.length > 0 ? "ps-3" : ""} mb-3 justify-content-between align-items-center`}>
                                           <div className="doiwejirwer d-flex align-items-center">
                                             <div className="cdwehjirnweijrowejrowejr">
                                               <div className="checkbox-wrapper-33">
