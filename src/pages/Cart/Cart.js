@@ -1036,7 +1036,7 @@ export const Cart = () => {
                                     </h6>
 
                                     <div className="dewhrowerwer d-flex align-items-center">
-                                      <div className="doijerewr d-flex align-items-center me-4">
+                                      <div className="doijerewr d-flex align-items-center pe-2" style={{borderRight:"1px solid #616161"}}>
                                         <i
                                           onClick={() =>
                                             toggleWishlist(
@@ -1056,7 +1056,7 @@ export const Cart = () => {
                                         <p className="mb-0">Move to Wishlist</p>
                                       </div>
 
-                                      <div className="doijerewr d-flex align-items-center">
+                                      <div className="doijerewr d-flex align-items-center ps-2">
                                         <i className="bi me-1 bi-trash3" onClick={() => handleRemoveItem(cartItemsVal.id)}></i>
 
                                         <p className="mb-0">Remove</p>
