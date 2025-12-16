@@ -1315,7 +1315,7 @@ export const ProductDetail = () => {
                       </div>
                     )}
 
-                    <div className="dowejkrnwerwer d-flex mt-4">
+                    <div className="dowejkrnwerwer d-flex align-items-center mt-4">
                       <div className="doenwkjriwerwer">
                         <h4 className="mb-0 me-2">You Pay :&nbsp;
                           <span>
@@ -1324,11 +1324,11 @@ export const ProductDetail = () => {
                           </span>
                         </h4>
 
-                        <p class="mt-2 mb-0">(Inclusive of all services)</p>
+                        <p class="mt-3 mb-0">(Incl. services)</p>
                       </div>
 
                       <div className="dfgndfjhgdf">
-                        <button className="btn btn-main px-3 me-1" onClick={handleAddToCart} disabled={cartLoading}>
+                        <button className="btn btn-main px-3 me-4" onClick={handleAddToCart} disabled={cartLoading}>
                           <i class="bi bi-bag me-1"></i> {cartLoading ? "Adding..." : "Add to Cart"}
                         </button>
 

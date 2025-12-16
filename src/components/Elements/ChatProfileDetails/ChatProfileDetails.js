@@ -32,13 +32,11 @@ export const ChatProfileDetails = ({ setChatProfileDetailsShow }) => {
     // ---- API CALL TO BACKEND OR CHATGPT ----
     try {
       const response = await http.post(
-        "/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage }),
-      });
+        "/chat",
+        { message: userMessage } // ✅ data goes here
+      );
 
-      const data = await response.json();
+      const data = response.data; // ✅ Axios auto parses JSON
 
       const botReply = {
         sender: "bot",
@@ -47,6 +45,7 @@ export const ChatProfileDetails = ({ setChatProfileDetailsShow }) => {
       };
 
       setMessages(prev => [...prev, botReply]);
+
     } catch (error) {
       console.log("Chat error:", error);
 
@@ -113,6 +112,7 @@ export const ChatProfileDetails = ({ setChatProfileDetailsShow }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            name="message"
           ></textarea>
 
           <div className="doiewjrmwerwer position-absolute d-flex align-items-center top-50 end-0 translate-middle-y">
