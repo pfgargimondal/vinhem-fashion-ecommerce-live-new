@@ -639,30 +639,48 @@ export const ProductDetail = () => {
   const [pincode, setPincode] = useState("");
   const [deliveryMsg, setDeliveryMsg] = useState("");
 
-  const handleChangePincode = async (e) => {
+  // const handleChangePincode = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!pincode) {
+  //     setDeliveryMsg("Please enter a valid pincode!");
+  //     return;
+  //   }
+
+  //   try {
+  //     const res = await http.post("/check-pincode", {
+  //       product_id: productDetails?.data?.id, 
+  //     });
+
+  //     if (res.data.success) {
+  //       setDeliveryMsg(`Delivering to this location by, ${res.data.data}`);
+  //     } else {
+  //       setDeliveryMsg(res.data.message);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error("Error checking pincode!");
+  //   }
+  // };
+
+  const handleChangePincode = (e) => {
     e.preventDefault();
 
-    if (!pincode) {
+    if (!pincode || pincode.length < 6) {
       setDeliveryMsg("Please enter a valid pincode!");
       return;
     }
 
-    try {
-      const res = await http.post("/check-pincode", {
-        product_id: productDetails?.data?.id, 
-      });
+    const deliveryDate = new Date();
+    deliveryDate.setDate(deliveryDate.getDate() + 4);
 
-      if (res.data.success) {
-        setDeliveryMsg(`Delivering to this location by, ${res.data.data}`);
-        // toast.success("Delivery available!");
-      } else {
-        setDeliveryMsg(res.data.message);
-        // toast.error("Delivery not available!");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Error checking pincode!");
-    }
+    const formattedDate = deliveryDate.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    });
+
+    setDeliveryMsg(`Delivering to this location by ${formattedDate}`);
   };
 
   if (loading) {
@@ -701,7 +719,7 @@ export const ProductDetail = () => {
             <div className="container-fluid">
               <div className="row">
                 <div className="col-lg-6">
-                  <div className="breadcrumb">
+                  <div className="breadcrumb" style={{marginLeft: "2.3rem"}}>
                     <ul className="ps-0 mb-0">
                       <li>
                         <Link to="/">Home</Link>
@@ -723,7 +741,7 @@ export const ProductDetail = () => {
                         {productDetails?.data?.product_name}
                       </li>
                     </ul>
-                  </div>
+                  </div> 
                   <div className="deiwhirhwejpekr sticky-top">
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                       <Row>
@@ -788,7 +806,7 @@ export const ProductDetail = () => {
                                 <Nav.Link eventKey="seventh" onClick={() => handleVideoToggle("seventh")}>
                                   <div className="dowenfrkwer position-relative">
                                     <video>
-                                      <source src="../../images/sdaw.mp4" type="video/mp4" />
+                                      <source src={productDetails?.data?.product_image?.encoded_vedio_link} type="video/mp4" />
                                       Your browser does not support the video tag.
                                     </video>
 
@@ -873,7 +891,7 @@ export const ProductDetail = () => {
                               )}
                               <Tab.Pane eventKey="seventh" className="odjeowmkoiwewer">
                                 <video loop autoplay onClick={handleVideoControl} muted={true}>
-                                  <source src="../../images/sdaw.mp4" type="video/mp4" />
+                                  <source src={productDetails?.data?.product_image?.encoded_vedio_link} type="video/mp4" />
                                   Your browser does not support the video tag.
                                 </video>
 
@@ -967,23 +985,26 @@ export const ProductDetail = () => {
                     </div>
 
                     <div className="jdfbdfgdf">
-
-                      <div class="diwenjrbwebrwehgrwer">
-                        <h4 class="pb-2">Stitching Options</h4>
-                        <hr class="mt-0" style={{width: "86%"}} />
-                      </div>
+                      {productDetails?.data?.stitching_option !== 'Ready To Wear' && (
+                        <div class="diwenjrbwebrwehgrwer">
+                          <h4 class="pb-2">Stitching Options</h4>
+                          <hr class="mt-0" style={{width: "86%"}} />
+                        </div>
+                      )}
 
                       <div className="saoijhdekjwirwer row align-items-center mb-3">
-                        <div className="col-lg-4 col-md-6 col-sm-6 col-6 dowekrwerwer">
-                          <input type="radio" name="so" id="unstdf" className="d-none position-absolute" 
-                            checked={selectedStitchOption === "stitch"}
-                            onChange={() => handleStitchOptionChange("stitch")}/>
-                          <label htmlFor="unstdf" className="p-3">{productDetails?.data?.stitching_option}<br /> 
-                          <span>+
-                            {/* <i class="bi bi-currency-rupee"></i>  */}
-                            {formatPrice(productDetails?.data?.stiching_charges?.price ?? 0.00)}
-                          </span></label>
-                        </div>
+                        {productDetails?.data?.stitching_option !== 'Ready To Wear' && (
+                          <div className="col-lg-4 col-md-6 col-sm-6 col-6 dowekrwerwer">
+                            <input type="radio" name="so" id="unstdf" className="d-none position-absolute" 
+                              checked={selectedStitchOption === "stitch"}
+                              onChange={() => handleStitchOptionChange("stitch")}/>
+                            <label htmlFor="unstdf" className="p-3">{productDetails?.data?.stitching_option}<br /> 
+                            <span>+
+                              {/* <i class="bi bi-currency-rupee"></i>  */}
+                              {formatPrice(productDetails?.data?.stiching_charges?.price ?? 0.00)}
+                            </span></label>
+                          </div>
+                        )}
 
                         {productDetails?.data?.stitching_option !== 'Ready To Wear' && (
                             productDetails?.data?.custom_fit?.toLowerCase() === 'yes' && (

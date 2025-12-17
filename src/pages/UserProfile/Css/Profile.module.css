@@ -89,8 +89,9 @@
 }
 
 .fbhdfs h5{
-  color: var(--text-main-color);
+  color: var(--pink-main-color);
 }
+
 
 .fbhdfs button{
   display: inline-block !important;

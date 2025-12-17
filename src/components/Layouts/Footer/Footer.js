@@ -50,7 +50,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                       <h5>My Account</h5>
 
                       <ul className="f-link mb-0 ps-0">
-                        {/* <li><Link to=""><i class="bi me-2 bi-caret-right-fill"></i> Become a Vendor</Link></li> */}
+                        <li><Link to=""><i class="bi me-2 bi-caret-right-fill"></i> Become a Vendor</Link></li>
 
                         <li><Link to="/login"><i class="bi me-2 bi-caret-right-fill"></i> Sign in</Link></li>
 
@@ -102,20 +102,20 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                   <h5>Follow Us</h5>
 
                   <ul className="f-fu-link mb-4 ps-0">
-                    <li><Link to=""><i class="bi bi-facebook"></i></Link></li>
+                    <li><Link to="https://www.facebook.com/VinhemFashion/" target="_blank" className="social facebook"><i class="bi bi-facebook"></i></Link></li>
 
-                    <li><Link to=""><i class="bi bi-instagram"></i></Link></li>
+                    <li><Link to="https://www.instagram.com/vinhem_fashion/?hl=en" target="_blank" className="social instagram"><i class="bi bi-instagram"></i></Link></li>
 
-                    <li><Link to=""><i class="bi bi-pinterest"></i></Link></li>
+                    <li><Link to="https://in.pinterest.com/vinhemfashion/" target="_blank" className="social pinterest"><i class="bi bi-pinterest"></i></Link></li>
 
-                    <li><Link to=""><i class="bi bi-twitter-x"></i></Link></li>
+                    <li><Link to="" className="social twitter"><i class="bi bi-twitter-x"></i></Link></li>
 
-                    <li><Link to=""><i class="bi bi-youtube"></i></Link></li>
+                    <li><Link to="" className="social youtube"><i class="bi bi-youtube"></i></Link></li>
                   </ul>
 
                   <h5>Fashion Updates</h5>
 
-                  <p>Subscribe to our newsletter</p>
+                  <p>Subscribe and get extra <span className="dgsdfhdrgh">₹500</span> off</p>
 
                   <div className="position-relative">
                     <input type="search" className="form-control" placeholder="Email id" />
@@ -151,7 +151,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                 <li><i class="bi me-1 bi-whatsapp"></i> <span>+91 8981750096</span></li>
               </ul>
 
-              <p className="doejwojrowejower">Secure shopping from India for Sarees, Salwar Kameez, Lehenga Cholis, Mens Wear, Kids Wears, Jewellery & Accessories for delivery in USA,UK and Worldwide.</p>
+              <p className="doejwojrowejower" style={{textAlign: "center"}}>Secure shopping from India for Sarees, Salwar Kameez, Lehenga Cholis, Mens Wear, Kids Wears, Jewellery & Accessories for delivery in USA,UK and Worldwide.</p>
             </div> 
 
             <div className="duiwehihiwejiurwer py-3">
@@ -161,7 +161,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                     <ul className="fb-payment-options sfefaeewrweqqq d-flex justify-content-start align-items-center ps-0 mb-0">
                       <li><p className="asfrweewee mb-0">OUR COURIER PARTNERS :</p></li>
 
-                      <li><img src="/images/fedex.png" className="img-fluid" alt="" /></li>
+                      <li><img src="/images/fedex-icon.png" className="img-fluid" alt="" /></li>
 
                       <li><img src="/images/dhl.png" className="img-fluid" alt="" /></li>
                       
@@ -181,7 +181,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
 
                       <li><img src="/images/images.png" className="img-fluid" alt="" /></li>
 
-                      <li><img src="/images/Diners-Club-In.png" className="img-fluid" alt="" /></li>
+                      {/* <li><img src="/images/Diners-Club-In.png" className="img-fluid" alt="" /></li> */}
 
                       <li><img src="/images/paytm.png" className="img-fluid" alt="" /></li>
 

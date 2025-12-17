@@ -6,6 +6,8 @@ import "./Css/UserProfileNavMenuResponsive.css";
 import { useAuth } from "../../../context/AuthContext";
 
 export const UserProfileNavMenu = () => {
+
+    const { user } = useAuth();
     const [resUsernavToggle, setResUsernavToggle] = useState(false);
 
     useEffect(() => {
@@ -43,22 +45,22 @@ export const UserProfileNavMenu = () => {
                             <img src="./images/pfle.jpg" alt="" />
                         </div>
 
-                        <h4 className="mb-0 ms-2">R. Jadeja</h4>
+                        <h4 className="mb-0 ms-2">{user.name}</h4>
                     </div>
 
                     <i class="fa-solid ms-2 fa-angles-right"></i>
                 </div>
 
-                <p className="dokejrlwerwer d-none mb-0">
+                {/* <p className="dokejrlwerwer d-none mb-0">
                     <Link to="/"><i className="fa-solid me-1 fa-arrow-left"></i> Back To Home <i className="fa-solid ms-1 fa-house"></i></Link>
-                </p>
+                </p> */}
             </div>
 
             <div onClick={() => setResUsernavToggle(false)} className={resUsernavToggle ? "user-dashboard-nav-backdrop d-none position-fixed w-100 h-100" : "user-dashboard-nav-backdrop d-none user-dashboard-nav-backdrop-hide position-fixed w-100 h-100"}></div>
 
             <div className={resUsernavToggle ? "hdkgdfg sticky-top" : "hdkgdfg user-dashboard-nav-hide sticky-top"} id="user-dashboard-nav">
                 <div className="dfbdf position-relative mb-2 p-3">
-                    <h4 className="mb-0">User Dashboard</h4>
+                    <h4 className="mb-0">Hi, {user.name}</h4>
 
                     <i class="fa-solid d-none fa-xmark" onClick={() => setResUsernavToggle(false)}></i>
                 </div>

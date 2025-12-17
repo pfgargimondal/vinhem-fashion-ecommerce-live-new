@@ -53,7 +53,7 @@ export const CancelOrder = () => {
                                 <div className={`${styles.dfjhdsbfsdf} mb-4`}>
                                     <h4 className="mb-0">Cancelled Orders</h4>
 
-                                    <p className="ndiwhermweoewrr mb-0">
+                                    <p className="ndiwhermweoewrr mb-0 d-none">
                                         <Link to="/"><i className="fa-solid me-1 fa-arrow-left"></i> Back To Home <i className="fa-solid ms-1 fa-house"></i></Link>
                                     </p>
                                 </div>

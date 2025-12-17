@@ -140,7 +140,7 @@ export const Chat = () => {
                                             {selectedSupport ? `Chat with ${selectedSupport.name}` : "Please select a support option to start chatting"}
 
                                             <div className="d-flex align-items-center justify-content-end">
-                                                <p className={`${styles.ndiwhermweoewrr} mb-0 me-3`}>
+                                                <p className={`${styles.ndiwhermweoewrr} mb-0 me-3 d-none`}>
                                                     <Link to="/">
                                                         <i className="fa-solid me-1 fa-arrow-left" /> 
                                                         Back To Home 

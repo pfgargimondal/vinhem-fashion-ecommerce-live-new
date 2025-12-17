@@ -16,7 +16,7 @@ export const PolicyComponent = ({PolicyDetails}) => {
       </div>
 
       <div className={styles.dhgdfhgdfg}>
-        <div className="container">
+        <div className="container-fluid">
           <h1 className="mb-4">
             {PolicyDetails.data?.title &&
               PolicyDetails.data.title}

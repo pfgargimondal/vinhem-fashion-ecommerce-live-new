@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { UserProfileNavMenu } from "../../components";
 import styles from "./Css/Profile.module.css";
 import { useAuth } from "../../context/AuthContext";
@@ -137,12 +136,12 @@ export const Profile = () => {
               <div className={`${styles.fgcbdfgdf} pt-3 pb-5`}>
                 <div className={`${styles.dfjhdsbfsdf} mb-4`}>
                   <h4 className="mb-0">Profile Information</h4>
-                  <p className="mb-0">
+                  {/* <p className="mb-0">
                     <Link to="/">
                       <i className="fa-solid me-1 fa-arrow-left"></i> Back To
                       Home <i className="fa-solid ms-1 fa-house"></i>
                     </Link>
-                  </p>
+                  </p> */}
                 </div>
 
                 <div className={`${styles.fbhdfs} mb-4`}>

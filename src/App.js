@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   const {pathname} = useLocation();
-  const hideHeaderRoutes = ["/profile", "/change-password", "/order-history", "/cancelled-order", "/wishlist", "/chat"];
+  const hideHeaderRoutes = [];
   const hideFullHeaderFooterRoutes = ["/invoice", "/blog"];
   const hideHeaderCategoryRoutes = ["/cart"];
 

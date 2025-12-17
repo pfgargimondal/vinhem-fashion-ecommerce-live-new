@@ -1,6 +1,11 @@
 footer {
   border-top: 1px solid var(--pink-main-color);
 }
+
+.dgsdfhdrgh{
+  color: var(--pink-main-color);
+}
+
 footer .dbewjbruwerwer_inner img {
   width: 5.9rem;
 }
@@ -53,12 +58,38 @@ footer .dbewjbruwerwer_inner ul.f-fu-link li {
   margin-bottom: 0.5rem;
   display: inline;
   margin-right: 1rem;
-  font-size: 1.4rem;
+  font-size: 2rem;
 }
 footer .dbewjbruwerwer_inner ul.f-fu-link li a {
   text-decoration: none;
   color: var(--text-main-color);
 }
+
+/* Facebook */
+.f-fu-link .facebook:hover {
+  color: #1877f2;
+}
+
+/* Instagram */
+.f-fu-link .instagram:hover {
+  color: #E1306C;;
+}
+
+/* Pinterest */
+.f-fu-link .pinterest:hover {
+  color: #bd081c;
+}
+
+/* Twitter (X) */
+.f-fu-link .twitter:hover {
+  color: #000000;
+}
+
+/* YouTube */
+.f-fu-link .youtube:hover {
+  color: #ff0000;
+}
+
 footer .dbewjbruwerwer_inner input.form-control {
   border-radius: 5px;
 }

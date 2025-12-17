@@ -23,7 +23,9 @@ export const CurrencyProvider = ({ children }) => {
     }
   }, [selectedCurrency]);
 
-  const formatPrice = (priceInInr = 0) => {
+  const formatPrice = (priceInInr = 0, options = {}) => {
+
+    const { showDecimals = false } = options;
 
     const currency = selectedCurrency || {
       currency_code: "INR",
@@ -41,8 +43,8 @@ export const CurrencyProvider = ({ children }) => {
     return new Intl.NumberFormat(currency.locale || "en-IN", {
       style: "currency",
       currency: currency.currency_code || "INR",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: showDecimals ? 2 : 0,
+      maximumFractionDigits: showDecimals ? 2 : 0,
     }).format(convertedPrice).replace("₹", "₹ ");;
   };
 

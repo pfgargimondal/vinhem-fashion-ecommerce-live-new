@@ -57,7 +57,7 @@ export const Wishlist = () => {
                                     <h4 className="mb-0">Your Wishlist({wishlistItems?.data?.length ?? 0})</h4>
 
                                     <div className="dowehrkjwerwer d-flex align-items-center">
-                                        <p className="ndiwhermweoewrr mb-0 me-3">
+                                        <p className="ndiwhermweoewrr mb-0 me-3 d-none">
                                             <Link to="/"><i className="fa-solid me-1 fa-arrow-left"></i> Back To Home <i className="fa-solid ms-1 fa-house"></i></Link>
                                         </p>
                                         
