@@ -4,9 +4,11 @@ import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 import http from "../../http";
 import { ToastContainer, toast } from "react-toastify";
+import Loader from "../../components/Loader/Loader";
 
 export const Profile = () => {
   const { user, token, dispatch } = useAuth(); // ✅ from AuthContext
+  const [loading, setLoading] = useState(true);
 
   const [previewImage, setPreviewImage] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
@@ -19,14 +21,19 @@ export const Profile = () => {
     bio: "",
     date_of_birth: "",
     national_id: "",
+    apartment: "",
+    street_address: "",
     country: "",
+    state: "",
     city: "",
     pin: "",
+    landmark: "",
   });
 
   // ✅ Load user into state
   useEffect(() => {
     if (user) {
+      setLoading(false);
       setFormData({
         name: user.name || "",
         email: user.email || "",
@@ -35,9 +42,13 @@ export const Profile = () => {
         bio: user.bio || "",
         date_of_birth: user.date_of_birth || "",
         national_id: user.national_id || "",
+        apartment: user.apartment || "",
+        street_address: user.street_address || "",
         country: user.country || "",
+        state: user.state || "",
         city: user.city || "",
         pin: user.pin || "",
+        landmark: user.landmark || "",
       });
 
       if (user.profile_picture) {
@@ -56,6 +67,7 @@ export const Profile = () => {
   // ✅ Save profile
   const handleSave = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await http.post("/user/profile/update", formData, {
@@ -79,6 +91,8 @@ export const Profile = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong.");
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -92,6 +106,7 @@ export const Profile = () => {
   };
 
   const handleImageUpload = async (file) => {
+    setLoading(true);
     try {
       const fd = new FormData();
       fd.append("profile_image", file);
@@ -119,8 +134,15 @@ export const Profile = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Upload failed.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  
+  if (loading) {
+      return <Loader />;
+  }
 
 
   return (
@@ -253,7 +275,7 @@ export const Profile = () => {
                           </div>
                         </div>
 
-                        <div className="col-lg-4 mb-3">
+                        {/* <div className="col-lg-4 mb-3">
                           <div className={styles.dhfsdfd}>
                             <label>Bio</label>
                             <input
@@ -266,7 +288,7 @@ export const Profile = () => {
                               onChange={handleChange}
                             />
                           </div>
-                        </div>
+                        </div> */}
 
                         <div className="col-lg-4 mb-3">
                           <div className={styles.dhfsdfd}>
@@ -310,6 +332,34 @@ export const Profile = () => {
                       <div className="row">
                         <div className="col-lg-4">
                           <div className={styles.dhfsdfd}>
+                            <label>Apartment / Building / Floor No.</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder=""
+                              name="apartment"
+                              value={formData.apartment}
+                              disabled={!isEditable}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-4">
+                          <div className={styles.dhfsdfd}>
+                            <label>Street Address</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder=""
+                              name="street_address"
+                              value={formData.street_address}
+                              disabled={!isEditable}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-4">
+                          <div className={styles.dhfsdfd}>
                             <label>Country</label>
                             <input
                               type="text"
@@ -322,6 +372,20 @@ export const Profile = () => {
                             />
                           </div>
                         </div>
+                        <div className="col-lg-4">
+                          <div className={styles.dhfsdfd}>
+                            <label>State</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder=""
+                              name="state"
+                              value={formData.state}
+                              disabled={!isEditable}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
 
                         <div className="col-lg-4">
                           <div className={styles.dhfsdfd}>
@@ -329,7 +393,7 @@ export const Profile = () => {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Jamnagar"
+                              placeholder=""
                               name="city"
                               value={formData.city}
                               disabled={!isEditable}
@@ -354,6 +418,20 @@ export const Profile = () => {
                             />
                           </div>
                         </div>
+                        <div className="col-lg-4">
+                          <div className={styles.dhfsdfd}>
+                            <label>Landmark</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder=""
+                              name="landmark"
+                              value={formData.landmark}
+                              disabled={!isEditable}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -371,12 +449,7 @@ export const Profile = () => {
               </div>
             </div>
           </div>
-
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            style={{ zIndex: 9999999999 }}
-          />
+          <ToastContainer position="top-right" autoClose={250000} style={{ zIndex: 9999999999 }} />
         </div>
       </div>
     </div>

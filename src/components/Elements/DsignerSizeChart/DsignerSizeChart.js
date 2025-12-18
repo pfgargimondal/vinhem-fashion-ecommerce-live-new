@@ -368,18 +368,18 @@ export const DesignerSizeChart = ({ productDetails }) => {
 
       <Tab eventKey="profile" title="MEASURING GUIDE">
         {productDetails?.data?.product_category?.toLowerCase() === "men" && (
-          <img src="/images/sawewe.jpg" className="img-fluid" alt="" />
+          <img src="/images/Mens Wear.png" className="img-fluid" alt="" />
         )}
         {productDetails?.data?.product_category?.toLowerCase() === "women" && (
-          <img src="/images/womenSizeChart.png" className="img-fluid" alt="" />
+          <img src="/images/Womens Wear.png" className="img-fluid" alt="" />
         )}
 
         {productDetails?.data?.product_sub_category?.includes("(Boys)") && (
-          <img src="/images/boySizeChart.png" className="img-fluid" alt="" />
+          <img src="/images/Boys.png" className="img-fluid" alt="" />
         )}
 
         {productDetails?.data?.product_sub_category?.includes("(Girls)") && (
-          <img src="/images/girlSizeChart.png" className="img-fluid" alt="" />
+          <img src="/images/Girls.png" className="img-fluid" alt="" />
         )}
 
         {productDetails?.data?.product_category?.toLowerCase() === "accessories" && (

@@ -28,6 +28,8 @@ export const Filter = () => {
   const [resSrtByOptions, setResSrtByOptions] = useState(false);
   // eslint-disable-next-line
   const [allProductdata, SetallProduct] = useState([]);
+  const [filterdetails, Setfilterdetails] = useState(null);
+  const [allFilterData, SetallFilterData] = useState(null);
   const [allFilterMappingdata, SetallFilterMappingdata] = useState([]);
   const [filterCategories, setFilterCategories] = useState([]);  
 
@@ -54,10 +56,6 @@ export const Filter = () => {
 
       fetchMainCategory();
   }, []);
-
-  console.log(products);
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -103,7 +101,12 @@ export const Filter = () => {
       try {
         const response = await http.post("/fetch-product", { category, subcategory });
 
+        const allData = response.data?.data;
         const allProducts = response.data?.data?.all_product ?? [];
+        const allfilterDetails = response.data?.data?.filter_banner ?? "";
+
+        SetallFilterData(allData);
+        Setfilterdetails(allfilterDetails);
         
         const normalizedSearch = searchTerm.toLowerCase();
 
@@ -247,10 +250,10 @@ export const Filter = () => {
                 className="advtsmnt-bnnr overflow-hidden"
                 style={{ borderRadius: "1rem" }}
               >
-                {allProductdata?.filter_banner
+                {filterdetails
                   ? (
                       <img
-                        src={`${allProductdata?.banner_image_url}/${allProductdata?.filter_banner?.image}`}
+                        src={`${allFilterData?.banner_image_url}/${filterdetails?.image}`}
                         className="img-fluid w-100"
                         alt=""
                       />
@@ -272,10 +275,10 @@ export const Filter = () => {
             className="advtsmnt-bnnr my-4 overflow-hidden"
             style={{ borderRadius: "1rem" }}
           >
-            {allProductdata?.filter_banner
+            {filterdetails
               ? (
                   <img
-                    src={`${allProductdata?.banner_image_url}/${allProductdata?.filter_banner?.image}`}
+                    src={`${allFilterData?.banner_image_url}/${filterdetails?.image}`}
                     className="img-fluid w-100"
                     alt=""
                   />
@@ -421,8 +424,8 @@ export const Filter = () => {
                               <div className={`doiewjkrniuwewer position-relative overflow-hidden ${!viewType ? "col-lg-12" : "col-lg-3"}`}>
                                 <Link to={`/products/${product.slug}`}>
                                   <img
-                                    src={product?.encoded_image_url_1}
-                                    alt={product.product_name}
+                                    src={product?.encoded_image_url_1 || "/images/no-preview.jpg"}
+                                    alt={product?.product_name || "Product image"}
                                   />
                                 </Link>
 
@@ -584,7 +587,7 @@ export const Filter = () => {
           <div
             className="pt-4"
             dangerouslySetInnerHTML={{
-              __html: allProductdata?.filter_content?.description && (allProductdata?.filter_content.description),
+              __html: allFilterData?.filter_content?.description && (allFilterData?.filter_content.description),
             }}
           />
         </div>

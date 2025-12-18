@@ -460,17 +460,12 @@ p.sidifsdiyhr{
 }
 
 .dweuihrweuhre{
-  width: 3vw;
-  height: 3vw;
   left: 5%;
   bottom: 5%;
   cursor: pointer;
 }
 
 .dweuihrweuhre i{
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 1.4rem;
 }
 
@@ -478,7 +473,7 @@ p.sidifsdiyhr{
 /*pd image gallery zoom*/
 
 .zoom-gallery-modal .modal-dialog {
-  max-width: 73%;
+  max-width: 45%;
   margin-top: 0;
 }
 
@@ -517,7 +512,23 @@ p.sidifsdiyhr{
 
 .zoom-gallery-modal .nav.flex-column {
   overflow-y: auto;
-  max-height: 100vh;
+  max-height: 93vh;
+  overflow-x: hidden;
+  margin-top: 2rem;
+  display: inherit;
+}
+
+.zoom-gallery-modal .nav.flex-column::-webkit-scrollbar{
+  height: 0;
+  width: 0;
+}
+
+.zoom-gallery-modal .small-image-tabs .nav-item{
+  margin: 0 0 0.2rem 1rem;
+}
+
+.zoom-gallery-modal .small-image-arrow {
+  right: 45%;
 }
 
 .modal-backdrop{
@@ -1761,7 +1772,7 @@ p.sidifsdiyhr{
 }
 
 .doijijewjuewr{
-  max-height: 100vh;
+  max-height: 93vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -1771,26 +1782,42 @@ p.sidifsdiyhr{
 }
 
 .small-image-arrow{
-  width: 2.5rem;
-  height: 2.5rem;
-  background: var(--pink-main-color);
-  right: 25%;
+  right: 38%;
   transform: translateX(50%);
   z-index: 999;
   cursor: pointer;
 }
 
 .small-image-up-arrow{
-  top: 0;
+  top: -3%;
 }
 
 .small-image-down-arrow{
-  bottom: 0;
+  bottom: -3%;
 }
 
 .small-image-arrow i{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  color: var(--pink-main-color);
+  font-size: 1.9rem;
+}
+
+.dweuihrweuhre span{
+  font-weight: 600;
+}
+
+.dfhdfhd p span{
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.dfhdfhd p img{
+  width: 2rem;
+  margin-right: 0.5rem;
+  transition: 0.1s ease-in-out;
+}
+
+.dfhdfhd p img:hover{
+  transform: scale(1.1);
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
 }
