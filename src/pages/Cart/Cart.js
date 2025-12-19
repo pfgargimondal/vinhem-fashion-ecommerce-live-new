@@ -36,6 +36,8 @@ export const Cart = () => {
   const [selectedDiscount, setSelectedDiscount] = useState(0);
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState(false);
+  const [freeShipping, setFreeShipping] = useState(false);
+  const [shippingDiscount, setShippingDiscount] = useState(0);
   const [key, setKey] = useState('cart');
   const [couponModal, setCouponModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
@@ -164,7 +166,7 @@ export const Cart = () => {
   const ValidityDate = (expiryDate) => {
     const date = new Date(expiryDate);
 
-    const options = { month: "long", year: "numeric" };
+    const options = { day: "numeric", month: "long", year: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", options);
 
     return `${formattedDate}`;
@@ -248,7 +250,6 @@ export const Cart = () => {
 
     setKey("payment");
   }
-
 
   const handleCart = () => {
     setKey("cart");
@@ -643,13 +644,24 @@ export const Cart = () => {
     setBillingAddress(null);
   };
 
-  const finalTotal =
-  (
-    (Number(totalPrice.total_selling_price) - appliedDiscount)+ 
-    Number(totalPrice.total_add_on_charges) + 
-    Number(totalPrice.custom_fit_charges) + 
-    Number(totalPrice.stiching_charges) + 
-    Number(shippingCharge));
+  // const finalTotal =
+  // (
+  //   (Number(totalPrice.total_selling_price) - appliedDiscount)+ 
+  //   Number(totalPrice.total_add_on_charges) + 
+  //   Number(totalPrice.custom_fit_charges) + 
+  //   Number(totalPrice.stiching_charges) + 
+  //   Number(shippingCharge));
+
+    const baseTotal =
+    Number(totalPrice.total_selling_price) +
+    Number(totalPrice.total_add_on_charges) +
+    Number(totalPrice.custom_fit_charges) +
+    Number(totalPrice.stiching_charges);
+
+    const finalTotal = freeShipping
+    ? baseTotal // shipping = 0, no discount applied
+    : baseTotal + Number(shippingCharge) - appliedDiscount;
+
 
     localStorage.setItem("final_total", finalTotal);
 
@@ -1119,15 +1131,6 @@ export const Cart = () => {
 
                 <div className="col-lg-4">
                   <div className="diwebjrwert_right sticky-top">
-                    <div className="uiwdhiwerwerwer">
-                        <button
-                          className="btn btn-main w-100 mb-3"
-                          onClick={handleCouponToggle}
-                        >
-                           VIEW ALL OFFER & COUPONS 
-                        </button>
-                      
-                    </div>
                     <div className="srghbsdtnhfnjgh">
                       <h4 className="mb-4" style={{textAlign:"center"}}>CART SUMMARY</h4>
                     </div>
@@ -1141,8 +1144,8 @@ export const Cart = () => {
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
-                              {/* {formatPrice(totalPrice.total_mrp_price)} */}
+                              {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
+                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
                             </td>
                           </tr>
 
@@ -1192,7 +1195,7 @@ export const Cart = () => {
                               Calculated at Checkout
                             </td>
                           </tr>
-                          {appliedDiscount > 0 && (
+                          {/* {appliedDiscount > 0 && (
                             <tr>
                               <td className="sergvasdrg">Coupon Discount :</td>
 
@@ -1201,13 +1204,14 @@ export const Cart = () => {
                                 {formatPrice(appliedDiscount)}
                               </td>
                             </tr>
-                          )}
+                          )} */}
                           <tr>
                             <td>Total Payable :</td>
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {formatPrice(Number(totalPrice.cart_totalPrice) - appliedDiscount, { showDecimals: true })}
+                              {/* {formatPrice(Number(totalPrice.cart_totalPrice) - appliedDiscount, { showDecimals: true })} */}
+                              {formatPrice(Number(totalPrice.cart_totalPrice), { showDecimals: true })}
                             </td>
                           </tr>
                         </tbody>
@@ -1223,7 +1227,8 @@ export const Cart = () => {
 
                       <span>
                         {/* <i class="bi bi-currency-rupee"></i>  */}
-                        - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount, { showDecimals: true })}
+                        {/* - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount, { showDecimals: true })} */}
+                        - {formatPrice(Number(totalPrice.total_discount_price), { showDecimals: true })}
                       </span>
                     </div>
 
@@ -1241,7 +1246,8 @@ export const Cart = () => {
                       <label className="mb-0">Total Payable</label>
                       <span className="mb-0">
                         {/* <i class="bi bi-currency-rupee"></i> */}
-                        {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges), { showDecimals: true })}
+                        {/* {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges), { showDecimals: true })} */}
+                        {formatPrice((Number(totalPrice.total_selling_price)) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges), { showDecimals: true })}
                       </span>
                       
                     </div>
@@ -1409,6 +1415,14 @@ export const Cart = () => {
 
                   <div className="col-lg-4">
                     <div className="diwebjrwert_right sfvswfrwerwr sticky-top">
+                      <div className="uiwdhiwerwerwer">
+                          <button
+                            className="btn btn-main w-100 mb-3"
+                            onClick={handleCouponToggle}
+                          >
+                            VIEW ALL OFFER & COUPONS 
+                          </button>
+                      </div>
                       <div className="sdegdsbhsdfgbnh mt-4 mb-4">
                         <h4 className="opsjdfohsij mb-0 pb-2">ORDER SUMMARY</h4>
                       </div>
@@ -1421,8 +1435,8 @@ export const Cart = () => {
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
-                              {/* {formatPrice(totalPrice.total_mrp_price)} */}
+                              {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
+                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
                             </td>
                           </tr>
 
@@ -1463,33 +1477,57 @@ export const Cart = () => {
                           )}
                        
                           <tr>
-                            <td>Shipping & Duties </td>
+                            <td>
+                              Shipping & Duties{" "}
+                              {freeShipping && (
+                                <span className="sergvasdrg">(Coupon Applied)</span>
+                              )}
+                            </td>
 
-                              <td>
-                                {/* <i class="bi bi-currency-rupee"></i> */}
-                                {/* {formatPrice(totalPrice.shipping_charges)} */}
-                                {shippingCharge === null ?(
-                                  formatPrice(0, { showDecimals: true })
-                                ) :(
-                                  formatPrice(shippingCharge, { showDecimals: true })
-                                )}
-                                
-                              </td>
+                            <td>
+                              {freeShipping ? (
+                                <span className="sergvasdrg">
+                                  (-{formatPrice(shippingDiscount, { showDecimals: true })})
+                                </span>
+                              ) : shippingCharge === null ? (
+                                formatPrice(0, { showDecimals: true })
+                              ) : (
+                                formatPrice(shippingCharge, { showDecimals: true })
+                              )}
+                            </td>
                           </tr>
-                          {appliedDiscount > 0 && (
+                          {appliedDiscount > 0 && !freeShipping && (
                             <tr>
                               <td className="sergvasdrg">Coupon Discount :</td>
-
                               <td className="sergvasdrg">
-                                (-)
-                                {formatPrice(appliedDiscount)}
+                                (-){formatPrice(appliedDiscount)}
                               </td>
                             </tr>
                           )}
                           <tr>
-                            <td><b>TOTAL PAYABLE</b></td>
-                              <td>
-                                <b>{formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges) + Number(shippingCharge), { showDecimals: true })}</b>
+                            <td>After Discount</td>
+                              <td style={{display: "flex", alignItems: "center", justifyContent: "end"}}>
+                                  <span style={{ textDecoration: "line-through", color: "#999" }}>
+                                    {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                                  </span>&nbsp;
+                                  {formatPrice(
+                                  freeShipping
+                                    ? (
+                                        Number(totalPrice.total_selling_price) +
+                                        Number(totalPrice.total_add_on_charges) +
+                                        Number(totalPrice.custom_fit_charges) +
+                                        Number(totalPrice.stiching_charges)
+                                      )
+                                    : (
+                                        Number(totalPrice.total_selling_price) -
+                                        appliedDiscount +
+                                        Number(totalPrice.total_add_on_charges) +
+                                        Number(totalPrice.custom_fit_charges) +
+                                        Number(totalPrice.stiching_charges) +
+                                        Number(shippingCharge)
+                                      ),
+                                  { showDecimals: true }
+                                )}
                               </td>
                           </tr>
                         </tbody>
@@ -1505,7 +1543,16 @@ export const Cart = () => {
 
                       <span>
                         {/* <i class="bi bi-currency-rupee"></i>  */}
-                        - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount, { showDecimals: true })}
+                        - {formatPrice(
+                          freeShipping
+                            ? (
+                                Number(totalPrice.total_discount_price) + Number(shippingCharge)
+                              )
+                            : (
+                               Number(totalPrice.total_discount_price) + appliedDiscount
+                                
+                              ),
+                          { showDecimals: true })}
                       </span>
                     </div>
 
@@ -1523,7 +1570,24 @@ export const Cart = () => {
                       <label className="mb-0">Total Payable</label>
                       <span className="mb-0">
                         {/* <i class="bi bi-currency-rupee"></i> */}
-                        {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges), { showDecimals: true })}
+                        {formatPrice(
+                          freeShipping
+                            ? (
+                                Number(totalPrice.total_selling_price) +
+                                Number(totalPrice.total_add_on_charges) +
+                                Number(totalPrice.custom_fit_charges) +
+                                Number(totalPrice.stiching_charges)
+                              )
+                            : (
+                                Number(totalPrice.total_selling_price) -
+                                appliedDiscount +
+                                Number(totalPrice.total_add_on_charges) +
+                                Number(totalPrice.custom_fit_charges) +
+                                Number(totalPrice.stiching_charges) +
+                                Number(shippingCharge)
+                              ),
+                          { showDecimals: true }
+                        )}
                       </span>
                       
                     </div>
@@ -1900,8 +1964,8 @@ export const Cart = () => {
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
-                              {/* {formatPrice(totalPrice.total_mrp_price)} */}
+                              {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
+                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
                             </td>
                           </tr>
 
@@ -1942,37 +2006,62 @@ export const Cart = () => {
                           )}
                        
                           <tr>
-                            <td>Shipping & Duties </td>
+                            <td>
+                              Shipping & Duties{" "}
+                              {freeShipping && (
+                                <span className="sergvasdrg">(Coupon Applied)</span>
+                              )}
+                            </td>
 
-                              <td>
-                                {/* <i class="bi bi-currency-rupee"></i> */}
-                                {/* {formatPrice(totalPrice.shipping_charges)} */}
-                                {shippingCharge === null ?(
-                                  formatPrice(0, { showDecimals: true })
-                                ) :(
-                                  formatPrice(shippingCharge, { showDecimals: true })
-                                )}
-                                
-                              </td>
+                            <td>
+                              {freeShipping ? (
+                                <span className="sergvasdrg">
+                                  (-{formatPrice(shippingDiscount, { showDecimals: true })})
+                                </span>
+                              ) : shippingCharge === null ? (
+                                formatPrice(0, { showDecimals: true })
+                              ) : (
+                                formatPrice(shippingCharge, { showDecimals: true })
+                              )}
+                            </td>
                           </tr>
-                          {appliedDiscount > 0 && (
+                          {appliedDiscount > 0 && !freeShipping && (
                             <tr>
                               <td className="sergvasdrg">Coupon Discount :</td>
-
                               <td className="sergvasdrg">
-                                (-)
-                                {formatPrice(appliedDiscount)}
+                                (-){formatPrice(appliedDiscount)}
                               </td>
                             </tr>
                           )}
                           <tr>
-                            <td><b>TOTAL PAYABLE</b></td>
-                              <td>
-                                <b>{formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges) + Number(shippingCharge), { showDecimals: true })}</b>
+                            <td>After Discount</td>
+                              <td style={{display: "flex", alignItems: "center", justifyContent: "end"}}>
+                                  <span style={{ textDecoration: "line-through", color: "#999" }}>
+                                    {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                                  </span>&nbsp;
+
+                                  {formatPrice(
+                                  freeShipping
+                                    ? (
+                                        Number(totalPrice.total_selling_price) +
+                                        Number(totalPrice.total_add_on_charges) +
+                                        Number(totalPrice.custom_fit_charges) +
+                                        Number(totalPrice.stiching_charges)
+                                      )
+                                    : (
+                                        Number(totalPrice.total_selling_price) -
+                                        appliedDiscount +
+                                        Number(totalPrice.total_add_on_charges) +
+                                        Number(totalPrice.custom_fit_charges) +
+                                        Number(totalPrice.stiching_charges) +
+                                        Number(shippingCharge)
+                                      ),
+                                  { showDecimals: true }
+                                )}
                               </td>
                           </tr>
                         </tbody>
-                      </Table>                      
+                      </Table>                    
                     </div>
 
                     
@@ -1984,7 +2073,16 @@ export const Cart = () => {
 
                       <span>
                         {/* <i class="bi bi-currency-rupee"></i>  */}
-                        - {formatPrice(Number(totalPrice.total_discount_price) + appliedDiscount, { showDecimals: true })}
+                        - {formatPrice(
+                          freeShipping
+                            ? (
+                                Number(totalPrice.total_discount_price) + Number(shippingCharge)
+                              )
+                            : (
+                               Number(totalPrice.total_discount_price) + appliedDiscount
+                                
+                              ),
+                          { showDecimals: true })}
                       </span>
                     </div>
 
@@ -2002,9 +2100,25 @@ export const Cart = () => {
                       <label className="mb-0">Total Payable</label>
                       <span className="mb-0">
                         {/* <i class="bi bi-currency-rupee"></i> */}
-                        {formatPrice((Number(totalPrice.total_selling_price) - appliedDiscount) + Number(totalPrice.total_add_on_charges) + Number(totalPrice.custom_fit_charges) + Number(totalPrice.stiching_charges), { showDecimals: true })}
+                        {formatPrice(
+                          freeShipping
+                            ? (
+                                Number(totalPrice.total_selling_price) +
+                                Number(totalPrice.total_add_on_charges) +
+                                Number(totalPrice.custom_fit_charges) +
+                                Number(totalPrice.stiching_charges)
+                              )
+                            : (
+                                Number(totalPrice.total_selling_price) -
+                                appliedDiscount +
+                                Number(totalPrice.total_add_on_charges) +
+                                Number(totalPrice.custom_fit_charges) +
+                                Number(totalPrice.stiching_charges) +
+                                Number(shippingCharge)
+                              ),
+                          { showDecimals: true }
+                        )}
                       </span>
-                      
                     </div>
                       {/* {appliedDiscount > 0 && (
                         <div className="oiasmdjweijrwerwer d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-4">
@@ -2193,13 +2307,25 @@ export const Cart = () => {
                   if (coupon) {
                     setSelectedDiscount(parseInt(coupon.value));
                     setAppliedDiscount(parseInt(coupon.value));
+
+                    if (coupon.apply_ShippingCost === "Yes") {
+                      setFreeShipping(true);
+                      setShippingDiscount(shippingCharge);
+                    } else {
+                      setFreeShipping(false);
+                      setShippingDiscount(0);
+                    }
                   } else {
                     setSelectedDiscount(0);
                     setAppliedDiscount(0);
+                    setFreeShipping(false);
+                    setShippingDiscount(0);
                   }
                 }}
                 disabled={couponApplied}
               />
+
+
 
               {!couponApplied ? (
                 <button
@@ -2218,6 +2344,8 @@ export const Cart = () => {
                     setSelectedDiscount(0);
                     setAppliedDiscount(0);
                     setCouponApplied(false);
+                    setFreeShipping(false);
+                    setShippingDiscount(0);
                   }}
                 >
                   Remove
@@ -2260,8 +2388,12 @@ export const Cart = () => {
                           <h3>Get Extra</h3>
 
                           <h2 className="mb-0">
-                            <i class="bi bi-currency-rupee"></i>
-                            {parseInt(couponItemsVal.value)} OFF
+                            {/* <i class="bi bi-currency-rupee"></i> */}
+                            {couponItemsVal.type === 'percent'
+                              ? `${couponItemsVal.value} % OFF`
+                              : `${formatPrice(parseInt(couponItemsVal.value))} OFF`
+                            }
+                            
                           </h2>
 
                           <small>
@@ -2289,6 +2421,14 @@ export const Cart = () => {
                         setSelectedDiscount(parseInt(couponItemsVal.value));
                         setAppliedDiscount(parseInt(couponItemsVal.value));
                         setCouponApplied(true);
+
+                        if (couponItemsVal.apply_ShippingCost === "Yes") {
+                          setFreeShipping(true);
+                          setShippingDiscount(shippingCharge);
+                        } else {
+                          setFreeShipping(false);
+                          setShippingDiscount(0);
+                        }
                       }}
                     >
                       TAP TO APPLY
