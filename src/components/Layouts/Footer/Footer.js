@@ -165,7 +165,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
 
                       <li><img src="/images/2.png" className="img-fluid" alt="" /></li>
                       
-                      <li className="me-0"><img src="/images/3.png" className="img-fluid" alt="" /></li>
+                      <li className="me-0"><img src="/images/3.jpg" className="img-fluid" alt="" /></li>
                     </ul>
                   </div>
 
