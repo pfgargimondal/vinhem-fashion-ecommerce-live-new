@@ -20,12 +20,26 @@ export const OrderHistory = () => {
     const { token } = useAuth();
     const [OrderHistory, setOrderHistory] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    const [open, setOpen] = useState(false);
+ 
+    const currentYear = new Date().getFullYear();
 
-    //const [orderHistory, setOrderHistory] = useState([]);
+    const years = [
+    `${currentYear - 2} - ${currentYear}`, 
+    ...Array.from(
+        { length: currentYear - 2016 },
+        (_, i) => (currentYear - 1 - i).toString()
+    ),
+    ];
+
+    const [selected, setSelected] = useState(years[0]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
     // eslint-disable-next-line
     const [user, setUser] = useState(null);
     // eslint-disable-next-line
     const [userOrderProduct , setuserOrderProduct] = useState(null);
+
 
     useEffect(() => {
         if (!token) return;
@@ -37,12 +51,15 @@ export const OrderHistory = () => {
             headers: { Authorization: `Bearer ${token}` },
             });
 
-             console.log("✅ Order History Fetched:", res.data); // log full response
-            console.log("🧾 Order Data:", res.data.data || []); 
+            const orders = res?.data?.data?.orders || [];
 
-            setOrderHistory(res.data.data.orders || []);
-            setUser(res.data.data.user || null);
-            setuserOrderProduct(res.data.data.user_order_product_details || null);
+            setOrderHistory(orders);
+            setFilteredOrders(orders);
+            setUser(res?.data?.data?.user || null);
+            setuserOrderProduct(
+                res?.data?.data?.user_order_product_details || null
+            );
+
         } catch (error) {
             console.error("Failed to fetch order history", error);
         } finally {
@@ -52,6 +69,68 @@ export const OrderHistory = () => {
 
         fetchOrderHistory();
     }, [token]);
+
+
+    
+    /* =======================
+        SEARCH FILTER LOGIC
+    ======================= */
+    useEffect(() => {
+        if (!search.trim()) {
+        setFilteredOrders(OrderHistory);
+        return;
+        }
+
+        const lowerSearch = search.toLowerCase();
+
+        const filtered = OrderHistory.filter((order) => {
+        // Order No
+        const orderNoMatch = order?.order_id
+            ?.toString()
+            .toLowerCase()
+            .includes(lowerSearch);
+
+        // // Product Name
+        // const productMatch = order?.order_items?.some((item) =>
+        //     item?.product_name?.toLowerCase().includes(lowerSearch)
+        // );
+
+        // // Designer Name
+        // const designerMatch = order?.order_items?.some((item) =>
+        //     item?.designer_name?.toLowerCase().includes(lowerSearch)
+        // );
+
+        // return orderNoMatch || productMatch || designerMatch;
+        return orderNoMatch;
+        });
+
+        setFilteredOrders(filtered);
+    }, [search, OrderHistory]);
+
+
+    useEffect(() => {
+        if (!OrderHistory || !selected) return;
+
+        let filtered = [];
+
+        // If the selected option is a range like "2023 - 2025"
+        if (selected.includes("-")) {
+            const [start, end] = selected.split("-").map(y => Number(y.trim()));
+            filtered = OrderHistory.filter(order => {
+                const orderYear = new Date(order.order_date).getFullYear();
+                return orderYear >= start && orderYear <= end;
+            });
+        } else {
+            // Single year
+            const year = Number(selected);
+            filtered = OrderHistory.filter(order => {
+                return new Date(order.order_date).getFullYear() === year;
+            });
+        }
+
+        setFilteredOrders(filtered);
+    }, [selected, OrderHistory]);
+
 
     const navigate = useNavigate();
 
@@ -139,13 +218,87 @@ export const OrderHistory = () => {
 
                         <div className="col-lg-9">
                             <div className={`${styles.fgcbdfgdf} pt-3 pb-5`}>
-                                <div className={`${styles.dfjhdsbfsdf} mb-4`}>
+                             <div className={`${styles.dfjhdsbfsdf} mb-4`}>
                                     <h4 className="mb-0">Order History</h4>
 
+                                    <div className={styles.customSearchWrapper}>
+                                        <i className={`bi bi-search ${styles.customSearchIcon}`}></i>
+
+                                        <input
+                                        type="text"
+                                        className={styles.customSearchInput}
+                                        placeholder="Search by Order No."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+
+                                        />
+                                    </div>
+
+                                      <div className={styles.filterWrapper}>
+                                        <button
+                                            className={styles.filterBtn}
+                                            onClick={() => setOpen(!open)}
+                                        >
+                                            <i className="bi bi-sliders"></i>
+                                            Filter
+                                        </button>
+
+                                        {open && (
+                                        <div className={styles.dropdown}>
+
+                                            {/* Selected option pinned at top */}
+                                            <div
+                                            className={`${styles.option} ${styles.active}`}
+                                            style={{ pointerEvents: "none" }}
+                                            >
+                                            {selected}
+                                            </div>
+
+                                            {/* Other options */}
+                                            {years
+                                            .filter((year) => {
+                                                // remove the selected range itself
+                                                if (year === selected) return false;
+
+                                                // hide years inside selected range
+                                                if (selected.includes("-") && !year.includes("-")) {
+                                                const [start, end] = selected.split("-").map(Number);
+                                                const y = Number(year);
+                                                return y < start || y > end;
+                                                }
+
+                                                // hide selected single year
+                                                if (!selected.includes("-") && year === selected) {
+                                                return false;
+                                                }
+
+                                                return true;
+                                            })
+                                            .map((year, index) => (
+                                                <div
+                                                key={index}
+                                                className={styles.option}
+                                                onClick={() => {
+                                                    setSelected(year);
+                                                    setOpen(false);
+                                                }}
+                                                >
+                                                {year}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        )}
+                                        </div>
+
                                     <p className="ndiwhermweoewrr mb-0 d-none">
-                                        <Link to="/"><i className="fa-solid me-1 fa-arrow-left"></i> Back To Home <i className="fa-solid ms-1 fa-house"></i></Link>
+                                        <Link to="/">
+                                        <i className="fa-solid me-1 fa-arrow-left"></i>
+                                        Back To Home
+                                        <i className="fa-solid ms-1 fa-house"></i>
+                                        </Link>
                                     </p>
-                                </div>
+                                    </div>
+
 
                                 <div className={styles.dfgndfjhbgdfgdf}>
                                     <Table striped responsive bordered hover>
@@ -164,7 +317,8 @@ export const OrderHistory = () => {
                                         </thead>
                                         
                                         <tbody>
-                                            {OrderHistory?.map((orderHistoryVal) => (
+                                            {filteredOrders.length > 0 ? (
+                                                filteredOrders.map((orderHistoryVal) => (
                                                 <tr>
                                                     <td>{orderHistoryVal.order_id}</td>
 
@@ -235,7 +389,12 @@ export const OrderHistory = () => {
                                                         )}
                                                     </td>
                                                 </tr>
-                                            ))}
+                                            ))
+                                            ) : (
+                                                !loading && (
+                                                <p className={styles.noDataText}>No orders found</p>
+                                                )
+                                            )}
                                             
                                             {/* <tr>
                                                 <td>AC7875845</td>
