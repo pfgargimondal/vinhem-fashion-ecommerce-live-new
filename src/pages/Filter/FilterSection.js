@@ -16,6 +16,8 @@ export default function FilterSection({ setResFltrMenu, allFilterMappingdata, fi
 
   console.log(filterCategories);
 
+  console.log(category);
+
 
   const toggleFilterExpand = (filterOption) => {
     setExpandedFilters(prev => ({
@@ -213,7 +215,12 @@ const handleMaxEnter = (e) => {
 
         <div className="dkewjriwehrnjhweijrwer mb-4">
           <div className="disenihrenjr mb-3 pt-4 pb-3 d-flex align-items-center justify-content-between">
-            <h5 className="mb-0">Categories</h5>
+            <h5 className="mb-0">{category === "all-products"
+              ? "Main Categories"
+              : category && subcategory
+              ? `${category.replace(/-/g, " ")} - ${subcategory.replace(/-/g, " ")}`
+              : category}
+            </h5>
 
             <i className="bi bi-chevron-down"></i>
           </div>

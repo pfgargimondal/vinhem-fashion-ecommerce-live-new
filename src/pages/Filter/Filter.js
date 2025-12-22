@@ -39,6 +39,31 @@ export const Filter = () => {
 
   const [mainCatgry, setMainCatgry] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const productsPerPage = 24;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProduct = products?.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(products?.length / productsPerPage);
+
+  let pages = [];
+
+  for (let i = 0; i < totalPages; i++) {
+    pages.push(i + 1);
+  }
+
+  
+  const handlePrev = () => {
+    (currentPage > 1) && setCurrentPage(currentPage - 1); 
+  };
+
+
+  const handleNext = () => {
+    (currentPage < totalPages) && setCurrentPage(currentPage + 1); 
+  };
+
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("search")?.trim() || "";
 
@@ -404,7 +429,7 @@ export const Filter = () => {
               <div className="products-wrapper filtr-wrppr pt-3">
                 <div className="row">
                   {products?.length > 0 ? (
-                    products?.map((product) => (
+                    currentProduct?.map((product) => (
                       <div className={`smdflcsdlpfkselkrpr ${!viewType ? "col-lg-4 col-md-6 col-sm-6 col-6" : "col-lg-12"} mb-4`}>
                         <div className="dfgjhbdfg">
                           <div className="images">
@@ -577,6 +602,18 @@ export const Filter = () => {
                       <p>Try changing your search or browse other categories.</p>
                     </div>
                   ) }
+                </div>
+
+                <div className="dfgsfsfsfsdf d-flex justify-content-center align-items-center">
+                  <button className="btn btn-main" onClick={handlePrev}>Prev</button>
+
+                  <div className="pagination_ff d-flex align-items-center">
+                    {pages.map(page => (
+                      <button key={page} className={(currentPage === page) ? "btn btn-main active" : "btn btn-main"} onClick={() => setCurrentPage(page)}>{page}</button>
+                    ))}
+                  </div>
+
+                  <button className="btn btn-main" onClick={handleNext}>Next</button>
                 </div>
               </div>
             </div>

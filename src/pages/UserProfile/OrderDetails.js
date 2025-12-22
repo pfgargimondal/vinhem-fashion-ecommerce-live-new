@@ -703,17 +703,15 @@ export const OrderDetails = () => {
 
                             <div className="idniehrewrer d-flex align-items-center">
                               <span className="d-block me-3" onClick={() => toggleDetails(index)}>More Details <i class="fa-solid fa-caret-down"></i></span>
-                              {item?.stitch_option === 'customFit' && (
-                                item.user_measurmentDetails !== null ? (
+                              {order?.order_status !== 'Cancelled' &&
+                                item?.stitch_option === 'customFit' && (
                                   <span className="mb-0" onClick={() => handleMessrmntTogle(item)}>
-                                    Measurement Chart Details
-                                  </span>
-                                ) : (
-                                  <span className="mb-0" onClick={() => handleMessrmntTogle(item)}>
-                                    Add Measurement Details
+                                    {item.user_measurmentDetails
+                                      ? 'Measurement Chart Details'
+                                      : 'Add Measurement Details'}
                                   </span>
                                 )
-                              )}
+                              }
                             </div>
                           </p>
                         </div>

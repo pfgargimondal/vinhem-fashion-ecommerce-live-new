@@ -387,6 +387,10 @@ form input:global(.form-control){
   background: #fff3ef;
 }
 
+.noDataText{
+  text-align: center;
+}
+
 
 
 /*end order history  css   */

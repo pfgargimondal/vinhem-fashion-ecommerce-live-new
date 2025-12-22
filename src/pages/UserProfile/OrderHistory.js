@@ -5,6 +5,7 @@ import styles from "./Css/OrderHistory.module.css";
 import { useAuth } from "../../context/AuthContext";
 import http from "../../http";
 import { useEffect, useState } from "react";
+import { useMemo, useRef } from "react";
 // eslint-disable-next-line
 import { downloadInvoicePDF } from "../../utils/downloadInvoice";
 import Invoice from "../Invoice/Invoice";
@@ -34,102 +35,76 @@ export const OrderHistory = () => {
     ];
 
     const [selected, setSelected] = useState(years[0]);
-    const [filteredOrders, setFilteredOrders] = useState([]);
     // eslint-disable-next-line
     const [user, setUser] = useState(null);
     // eslint-disable-next-line
     const [userOrderProduct , setuserOrderProduct] = useState(null);
 
+    const searchRef = useRef(null);
 
+    /* =======================
+        FETCH ORDER HISTORY
+    ======================= */
     useEffect(() => {
         if (!token) return;
-        setLoading(true);
 
         const fetchOrderHistory = async () => {
         try {
+            setLoading(true);
             const res = await http.get("/user/get-order-history", {
             headers: { Authorization: `Bearer ${token}` },
             });
 
-            const orders = res?.data?.data?.orders || [];
-
-            setOrderHistory(orders);
-            setFilteredOrders(orders);
-            setUser(res?.data?.data?.user || null);
-            setuserOrderProduct(
-                res?.data?.data?.user_order_product_details || null
-            );
-
+            setOrderHistory(res?.data?.data?.orders || []);
         } catch (error) {
             console.error("Failed to fetch order history", error);
         } finally {
             setLoading(false);
         }
-    };
+        };
 
         fetchOrderHistory();
     }, [token]);
 
+  /* =======================
+      AUTO FOCUS SEARCH (ONCE)
+  ======================= */
+  useEffect(() => {
+    searchRef.current?.focus();
+  }, []);
 
-    
-    /* =======================
-        SEARCH FILTER LOGIC
-    ======================= */
-    useEffect(() => {
-        if (!search.trim()) {
-        setFilteredOrders(OrderHistory);
-        return;
-        }
+  /* =======================
+      FILTER LOGIC (NO BLINK)
+  ======================= */
+  const filteredOrders = useMemo(() => {
+    let data = [...OrderHistory];
 
-        const lowerSearch = search.toLowerCase();
-
-        const filtered = OrderHistory.filter((order) => {
-        // Order No
-        const orderNoMatch = order?.order_id
-            ?.toString()
-            .toLowerCase()
-            .includes(lowerSearch);
-
-        // // Product Name
-        // const productMatch = order?.order_items?.some((item) =>
-        //     item?.product_name?.toLowerCase().includes(lowerSearch)
-        // );
-
-        // // Designer Name
-        // const designerMatch = order?.order_items?.some((item) =>
-        //     item?.designer_name?.toLowerCase().includes(lowerSearch)
-        // );
-
-        // return orderNoMatch || productMatch || designerMatch;
-        return orderNoMatch;
+    // Year filter
+    if (selected) {
+      if (selected.includes("-")) {
+        const [start, end] = selected.split("-").map(Number);
+        data = data.filter(order => {
+          const year = new Date(order.order_date).getFullYear();
+          return year >= start && year <= end;
         });
+      } else {
+        const year = Number(selected);
+        data = data.filter(
+          order => new Date(order.order_date).getFullYear() === year
+        );
+      }
+    }
 
-        setFilteredOrders(filtered);
-    }, [search, OrderHistory]);
+    // Search filter
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      data = data.filter(order =>
+        order?.order_id?.toString().toLowerCase().includes(q)
+      );
+    }
 
-
-    useEffect(() => {
-        if (!OrderHistory || !selected) return;
-
-        let filtered = [];
-
-        // If the selected option is a range like "2023 - 2025"
-        if (selected.includes("-")) {
-            const [start, end] = selected.split("-").map(y => Number(y.trim()));
-            filtered = OrderHistory.filter(order => {
-                const orderYear = new Date(order.order_date).getFullYear();
-                return orderYear >= start && orderYear <= end;
-            });
-        } else {
-            // Single year
-            const year = Number(selected);
-            filtered = OrderHistory.filter(order => {
-                return new Date(order.order_date).getFullYear() === year;
-            });
-        }
-
-        setFilteredOrders(filtered);
-    }, [selected, OrderHistory]);
+    return data;
+  }, [OrderHistory, selected, search]);
 
 
     const navigate = useNavigate();
@@ -203,12 +178,10 @@ export const OrderHistory = () => {
     }
     };
 
-    if (loading) {
-        return <Loader />;
-    }
 
     return (
         <div className={styles.ffhfdf}>
+            {loading && <Loader />}
             <div className="ansjidnkuiweer">
                 <div className={styles.fbghdfg}>
                     <div className="row">
@@ -221,74 +194,53 @@ export const OrderHistory = () => {
                              <div className={`${styles.dfjhdsbfsdf} mb-4`}>
                                     <h4 className="mb-0">Order History</h4>
 
-                                    <div className={styles.customSearchWrapper}>
-                                        <i className={`bi bi-search ${styles.customSearchIcon}`}></i>
+                                <div className={styles.customSearchWrapper}>
+                                    <i className={`bi bi-search ${styles.customSearchIcon}`} />
+                                    <input
+                                    ref={searchRef}
+                                    type="text"
+                                    className={styles.customSearchInput}
+                                    placeholder="Search by Order No."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    />
+                                </div>
 
-                                        <input
-                                        type="text"
-                                        className={styles.customSearchInput}
-                                        placeholder="Search by Order No."
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
+                                {/* FILTER */}
+                                <div className={styles.filterWrapper}>
+                                    <button
+                                    className={styles.filterBtn}
+                                    onClick={() => setOpen(!open)}
+                                    >
+                                    <i className="bi bi-sliders" /> Filter
+                                    </button>
 
-                                        />
-                                    </div>
-
-                                      <div className={styles.filterWrapper}>
-                                        <button
-                                            className={styles.filterBtn}
-                                            onClick={() => setOpen(!open)}
+                                    {open && (
+                                    <div className={styles.dropdown}>
+                                        <div
+                                        className={`${styles.option} ${styles.active}`}
+                                        style={{ pointerEvents: "none" }}
                                         >
-                                            <i className="bi bi-sliders"></i>
-                                            Filter
-                                        </button>
+                                        {selected}
+                                        </div>
 
-                                        {open && (
-                                        <div className={styles.dropdown}>
-
-                                            {/* Selected option pinned at top */}
+                                        {years
+                                        .filter(year => year !== selected)
+                                        .map((year, index) => (
                                             <div
-                                            className={`${styles.option} ${styles.active}`}
-                                            style={{ pointerEvents: "none" }}
+                                            key={index}
+                                            className={styles.option}
+                                            onClick={() => {
+                                                setSelected(year);
+                                                setOpen(false);
+                                            }}
                                             >
-                                            {selected}
+                                            {year}
                                             </div>
-
-                                            {/* Other options */}
-                                            {years
-                                            .filter((year) => {
-                                                // remove the selected range itself
-                                                if (year === selected) return false;
-
-                                                // hide years inside selected range
-                                                if (selected.includes("-") && !year.includes("-")) {
-                                                const [start, end] = selected.split("-").map(Number);
-                                                const y = Number(year);
-                                                return y < start || y > end;
-                                                }
-
-                                                // hide selected single year
-                                                if (!selected.includes("-") && year === selected) {
-                                                return false;
-                                                }
-
-                                                return true;
-                                            })
-                                            .map((year, index) => (
-                                                <div
-                                                key={index}
-                                                className={styles.option}
-                                                onClick={() => {
-                                                    setSelected(year);
-                                                    setOpen(false);
-                                                }}
-                                                >
-                                                {year}
-                                                </div>
-                                            ))}
-                                        </div>
-                                        )}
-                                        </div>
+                                        ))}
+                                    </div>
+                                    )}
+                                </div>
 
                                     <p className="ndiwhermweoewrr mb-0 d-none">
                                         <Link to="/">
@@ -392,7 +344,11 @@ export const OrderHistory = () => {
                                             ))
                                             ) : (
                                                 !loading && (
-                                                <p className={styles.noDataText}>No orders found</p>
+                                                <tr>
+                                                    <td colSpan="5" style={{ textAlign: "center" }}>
+                                                        No orders found
+                                                    </td> 
+                                                </tr>
                                                 )
                                             )}
                                             

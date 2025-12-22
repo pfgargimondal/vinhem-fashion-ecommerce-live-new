@@ -43,6 +43,7 @@ export { BlogDetails } from "./Blog/BlogDetails";
 export { TrackOrder } from "./TrackOrder/TrackOrder";
 export { FAQ } from "./FAQ/FAQ";
 export { PaymentOptions } from "./PaymentOptions/PaymentOptions";
+export { BecomeVendor } from "./BecomeVendor/BecomeVendor";
 
 
 export { default as Invoice } from "./Invoice/Invoice";

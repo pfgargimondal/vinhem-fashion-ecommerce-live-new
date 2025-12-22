@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { AboutUs, ContactUs, Filter, Home, Login, OnSale, PageNotFound, ProductDetail, Register, Wedding, TermsCondition, PrivacyPolicy, ReturnPolicy, OrderPolicy, ShippingPolicy, Testimonial, Career, Profile, CancelOrder, OrderHistory, ChangePassword, Wishlist, Cart, Blog, BlogDetails, Invoice, Checkout, Chat, TrackOrder, FAQ, PaymentOptions, ThankYou, OrderDetails, PaypalPaymentSuccess, RazorpayPaymentSuccess} from "../pages";
+import { AboutUs, ContactUs, Filter, Home, Login, OnSale, PageNotFound, ProductDetail, Register, Wedding, TermsCondition, PrivacyPolicy, ReturnPolicy, OrderPolicy, ShippingPolicy, Testimonial, Career, Profile, CancelOrder, OrderHistory, ChangePassword, Wishlist, Cart, Blog, BlogDetails, Invoice, BecomeVendor, Checkout, Chat, TrackOrder, FAQ, PaymentOptions, ThankYou, OrderDetails, PaypalPaymentSuccess, RazorpayPaymentSuccess} from "../pages";
 import ProtectedRoute from "../components/ProtectedRoute ";
 
 export const AllRoutes = () => {
@@ -31,6 +31,8 @@ export const AllRoutes = () => {
       <Route path="career" element={ <Career /> } />
       <Route path="faq" element={ <FAQ /> } />
       <Route path="payment-options" element={ <PaymentOptions /> } />
+      <Route path="track-order" element={ <TrackOrder /> } />
+      <Route path="become-vendor" element={ <BecomeVendor /> } />
       
 
 
@@ -54,7 +56,7 @@ export const AllRoutes = () => {
           <Route path="chat" element={ <Chat/> } />
 
           <Route path="invoice" element={ <Invoice /> } />
-          <Route path="track-order" element={ <TrackOrder /> } />
+          
       </Route>
       
       <Route path="*" element={ <PageNotFound /> } />

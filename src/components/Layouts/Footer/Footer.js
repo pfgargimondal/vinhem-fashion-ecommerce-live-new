@@ -50,13 +50,13 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                       <h5>My Account</h5>
 
                       <ul className="f-link mb-0 ps-0">
-                        <li><Link to=""><i class="bi me-2 bi-caret-right-fill"></i> Become a Vendor</Link></li>
+                        <li><Link to="/become-vendor"><i class="bi me-2 bi-caret-right-fill"></i> Become a Vendor</Link></li>
 
                         <li><Link to="/login"><i class="bi me-2 bi-caret-right-fill"></i> Sign in</Link></li>
 
                         <li><Link to="/register"><i class="bi me-2 bi-caret-right-fill"></i> Sign up</Link></li>
 
-                        <li><Link to=""><i class="bi me-2 bi-caret-right-fill"></i> Track Order</Link></li>
+                        <li><Link to="/track-order"><i class="bi me-2 bi-caret-right-fill"></i> Track Order</Link></li>
 
                         <li><Link to="/faq"><i class="bi me-2 bi-caret-right-fill"></i> F.A.Q</Link></li>
                       </ul>
@@ -70,7 +70,7 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                       <ul className="f-link mb-0 ps-0">
                         <li><Link to="/payment-options"><i class="bi me-2 bi-caret-right-fill"></i> Payment Option</Link></li>
 
-                        <li><Link to=""><i class="bi me-2 bi-caret-right-fill"></i> Testimonial</Link></li>
+                        <li><Link to="/testimonial"><i class="bi me-2 bi-caret-right-fill"></i> Testimonial</Link></li>
 
                         <li><Link to="/career"><i class="bi me-2 bi-caret-right-fill"></i> Career</Link></li>
 

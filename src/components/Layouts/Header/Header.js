@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { SwiperSlide } from 'swiper/react';
 import { useAuth } from "../../../context/AuthContext";
+  // eslint-disable-next-line
 import { DropdownLoggedIn } from "../../Elements/Dropdown/DropdownLoggedIn";
 import http from "../../../http";
 import Logo from "../../../assets/images/logo.png";
@@ -15,6 +16,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 
 export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, shouldHideHeaderCategoryRoutes }) => {
   const [resMenu, setResMenu] = useState(false);
+    // eslint-disable-next-line
   const [userDropdown, setUserDropdown] = useState(false);
   const [searchCurrency, setSearchCurrency] = useState("");
     // eslint-disable-next-line
@@ -28,6 +30,74 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   const searchRef = useRef(null);
   const searchRefRes = useRef(null);
   const [resCtgyDrpdwn, setResCtgyDrpdwn] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
+  const [emailToggle, setEmailToggle] = useState(false);
+  const [selectedCode, setSelectedCode] = useState("+91");
+
+  console.log(selectedCode)
+
+  const countryCodes = [
+    { name: "Afghanistan", code: "+93" },
+    { name: "Albania", code: "+355" },
+    { name: "Algeria", code: "+213" },
+    { name: "American Samoa", code: "+1" },
+    { name: "Andorra", code: "+376" },
+    { name: "Angola", code: "+244" },
+    { name: "Argentina", code: "+54" },
+    { name: "Armenia", code: "+374" },
+    { name: "Australia", code: "+61" },
+    { name: "Austria", code: "+43" },
+
+    { name: "Bangladesh", code: "+880" },
+    { name: "Belgium", code: "+32" },
+    { name: "Brazil", code: "+55" },
+    { name: "Canada", code: "+1" },
+    { name: "China", code: "+86" },
+    { name: "Denmark", code: "+45" },
+    { name: "Egypt", code: "+20" },
+    { name: "Finland", code: "+358" },
+    { name: "France", code: "+33" },
+    { name: "Germany", code: "+49" },
+
+    { name: "Hong Kong", code: "+852" },
+    { name: "Iceland", code: "+354" },
+    { name: "India", code: "+91" },
+    { name: "Indonesia", code: "+62" },
+    { name: "Iran", code: "+98" },
+    { name: "Ireland", code: "+353" },
+    { name: "Israel", code: "+972" },
+    { name: "Italy", code: "+39" },
+    { name: "Japan", code: "+81" },
+    { name: "Malaysia", code: "+60" },
+
+    { name: "Nepal", code: "+977" },
+    { name: "Netherlands", code: "+31" },
+    { name: "New Zealand", code: "+64" },
+    { name: "Nigeria", code: "+234" },
+    { name: "Norway", code: "+47" },
+    { name: "Pakistan", code: "+92" },
+    { name: "Philippines", code: "+63" },
+    { name: "Poland", code: "+48" },
+    { name: "Portugal", code: "+351" },
+    { name: "Qatar", code: "+974" },
+
+    { name: "Saudi Arabia", code: "+966" },
+    { name: "Singapore", code: "+65" },
+    { name: "South Africa", code: "+27" },
+    { name: "South Korea", code: "+82" },
+    { name: "Spain", code: "+34" },
+    { name: "Sri Lanka", code: "+94" },
+    { name: "Sweden", code: "+46" },
+    { name: "Switzerland", code: "+41" },
+    { name: "Thailand", code: "+66" },
+    { name: "UAE", code: "+971" },
+
+    { name: "UK", code: "+44" },
+    { name: "USA", code: "+1" },
+    { name: "Vietnam", code: "+84" },
+    { name: "Yemen", code: "+967" },
+    { name: "Zimbabwe", code: "+263" }
+  ];
 
 
   useEffect(() => {
@@ -151,6 +221,12 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   useEffect(() => {
     setUserDropdown(false);
   }, [pathName]);
+
+   //login modal
+
+  const handleLoginModal = () => {
+    setLoginModal(!loginModal);
+  };
 
 
 
@@ -406,7 +482,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
                           <li className="infrm-menu-divider">|</li>
 
-                            <li className="position-relative">
+                          {/* <li className="position-relative">
                             {user ? (
                               <>
                                 <div className="gbdfgtrfyhrytgrr d-flex align-items-center" onClick={(e) => {e.stopPropagation(); setUserDropdown(!userDropdown)}}>
@@ -424,7 +500,29 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                                 <i className="bi bi-person"></i> Account
                               </Link>
                             )}
-                          </li>     
+                          </li> */}
+
+                          <li className="sdfdghwrfwerererr position-relative">
+                            <div className="safrfwrytuerr position-relative">
+                              <Link to="/register">
+                                <i className="bi bi-person"></i> Account
+                              </Link>
+
+                              <div className="accnt-drpdwn bg-white p-4 position-absolute mt-2 d-none">
+                                <div className="text-center">
+                                  <h4>Log in or Sign up</h4>
+
+                                  <p>to personalize your experience</p>
+                                </div>
+
+                                <div className="diwejikrwer">
+                                  <button className="btn mb-3 btn-main w-100" onClick={handleLoginModal}>Sign in with Mobile/Email</button>
+
+                                  <button className="btn btn-main bg-white text-dark w-100"><img src="../images/search.png" className="me-2" alt="" /> Sign in with Google</button>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -749,6 +847,80 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
             </div>
             );
           })}
+        </div>
+      </div>
+
+      {/*login start*/}
+
+      <div onClick={() => setLoginModal(false)} className={`${loginModal ? "login-modal-backdrop" : "login-modal-backdrop login-modal-backdrop-hide"} position-fixed w-100 h-100`}></div>
+
+      <div className={`${loginModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
+        <div className="weohfjkwenuirhwer position-absolute" onClick={() => setLoginModal(false)}>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+
+        <div className="difwehwerwer">
+          {emailToggle ? (<img src="./images/dw.jpg" alt="" />) : (<img src="./images/dw.jpg" alt="" />)}
+
+          <div className="diwekmrwerwe pt-4">
+            <h5 className="text-center mb-1">Log in or Sign up</h5>
+
+            <p className="text-center">to personalize your experience</p>
+
+            <div className="doijewijrwer">
+              <label className="form-label">{emailToggle ? "Email id" : "Mobile Number"}</label>
+
+              <div className="dweorjwer">
+                {emailToggle ? (
+                  <>
+                    <input type="email" className="form-control" placeholder="Enter email id" />
+                  </>
+                ) : (
+                  <div className="d-flex align-items-center">
+                    <div className="position-relative d-inline-block">
+                      <span 
+                        className="dwregfweerqrwerrr position-absolute translate-middle-y top-50 start-0 ps-3 pointer-events-none"
+                        style={{ pointerEvents: 'none', zIndex: 1 }}
+                      >
+                        {selectedCode}
+                      </span>
+                      
+                      <select
+                        className="form-select text-transparent me-2"
+                        value={selectedCode}
+                        onChange={(e) => setSelectedCode(e.target.value)}
+                        style={{ color: 'transparent', position: 'relative', zIndex: 0 }}
+                      >
+                        {countryCodes.map((country) => (
+                          <option 
+                            key={country.name} 
+                            value={country.code} 
+                            className="text-dark"
+                          >
+                            {country.name} ({country.code})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <input type="number" className="form-control" placeholder="Enter mobile number" />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="diehhweirwer mt-3">
+              <button className="btn btn-main w-100">Get OTP</button>
+
+              <p className="my-2 text-center">or</p>
+
+              <button className="btn btn-main bg-white text-dark w-100"><img src="./images/search.png" className="me-2" alt="" /> Sign in with Google</button>
+            </div>
+
+            <h6 className="dfweoijtweer mt-3">By continuing, I agree to <Link>Vinhem Fashion policies</Link> and <Link>T&Cs</Link></h6>
+
+            <div className="coiasehrewr text-center">Use <span onClick={() => setEmailToggle(!emailToggle)}>{emailToggle ? "Mobile Number" : "Email id"}</span></div>
+          </div>
         </div>
       </div>
     </>
