@@ -1,10 +1,19 @@
 import axios from "axios";
 
+// const http = axios.create({
+//   baseURL:"https://vinhem-ecommerce.workstream.club/api/",
+//     headers:{
+//         "Content-Type":"application/json"
+//     }
+// });
+
+export const BASE_URL = "https://vinhem-ecommerce.workstream.club";
+
 const http = axios.create({
-  baseURL:"https://vinhem-ecommerce.workstream.club/api/",
-    headers:{
-        "Content-Type":"application/json"
-    }
+  baseURL: `${BASE_URL}/api/`,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 http.interceptors.request.use((config) => {

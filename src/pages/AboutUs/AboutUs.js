@@ -58,7 +58,7 @@ export const AboutUs = () => {
                     <div className="col-lg-4">
                         <div className="dfbhdf">
                             <h2>{AboutUsDetails.data?.banner_title && AboutUsDetails.data.banner_title}</h2>
-                            <p>{AboutUsDetails.data?.banner_description && AboutUsDetails.data.banner_description}</p>
+                            {/* <p>{AboutUsDetails.data?.banner_description && AboutUsDetails.data.banner_description}</p> */}
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./BecomeVendor.module.css";
 import http from "../../http";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Loader from "../../components/Loader/Loader";
 
 export const BecomeVendor = () => {
@@ -93,7 +93,7 @@ export const BecomeVendor = () => {
                 },
             });
     
-            if (response.data.success) {
+            if (response.data.success === true) {
 
                 toast.success(response.data.message, {
                   style: {
@@ -139,12 +139,9 @@ export const BecomeVendor = () => {
         };
 
 
-    if (loading) {
-      return <Loader />;
-    }
-    
-
   return (
+    <>
+    {loading && <Loader />}
     <div className={` ${styles.jvjhubjkjoij}`}>
       <div className="container">
         <div className={styles.xfhgjhusfgsd}>
@@ -306,13 +303,13 @@ export const BecomeVendor = () => {
                 </div>
             </div>
         </div>
-
-        <ToastContainer
+      </div>
+      <ToastContainer
             position="top-right"
             autoClose={3000}
             style={{ zIndex: 9999999999 }}
         />
       </div>
-      </div>
+    </>
   );
 };

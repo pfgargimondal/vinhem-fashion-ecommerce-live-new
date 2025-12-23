@@ -74,10 +74,10 @@ export const Career = () => {
               <div className="col-lg-5">
                 <div className="dfbhdf">
                   <h2>{CareerDetails.data?.banner_title || "Career"}</h2>
-                  <p>
+                  {/* <p>
                     {CareerDetails.data?.banner_description ||
                       "Celebrating style with every stitch – where trends meet timeless elegance."}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

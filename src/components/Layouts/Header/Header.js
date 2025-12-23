@@ -31,73 +31,120 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   const searchRefRes = useRef(null);
   const [resCtgyDrpdwn, setResCtgyDrpdwn] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+  const [loginModalBackdrop, setLoginModalBackdrop] = useState(false);
+  const [otpModal, setOtpModal] = useState(false);
+  const [completeLoginModal, setCompleteLoginModal] = useState(false);
   const [emailToggle, setEmailToggle] = useState(false);
   const [selectedCode, setSelectedCode] = useState("+91");
+  const [countryCodes, setCountryCodes] = useState([]);
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
-  console.log(selectedCode)
+  // const [loginModal, setLoginModal] = useState(true);
+  // const [loginModalBackdrop, setLoginModalBackdrop] = useState(true);
 
-  const countryCodes = [
-    { name: "Afghanistan", code: "+93" },
-    { name: "Albania", code: "+355" },
-    { name: "Algeria", code: "+213" },
-    { name: "American Samoa", code: "+1" },
-    { name: "Andorra", code: "+376" },
-    { name: "Angola", code: "+244" },
-    { name: "Argentina", code: "+54" },
-    { name: "Armenia", code: "+374" },
-    { name: "Australia", code: "+61" },
-    { name: "Austria", code: "+43" },
+  useEffect(() => {
+      const fetchCountryCode = async () => {
+          try {
+              const getresponse = await http.get("/get-country-code");
+              const allresponse = getresponse.data;
+              setCountryCodes(allresponse.data); 
+          } catch (error) {
+              console.error("Error fetching Country Code:", error);
+          }
+      };
 
-    { name: "Bangladesh", code: "+880" },
-    { name: "Belgium", code: "+32" },
-    { name: "Brazil", code: "+55" },
-    { name: "Canada", code: "+1" },
-    { name: "China", code: "+86" },
-    { name: "Denmark", code: "+45" },
-    { name: "Egypt", code: "+20" },
-    { name: "Finland", code: "+358" },
-    { name: "France", code: "+33" },
-    { name: "Germany", code: "+49" },
+      fetchCountryCode();
+  }, []);
 
-    { name: "Hong Kong", code: "+852" },
-    { name: "Iceland", code: "+354" },
-    { name: "India", code: "+91" },
-    { name: "Indonesia", code: "+62" },
-    { name: "Iran", code: "+98" },
-    { name: "Ireland", code: "+353" },
-    { name: "Israel", code: "+972" },
-    { name: "Italy", code: "+39" },
-    { name: "Japan", code: "+81" },
-    { name: "Malaysia", code: "+60" },
+  // TIMER / RESEND
+  const [timer, setTimer] = useState(50);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  const timerRef = useRef(null);
 
-    { name: "Nepal", code: "+977" },
-    { name: "Netherlands", code: "+31" },
-    { name: "New Zealand", code: "+64" },
-    { name: "Nigeria", code: "+234" },
-    { name: "Norway", code: "+47" },
-    { name: "Pakistan", code: "+92" },
-    { name: "Philippines", code: "+63" },
-    { name: "Poland", code: "+48" },
-    { name: "Portugal", code: "+351" },
-    { name: "Qatar", code: "+974" },
+  const otpRefs = useRef([]);
 
-    { name: "Saudi Arabia", code: "+966" },
-    { name: "Singapore", code: "+65" },
-    { name: "South Africa", code: "+27" },
-    { name: "South Korea", code: "+82" },
-    { name: "Spain", code: "+34" },
-    { name: "Sri Lanka", code: "+94" },
-    { name: "Sweden", code: "+46" },
-    { name: "Switzerland", code: "+41" },
-    { name: "Thailand", code: "+66" },
-    { name: "UAE", code: "+971" },
+  // AUTO-FOCUS OTP INPUTS
+  const handleOtpChange = (value, index) => {
+    if (!/^[0-9]?$/.test(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
 
-    { name: "UK", code: "+44" },
-    { name: "USA", code: "+1" },
-    { name: "Vietnam", code: "+84" },
-    { name: "Yemen", code: "+967" },
-    { name: "Zimbabwe", code: "+263" }
-  ];
+    if (value && index < 5) {
+      otpRefs.current[index + 1].focus();
+    } else if (!value && index > 0) {
+      otpRefs.current[index - 1].focus();
+    }
+  };
+
+  // TIMER LOGIC
+  useEffect(() => {
+    if (otpModal) {
+      setTimer(50);
+      setResendEnabled(false);
+      timerRef.current = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            setResendEnabled(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [otpModal]);
+
+  // SEND OTP
+  const sendOtp = async () => {
+    if (emailToggle && !email) return alert("Email required");
+    if (!emailToggle && mobile.length !== 10)
+      return alert("Valid mobile number required");
+
+    try {
+      await http.post("/user/send-otp", {
+        email: emailToggle ? email : undefined,
+        mobile: !emailToggle ? `${selectedCode}${mobile}` : undefined,
+      });
+
+      setOtpModal(true);
+      setLoginModal(false);
+      setOtp(["", "", "", "", "", ""]);
+    } catch (err) {
+      alert(err.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  // VERIFY OTP
+  const verifyOtp = async () => {
+    const enteredOtp = otp.join("");
+    if (enteredOtp.length !== 6) return alert("Enter full OTP");
+
+    try {
+      const response = await http.post("/verify-otp", {
+        email: emailToggle ? email : undefined,
+        mobile: !emailToggle ? `${selectedCode}${mobile}` : undefined,
+        otp: enteredOtp,
+      });
+
+      if (response.data.success) {
+        setOtpModal(false);
+        setLoginModalBackdrop(false);
+        navigate("/"); // Redirect to dashboard after login
+      } else {
+        alert(response.data.message);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  const resendOtp = () => {
+    if (resendEnabled) sendOtp();
+  };
 
 
   useEffect(() => {
@@ -109,10 +156,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
       body.removeEventListener("click", () => setUserDropdown(false));
     }
   }, []);
-
-
   /*search*/
-
   const handleSearch = (e) => {
     e.preventDefault();
     const searchValue = searchRef.current?.value?.trim();
@@ -222,10 +266,18 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     setUserDropdown(false);
   }, [pathName]);
 
-   //login modal
+  //login modal
 
   const handleLoginModal = () => {
     setLoginModal(!loginModal);
+    setLoginModalBackdrop(!loginModalBackdrop);
+  };
+
+  const handleLoginClose = () => {
+    setLoginModal(false);
+    setLoginModalBackdrop(false);
+    setOtpModal(false);
+    setCompleteLoginModal(false);
   };
 
 
@@ -504,9 +556,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
                           <li className="sdfdghwrfwerererr position-relative">
                             <div className="safrfwrytuerr position-relative">
-                              <Link to="/register">
                                 <i className="bi bi-person"></i> Account
-                              </Link>
 
                               <div className="accnt-drpdwn bg-white p-4 position-absolute mt-2 d-none">
                                 <div className="text-center">
@@ -713,8 +763,6 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
       <div className={`${resMenu ? "res-ctgy-menu-modal d-none" : "res-ctgy-menu-modal d-none res-ctgy-menu-modal-hide"} bg-white position-fixed h-100 p-3`}>
         <div className="d-flex align-items-center justify-content-between">
-          
-
             {user ? (
               <>
                 <Link to="/profile"><i class="bi me-1 bi-person"></i> {user.name}</Link>
@@ -852,10 +900,10 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
       {/*login start*/}
 
-      <div onClick={() => setLoginModal(false)} className={`${loginModal ? "login-modal-backdrop" : "login-modal-backdrop login-modal-backdrop-hide"} position-fixed w-100 h-100`}></div>
+      <div onClick={handleLoginClose} className={`${loginModalBackdrop ? "login-modal-backdrop" : "login-modal-backdrop login-modal-backdrop-hide"} position-fixed w-100 h-100`}></div>
 
       <div className={`${loginModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
-        <div className="weohfjkwenuirhwer position-absolute" onClick={() => setLoginModal(false)}>
+        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {setLoginModal(false); setLoginModalBackdrop(false);}}>
           <i class="fa-solid fa-xmark"></i>
         </div>
 
@@ -870,16 +918,17 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
             <div className="doijewijrwer">
               <label className="form-label">{emailToggle ? "Email id" : "Mobile Number"}</label>
 
-              <div className="dweorjwer">
+              <div className="dweorjwer sfqeddaeweqwqee">
                 {emailToggle ? (
                   <>
-                    <input type="email" className="form-control" placeholder="Enter email id" />
+                    <input type="email" className="form-control" placeholder="Enter email id" name="email" value={email}
+                          onChange={(e) => setEmail(e.target.value)}/>
                   </>
                 ) : (
                   <div className="d-flex align-items-center">
                     <div className="position-relative d-inline-block">
                       <span 
-                        className="dwregfweerqrwerrr position-absolute translate-middle-y top-50 start-0 ps-3 pointer-events-none"
+                        className="dwregfweerqrwerrr position-absolute translate-middle-y top-50 start-0 pointer-events-none"
                         style={{ pointerEvents: 'none', zIndex: 1 }}
                       >
                         {selectedCode}
@@ -893,24 +942,26 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                       >
                         {countryCodes.map((country) => (
                           <option 
-                            key={country.name} 
-                            value={country.code} 
+                            key={country.country_name} 
+                            value={country.country_code} 
                             className="text-dark"
                           >
-                            {country.name} ({country.code})
+                            {country.country_name} (+{country.country_code})
                           </option>
                         ))}
                       </select>
                     </div>
 
-                    <input type="number" className="form-control" placeholder="Enter mobile number" />
+                    <input type="text" className="form-control" placeholder="Enter mobile number" value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                        maxLength={10}/>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="diehhweirwer mt-3">
-              <button className="btn btn-main w-100">Get OTP</button>
+              <button onClick={sendOtp} className="btn btn-main w-100">Get OTP</button>
 
               <p className="my-2 text-center">or</p>
 
@@ -920,6 +971,115 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
             <h6 className="dfweoijtweer mt-3">By continuing, I agree to <Link>Vinhem Fashion policies</Link> and <Link>T&Cs</Link></h6>
 
             <div className="coiasehrewr text-center">Use <span onClick={() => setEmailToggle(!emailToggle)}>{emailToggle ? "Mobile Number" : "Email id"}</span></div>
+          </div>
+        </div>
+      </div>
+
+      {/*login otp verification start*/}      
+
+      <div className={`${otpModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
+        <div className="doiwejrojwekrwer d-flex justify-content-between align-items-center pb-3">
+          <div className="dowehirhwerwer d-flex align-items-center" onClick={() => {setOtpModal(false); setLoginModal(true);}}>
+            <i class="fa-solid me-1 fa-arrow-left"></i> <span>Back</span>
+          </div>
+
+          <div className="weohfjkwenuirhwer" onClick={() => {setOtpModal(false); setLoginModalBackdrop(false);}}>
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+
+        <div className="difwehwerwer">
+          <div className="diwekmrwerwe pt-4">
+            <h5 className="text-center mb-1">OTP Verification</h5>
+
+            <p className="sdfdghsedfdhertfrts text-center">Enter the six digit OTP sent to <br /> +91-8547895689 <span onClick={() => {setOtpModal(false); setLoginModal(true);}}>Edit</span></p>
+
+            <div className="doijewijrwer">
+              <div className="d-flex align-items-center">
+                {otp.map((digit, i) => (
+                  <input
+                    key={i}
+                    ref={(el) => (otpRefs.current[i] = el)}
+                    className="form-control text-center mx-1"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e.target.value, i)}
+                  />
+                ))}
+              </div>
+
+              <p className="sdfdghsedfdhertfrts text-center mt-3 mb-4">
+                {/* <span>Resend OTP</span> <i class="fa-regular fa-clock"></i> 50sec</p> */}
+                <span
+                  style={{ cursor: resendEnabled ? "pointer" : "not-allowed" }}
+                  onClick={resendOtp}
+                >
+                  Resend OTP <i class="fa-regular fa-clock"></i>{resendEnabled ? "" : `(${timer}s)`}
+                </span>
+              </p>
+
+              <button onClick={verifyOtp} className="btn btn-main w-100">Verify</button>
+
+              <h6 className="dhdasgdsdfsdf my-3 text-center">Trouble getting OTP?</h6>
+
+              <div className="edwoikhuiefnjier row gap-0 pb-5">
+                <div className="col-lg-6 mb-lg-0 mb-md-0 mb-sm-4 mb-4">
+                  <div className="dowejriwehrewr d-flex align-items-center p-2">
+                    <i class="fa-brands me-2 fa-whatsapp"></i> 
+
+                    <p className="mb-0">Get OTP via WhatsApp</p>
+                  </div>
+                </div>
+
+                <div className="col-lg-6">
+                  <div onClick={() => {setOtpModal(false); setLoginModal(true); setEmailToggle(true);}} className="dowejriwehrewr d-flex align-items-center p-2">
+                    <i class="fa-regular me-2 fa-envelope"></i>
+
+                    <p className="mb-0">Continue with Email</p>
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+
+      {/*login complete start*/}      
+
+      <div className={`${completeLoginModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
+        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {setCompleteLoginModal(false); setLoginModalBackdrop(false);}}>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+
+        <div className="difwehwerwer">
+          <div className="diwekmrwerwe pt-4">
+            <h5 className="text-center mb-1">Complete sign up</h5>
+
+            <p className="sdfdghsedfdhertfrts text-center">Enter below details</p>
+
+            <div className="dihweirowerwer pb-4">
+              <form>
+                <div className="mb-3">
+                  <label>Full Name</label>
+
+                  <input type="text" className="form-control" placeholder="Enter Full Name" />
+                </div>
+
+                <div className="mb-3">
+                  <label>Email Id</label>
+
+                  <input type="text" className="form-control" placeholder="Enter Email" />
+                </div>
+
+                <div className="mb-3">
+                  <label>Referral Code</label>
+
+                  <input type="text" className="form-control" placeholder="Enter Referral Code" />
+                </div>
+
+                <button className="adsfdgsaddfgewfgredrf btn btn-main w-100">Continue</button>
+              </form>
+            </div>           
           </div>
         </div>
       </div>
