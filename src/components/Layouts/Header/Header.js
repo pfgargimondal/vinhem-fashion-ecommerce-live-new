@@ -124,7 +124,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     if (enteredOtp.length !== 6) return alert("Enter full OTP");
 
     try {
-      const response = await http.post("/verify-otp", {
+      const response = await http.post("/user/verify-otp", {
         email: emailToggle ? email : undefined,
         mobile: !emailToggle ? `${selectedCode}${mobile}` : undefined,
         otp: enteredOtp,

@@ -603,18 +603,19 @@ export const Filter = () => {
                     </div>
                   ) }
                 </div>
+                {products?.length > 0 && (
+                  <div className="dfgsfsfsfsdf d-flex justify-content-center align-items-center">
+                    <button className="btn btn-main" onClick={handlePrev}>Prev</button>
 
-                <div className="dfgsfsfsfsdf d-flex justify-content-center align-items-center">
-                  <button className="btn btn-main" onClick={handlePrev}>Prev</button>
+                    <div className="pagination_ff d-flex align-items-center">
+                      {pages.map(page => (
+                        <button key={page} className={(currentPage === page) ? "btn btn-main active" : "btn btn-main"} onClick={() => setCurrentPage(page)}>{page}</button>
+                      ))}
+                    </div>
 
-                  <div className="pagination_ff d-flex align-items-center">
-                    {pages.map(page => (
-                      <button key={page} className={(currentPage === page) ? "btn btn-main active" : "btn btn-main"} onClick={() => setCurrentPage(page)}>{page}</button>
-                    ))}
+                    <button className="btn btn-main" onClick={handleNext}>Next</button>
                   </div>
-
-                  <button className="btn btn-main" onClick={handleNext}>Next</button>
-                </div>
+                )}
               </div>
             </div>
           </div>
