@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Css/DropdownLoggedIn.css";
 import { useAuth } from "../../../context/AuthContext";
 
 export const DropdownLoggedIn = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { user, dispatch } = useAuth(); // ✅ Access logout and user from context
 
   const handleLogout = () => {
@@ -13,7 +13,7 @@ export const DropdownLoggedIn = () => {
     localStorage.removeItem("user");
 
     dispatch({ type: "LOGOUT" });
-    navigate("/login");
+    // navigate("/login");
     
     // logout();           
     // navigate("/login"); 

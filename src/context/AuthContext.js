@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
       case "LOGOUT":
         localStorage.clear();
         dispatch(action);
-        navigate("/login"); // redirect login
+        // navigate("/login"); // redirect login
         break;
 
       case "UPDATE_PROFILE":

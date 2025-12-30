@@ -475,7 +475,7 @@ export const ProductDetail = () => {
     if (productDetails?.data?.stitching_option !== "Ready To Wear") {
       setSelectedStitchOption("stitch");
     } else {
-      setSelectedStitchOption(""); // or "readyToWear"
+      setSelectedStitchOption("stitch"); // or "readyToWear"
     }
   }, [productDetails]);
 
@@ -1078,21 +1078,6 @@ export const ProductDetail = () => {
                       </div>
                     </div>
 
-                    <div className="dfhdfhd">
-                      <p className="d-flex align-items-center">
-                        <span className="me-2">Share:</span>
-
-                        <img src="/images/whatsapp.png" alt="Share on Whatsapp" onClick={handleWhatsAppShare}/>
-
-                        <img src="/images/facebook.png" alt="Share on Facebook" onClick={handleFacebookShare}/>
-
-                        <img src="/images/twitter.png" alt="Share on Twitter" onClick={handleTwitterShare} />
-
-                        <img src="/images/pinterest.png" alt="Share on Pinterest"
-                              onClick={handlePinterestShare}/>
-                      </p>
-                    </div>
-
                     <div className="fhdfgh">
                       <p className="d-flex align-items-center flex-wrap">Item ID: {productDetails?.data?.item_id} | {productDetails?.data?.views} Views <i class="bi ms-2 bi-eye"></i></p>
                     </div>
@@ -1195,8 +1180,27 @@ export const ProductDetail = () => {
                       {/* id="custmze-otft-btn"> */}
                       {productDetails?.data?.stitching_option === 'Ready To Wear' && (
                         <div className="jlksdeflksdfk">
-                          <label className="form-label"><b>Select Your Size</b></label>
+                          <div className="d-flex align-items-center justify-content-between mb-2">
+                            <label className="form-label mb-0"><b>Select Your Size</b></label>
+
+                            <div className="dfhdfhd pe-5">
+                              <p className="d-flex align-items-center mb-0">
+                                <span className="me-2">Share:</span>
+
+                                <img src="/images/whatsapp.png" alt="Share on Whatsapp" onClick={handleWhatsAppShare}/>
+
+                                <img src="/images/facebook.png" alt="Share on Facebook" onClick={handleFacebookShare}/>
+
+                                <img src="/images/twitter.png" alt="Share on Twitter" onClick={handleTwitterShare} />
+
+                                <img src="/images/pinterest.png" alt="Share on Pinterest"
+                                      onClick={handlePinterestShare}/>
+                              </p>
+                            </div>
+                          </div>
+
                           <hr class="mt-0" style={{width: "86%"}} />
+
                           <div className="d-flex align-items-center sdfasdctgerrrrwe mb-3">
                             <div className="select-form-drpdwn me-3">
                               <div className="dgndfjgdf">

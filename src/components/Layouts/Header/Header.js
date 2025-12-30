@@ -40,6 +40,19 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+      // eslint-disable-next-line
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [fullname, setFullname] = useState("");
+  const [referral, setReferral] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { dispatch } = useAuth();
+
+  // remember verified contact
+  const [verifiedContact, setVerifiedContact] = useState({
+    email: "",
+    mobile: "",
+    countryCode: ""
+  });
 
   // const [loginModal, setLoginModal] = useState(true);
   // const [loginModalBackdrop, setLoginModalBackdrop] = useState(true);
@@ -105,10 +118,13 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
       return alert("Valid mobile number required");
 
     try {
-      await http.post("/user/send-otp", {
+      const res = await http.post("/user/send-otp", {
         email: emailToggle ? email : undefined,
-        mobile: !emailToggle ? `${selectedCode}${mobile}` : undefined,
+        mobile: !emailToggle ? mobile : undefined,
+        countryCode: !emailToggle ? selectedCode : undefined,
       });
+
+      setIsNewUser(res.data.action === "register");
 
       setOtpModal(true);
       setLoginModal(false);
@@ -126,16 +142,39 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     try {
       const response = await http.post("/user/verify-otp", {
         email: emailToggle ? email : undefined,
-        mobile: !emailToggle ? `${selectedCode}${mobile}` : undefined,
+        mobile: !emailToggle ? mobile : undefined,
+        countryCode: !emailToggle ? selectedCode : undefined,
         otp: enteredOtp,
       });
 
       if (response.data.success) {
         setOtpModal(false);
-        setLoginModalBackdrop(false);
-        navigate("/"); // Redirect to dashboard after login
-      } else {
-        alert(response.data.message);
+
+        // 🔥 EXISTING USER → LOGIN
+        if (response.data.login) {
+          dispatch({
+            type: "LOGIN",
+            payload: {
+              token: response.data.data.jwtToken,
+              user: response.data.data.user,
+            }
+          });
+
+          setOtpModal(false);
+          setLoginModalBackdrop(false);
+        }
+
+        // 🔥 NEW USER → COMPLETE SIGNUP
+        else {
+          setCompleteLoginModal(true);
+          setVerifiedContact({
+            email: emailToggle ? email : "",
+            mobile: !emailToggle ? mobile : "",
+            countryCode: selectedCode
+          });
+
+          setOtpModal(false);
+        }
       }
     } catch (err) {
       alert(err.response?.data?.message || "Something went wrong");
@@ -144,6 +183,45 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
   const resendOtp = () => {
     if (resendEnabled) sendOtp();
+  };
+
+
+  const completeSignup = async (e) => {
+    e.preventDefault();
+
+    if (!fullname.trim()) {
+      alert("Full name is required");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await http.post("/user/complete-signup", {
+        fullname,
+        email: verifiedContact.email || undefined,
+        mobile: verifiedContact.mobile || undefined,
+        countryCode: verifiedContact.countryCode,
+        referral_code: referral,
+      });
+
+      // localStorage.setItem("jwt_token", res.data.data.jwtToken);
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          token: res.data.data.jwtToken,
+          user: res.data.data.user,
+        }
+      });
+
+      setCompleteLoginModal(false);
+      setLoginModalBackdrop(false);
+      navigate("/");
+    } catch (err) {
+      alert(err.response?.data?.message || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
 
@@ -518,19 +596,19 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                           <li><Link to={`/contact-us`}><i class="bi bi-headset"></i> Help</Link></li>
 
                           <li className="infrm-menu-divider">|</li>
-                          {/* {user ? (
-                            <> */}
+                          {user ? (
+                            <>
                              <li><Link to={`/wishlist`}><i class="bi bi-heart"></i> &nbsp;Wishlist <span>{wishlistCount}</span></Link></li>
                               <li className="infrm-menu-divider">|</li>
                               <li><Link to={`/cart`}><i class="bi bi-handbag"></i> Cart <span>{cartCount}</span></Link></li>
-                            {/* </>
+                            </>
                           ):(
                             <>
                               <Link to={`/login`}><li><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li></Link>
                               <li className="infrm-menu-divider">|</li>
                               <Link to={`/login`}><li><i class="bi bi-handbag"></i> Bag <span>0</span></li></Link>
                             </>
-                          )} */}
+                          )}
 
                           <li className="infrm-menu-divider">|</li>
 
@@ -556,21 +634,36 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
                           <li className="sdfdghwrfwerererr position-relative">
                             <div className="safrfwrytuerr position-relative">
-                                <i className="bi bi-person"></i> Account
+                                {user ? (
+                                  <>
+                                    <div className="gbdfgtrfyhrytgrr d-flex align-items-center" onClick={(e) => {e.stopPropagation(); setUserDropdown(!userDropdown)}}>
+                                      <i className="bi bi-person"></i>
+                                      
+                                      <div className="mjeimojwjikrrr">{user.name}</div>
 
-                              <div className="accnt-drpdwn bg-white p-4 position-absolute mt-2 d-none">
-                                <div className="text-center">
-                                  <h4>Log in or Sign up</h4>
+                                      <i class={`fa-solid sdfrrweewr_icon ${userDropdown ? "fa-caret-up" : "fa-caret-down"}`}></i>
+                                    </div>
 
-                                  <p>to personalize your experience</p>
-                                </div>
+                                    {userDropdown && <DropdownLoggedIn />}
+                                  </>
+                                ) : (
+                                  <>
+                                    <i className="bi bi-person"></i> Account
+                                    <div className="accnt-drpdwn bg-white p-4 position-absolute mt-2 d-none">
+                                      <div className="text-center">
+                                        <h4>Log in or Sign up</h4>
 
-                                <div className="diwejikrwer">
-                                  <button className="btn mb-3 btn-main w-100" onClick={handleLoginModal}>Sign in with Mobile/Email</button>
+                                        <p>to personalize your experience</p>
+                                      </div>
 
-                                  <button className="btn btn-main bg-white text-dark w-100"><img src="../images/search.png" className="me-2" alt="" /> Sign in with Google</button>
-                                </div>
-                              </div>
+                                      <div className="diwejikrwer">
+                                        <button className="btn mb-3 btn-main w-100" onClick={handleLoginModal}>Sign in with Mobile/Email</button>
+
+                                        <button className="btn btn-main bg-white text-dark w-100"><img src="../images/search.png" className="me-2" alt="" /> Sign in with Google</button>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
                             </div>
                           </li>
                         </ul>
@@ -1058,26 +1151,47 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
             <p className="sdfdghsedfdhertfrts text-center">Enter below details</p>
 
             <div className="dihweirowerwer pb-4">
-              <form>
+              <form onSubmit={completeSignup}>
                 <div className="mb-3">
                   <label>Full Name</label>
 
-                  <input type="text" className="form-control" placeholder="Enter Full Name" />
+                  <input type="text" className="form-control" value={fullname}
+                    onChange={(e) => setFullname(e.target.value)} placeholder="Enter Full Name" />
                 </div>
 
-                <div className="mb-3">
-                  <label>Email Id</label>
+                {verifiedContact.mobile && (
+                  <div className="mb-3">
+                    <label>Mobile Number</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={`${verifiedContact.mobile}`}
+                      readOnly
+                    />
+                  </div>
+                )}
 
-                  <input type="text" className="form-control" placeholder="Enter Email" />
-                </div>
+                {!verifiedContact.mobile && verifiedContact.email && (
+                  <div className="mb-3">
+                    <label>Email Id</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={verifiedContact.email}
+                      readOnly
+                    />
+                  </div>
+                )}
 
                 <div className="mb-3">
                   <label>Referral Code</label>
 
-                  <input type="text" className="form-control" placeholder="Enter Referral Code" />
+                  <input type="text" className="form-control" value={referral}
+                      onChange={(e) => setReferral(e.target.value)} placeholder="Enter Referral Code" />
                 </div>
 
-                <button className="adsfdgsaddfgewfgredrf btn btn-main w-100">Continue</button>
+                <button type="submit" className="adsfdgsaddfgewfgredrf btn btn-main w-100" disabled={loading}>{loading ? "Please wait..." : "Continue"}</button>
+           
               </form>
             </div>           
           </div>
