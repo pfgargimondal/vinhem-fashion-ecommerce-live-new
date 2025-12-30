@@ -53,6 +53,11 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     mobile: "",
     countryCode: ""
   });
+  const [otpContact, setOtpContact] = useState({
+    email: "",
+    mobile: "",
+    countryCode: ""
+  });
 
   // const [loginModal, setLoginModal] = useState(true);
   // const [loginModalBackdrop, setLoginModalBackdrop] = useState(true);
@@ -122,6 +127,12 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
         email: emailToggle ? email : undefined,
         mobile: !emailToggle ? mobile : undefined,
         countryCode: !emailToggle ? selectedCode : undefined,
+      });
+
+      setOtpContact({
+        email: emailToggle ? email : "",
+        mobile: !emailToggle ? mobile : "",
+        countryCode: !emailToggle ? selectedCode : "",
       });
 
       setIsNewUser(res.data.action === "register");
@@ -1085,7 +1096,17 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
           <div className="diwekmrwerwe pt-4">
             <h5 className="text-center mb-1">OTP Verification</h5>
 
-            <p className="sdfdghsedfdhertfrts text-center">Enter the six digit OTP sent to <br /> +91-8547895689 <span onClick={() => {setOtpModal(false); setLoginModal(true);}}>Edit</span></p>
+            <p className="sdfdghsedfdhertfrts text-center">Enter the six digit OTP sent to <br /> 
+            {otpContact.mobile ? (
+              <>
+                {otpContact.countryCode}-{otpContact.mobile}
+              </>
+            ) : (
+              <>        
+                {otpContact.email}
+              </>
+            )}
+            <span onClick={() => {setOtpModal(false); setLoginModal(true);}}> Edit</span></p>
 
             <div className="doijewijrwer">
               <div className="d-flex align-items-center">
@@ -1127,7 +1148,6 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                 <div className="col-lg-6">
                   <div onClick={() => {setOtpModal(false); setLoginModal(true); setEmailToggle(true);}} className="dowejriwehrewr d-flex align-items-center p-2">
                     <i class="fa-regular me-2 fa-envelope"></i>
-
                     <p className="mb-0">Continue with Email</p>
                   </div>
                 </div>

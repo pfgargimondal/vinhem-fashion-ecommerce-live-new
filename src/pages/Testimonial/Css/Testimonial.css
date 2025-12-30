@@ -239,6 +239,52 @@
   color: #000;
 }
 
+.oeijmewrwer{
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--light-background-color);
+}
+
+.djewojewr_left img{
+  width: 100%;
+  height: 11vw;
+  object-fit: cover;
+}
+
+.djewojewr_right h6.dwerfqwer{
+  color: var(--text-gray-color);
+  font-size: 0.8rem;
+  margin-top: 2rem;
+  font-weight: 400;
+}
+
+.dinewjhwer{
+  width: 2rem;
+  height: 2rem;
+  background: var(--pink-main-color);
+  border-radius: 50%;
+  line-height: 2;
+}
+
+.doinweiewrwer h5{
+  font-size: 1rem;
+}
+
+.doinweiewrwer h6{
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-gray-color);
+}
+
+h5.duiwehrwerwer,
+p.sftgrewrrr{
+  font-size: 1rem;
+}
+
+p.sadfdtwrwrwr{
+  color: goldenrod;
+}
+
 /*end  testimonial  css   */
 /*end  testimonial  css   */
 /*end  testimonial  css   *//*# sourceMappingURL=style.css.map */

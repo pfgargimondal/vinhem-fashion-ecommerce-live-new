@@ -9,6 +9,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { FilterProvider } from './context/FilterContext';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,7 +22,9 @@ root.render(
             <CartProvider>
               <WishlistProvider>
                 <PayPalScriptProvider options={{ "client-id": "Ac3LBYSEf-1c0Y37LZOTUEZgOdN_k05H_tU50qLlU2lfrHGK0w4VV6FuJYY5jBb3faC3O5FwZsgExAVp" }}>
-                  <App />
+                  <GoogleOAuthProvider clientId="979908862202-qcs1ft90v0fkbigt3ec44atq3alt1m38.apps.googleusercontent.com">
+                    <App />
+                  </GoogleOAuthProvider>
                 </PayPalScriptProvider>
               </WishlistProvider>
             </CartProvider>
