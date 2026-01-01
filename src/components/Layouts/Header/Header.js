@@ -615,9 +615,9 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                             </>
                           ):(
                             <>
-                              <Link to={`/login`}><li><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li></Link>
+                              <li className="DRhgbsxfnhbf"><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li>
                               <li className="infrm-menu-divider">|</li>
-                              <Link to={`/login`}><li><i class="bi bi-handbag"></i> Bag <span>0</span></li></Link>
+                              <li><i class="bi bi-handbag"></i> Bag <span>0</span></li>
                             </>
                           )}
 

@@ -1,63 +1,98 @@
 import { useEffect, useState } from "react";
 import http from "../../http";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 
 import "./Css/Testimonial.css";
 import "swiper/css"; // core styles
 import "swiper/css/navigation"; // if using navigation
 import "swiper/css/pagination"; // if using pagination
 
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+// import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FooterTopComponent } from "../../components/Others/FooterTopComponent";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 
 export const Testimonial = () => {
-
+    const [loading, setLoading] = useState(false);
     const [TestimonialDetails, setTestimonialDetails] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const testimonialPerPage = 24;
 
     useEffect(() => {
         const fetchTestimonial = async () => {
-            // setLoading(true);
+            setLoading(true);
             try {
-                const getresponse = await http.get("/get-testimonial-content");
-                setTestimonialDetails(getresponse.data);
+                const getresponse = await http.get("/fetch-testimonial-all-content");
+                setTestimonialDetails(getresponse.data.data);
             } catch (error) {
                 console.error("Error fetching users:", error);
             } finally {
-                // setLoading(false);
+                setLoading(false);
             }
         };
 
         fetchTestimonial();
     }, []);
 
+    // ✅ SAFE DEFAULT (prevents undefined crash)
+    const testimonials = TestimonialDetails?.testimonial_content || [];
+
+    const totalPages = Math.ceil(testimonials.length / testimonialPerPage);
+
+    const indexOfLastTestimonial = currentPage * testimonialPerPage;
+    const indexOfFirstTestimonial = indexOfLastTestimonial - testimonialPerPage;
+
+    const currentTestimonial = testimonials.slice(
+        indexOfFirstTestimonial,
+        indexOfLastTestimonial
+    );
+
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prev => prev - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(prev => prev + 1);
+        }
+    };
+
+    if (loading) {
+        return <Loader />;
+    }
+
     return (
         <div>
-            {/* <div class="aboutusbannr" 
-            style={{
-            backgroundImage: TestimonialDetails?.image_url && TestimonialDetails?.data?.banner_image
-                ? `url(${TestimonialDetails.image_url}/${TestimonialDetails.data.banner_image})`
-                : "none",
-            }}
-        >
-        <div class="container-fluid">
-            <div class="dfgnhdfjhgdf">
-                <div class="row">
-                    <div class="col-lg-7"></div>
-                    <div class="col-lg-5">
-                        <div class="dfbhdf">
-                            <h2>{TestimonialDetails.data?.banner_title && TestimonialDetails.data.banner_title}</h2>
-                            <p>{TestimonialDetails.data?.banner_description && TestimonialDetails.data.banner_description}</p>
-                        </div>
+            <div className={`banner postion-relative text-center`}>
+                <div className="container-fluid">
+                    <div className="breadcrumb">
+                        <ul className="ps-0 mb-1">
+                        <li>
+                            Vinhem Fashion
+                        </li>
+                        <li className="mx-2">/</li>
+                        <li>
+                            Testimonial
+                        </li>
+                        </ul>
                     </div>
+                    {TestimonialDetails?.banner?.banner_image && (
+                        <img
+                        src={`${TestimonialDetails?.banner_url}/${TestimonialDetails?.banner.banner_image}`}
+                        className="img-fluid"
+                        alt=""
+                        />
+                    )}
                 </div>
             </div>
 
-        </div>
-        </div> */}
-
-            <div className="dfgjhdfgdf">
+            {/* <div className="dfgjhdfgdf">
                 <div className="container-fluid">
                     <Swiper
                         modules={[Navigation, Pagination, Autoplay]}
@@ -88,7 +123,7 @@ export const Testimonial = () => {
 
                     </Swiper>
                 </div>
-            </div>
+            </div> */}
 
             <div class="xfnhvjhdfbvgdfg d-none">
                 <div class="container">
@@ -593,13 +628,68 @@ export const Testimonial = () => {
             </div>
 
 
-            <div className="diewrjweorwer">
+            <div className="diewrjweorwer mt-5">
                 <div className="container-fluid">
                     <h2 className="text-center">What Our Customers Say About Us</h2>
 
                     <div className="doewjorjwoejrwer mt-3">
                         <div className="row">
-                            <div className="col-lg-4 mb-3">
+                            {currentTestimonial?.map((contentVal) => (
+                                <div className="col-lg-4 mb-3">
+                                    <div className="oeijmewrwer bg-white d-flex p-2">
+                                        <div className="col-lg-3">
+                                            <div className="djewojewr_left">
+                                                <img src={`${TestimonialDetails?.testimonial_url}/${contentVal?.image}`} alt="" />                                    
+                                            </div>
+                                        </div>
+
+                                        <div className="col-lg-9">
+                                            <div className="djewojewr_right ps-3">
+                                                <div className="deiwuiwehrjwer">
+                                                    <div className="doiwejrwer d-flex justify-content-between">
+                                                        <div className="doiwejjrwerwer d-flex align-items-center">
+                                                            <div className="dinewjhwer me-1 text-center text-white">{contentVal?.name?.charAt(0).toUpperCase()}</div>
+
+                                                            <div className="doinweiewrwer">
+                                                                <h5 className="mb-1">{contentVal.name}</h5>
+
+                                                                <h6 className="mb-0">from {contentVal.location}</h6>
+                                                            </div>
+                                                        </div>
+
+                                                        <p className="sadfdtwrwrwr mb-0">
+                                                            {[...Array(5)].map((_, index) => (
+                                                                <i
+                                                                key={index}
+                                                                className={`fa-solid fa-star me-1 ${
+                                                                    index < contentVal.testimonial_rating ? "text-warning" : "text-secondary"
+                                                                }`}
+                                                                ></i>
+                                                            ))}
+                                                        </p>
+                                                    </div>  
+
+                                                    <h5 className="duiwehrwerwer my-2">{contentVal.head_title}</h5>                              
+
+                                                    <p className="sftgrewrrr mb-0">{contentVal.description}</p>
+                                                </div>
+
+                                                <h6 className="dwerfqwer mb-0">
+                                                    {new Date(contentVal.testimonial_date)
+                                                    .toLocaleDateString("en-US", {
+                                                        month: "long",
+                                                        day: "2-digit",
+                                                        year: "numeric",
+                                                    })
+                                                    .replace(",", "")}
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* <div className="col-lg-4 mb-3">
                                 <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
                                     <div className="col-lg-3">
                                         <div className="djewojewr_left">
@@ -1103,55 +1193,22 @@ export const Testimonial = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
+                    {TestimonialDetails?.testimonial_content?.length > 0 && (
+                        <div className="dfgsfsfsfsdf d-flex justify-content-center align-items-center">
+                            <button className="btn btn-main" onClick={handlePrev}>Prev</button>
+
+                            <div className="pagination_ff d-flex align-items-center">
+                            {pages.map(page => (
+                                <button key={page} className={(currentPage === page) ? "btn btn-main active" : "btn btn-main"} onClick={() => setCurrentPage(page)}>{page}</button>
+                            ))}
+                            </div>
+
+                            <button className="btn btn-main" onClick={handleNext}>Next</button>
+                        </div>
+                    )}
                 </div>
             </div>
 

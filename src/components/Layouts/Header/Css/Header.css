@@ -518,6 +518,12 @@ header .header-main .swiper-slide:hover .header-mega-menu{
   z-index: 999;
 }
 
+.DRhgbsxfnhbf:hover .accnt-drpdwn.d-none{
+  display: block !important;
+  transition: 0.3s ease-in-out;
+  z-index: 999;
+}
+
 .login-modal{
   top: 50%;
   left: 50%;
