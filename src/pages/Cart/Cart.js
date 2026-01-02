@@ -49,6 +49,7 @@ export const Cart = () => {
   const { formatPrice } = useCurrency();
   const [hideDBAddress, setHideDBAddress] = useState(false);
   const [shippingCharge, setShippingCharge] = useState("");
+  const [isGift, setIsGift] = useState(false);
 
   // console.log(localStorage.getItem("selectedCurrency"), 'selectedCurrency');
 
@@ -664,12 +665,22 @@ export const Cart = () => {
 
 
     localStorage.setItem("final_total", finalTotal);
-
-
+    localStorage.setItem("coupon_code", couponApplied ? selectedCoupon : null);
+    localStorage.setItem("coupon_discount", couponApplied ? appliedDiscount : 0);
+    
 
     const countryData = JSON.parse(localStorage.getItem("selectedCurrency"));
     const country = countryData.country_name;
     const currency_code = countryData.currency_code;
+
+    useEffect(() => {
+      const savedGift = localStorage.getItem("is_gift");
+      if (savedGift) setIsGift(savedGift === "true");
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem("is_gift", isGift);
+    }, [isGift]);
 
 
   const handlePaymentFlow = async () => {
@@ -819,6 +830,7 @@ export const Cart = () => {
         paypal_transaction_id: finalPaymentMethod === "pay_pal" ? transactionId : null,
         amount_payable: finalTotal,
         shipping_charge: shippingCharge,
+        is_gift: isGift ? 1 : 0,
       });
 
       // console.log(response, 'response_place_order');
@@ -1234,7 +1246,8 @@ export const Cart = () => {
 
                     <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
                       <div className="doewjirwerwer">
-                        <input type="checkbox" id="gft" className="m-1" />
+                        <input type="checkbox" id="gft" className="m-1" checked={isGift}
+                            onChange={(e) => setIsGift(e.target.checked)}/>
 
                         <label htmlFor="gft">This is a gift item</label>
                       </div>
@@ -1289,11 +1302,7 @@ export const Cart = () => {
                             </div>
 
                             <div className="doiewjirjwer">
-                              <div className="delojowerer py-3 px-4 d-flex align-items-center">
-                                <i class="bi me-3 bi-exclamation-triangle-fill"></i>
-
-                                <p className="mb-0">A valid Indian mobile is required for seamless delivery. Before delivery of this order, you will get a one-time passowrd on +91-7003672926 <span className="ms-1">Edit</span></p>
-                              </div>
+                              
                               {!hideDBAddress ? (
                                 shippingAddress ? (
                                   <ShippingAddress
@@ -1500,7 +1509,7 @@ export const Cart = () => {
                             <tr>
                               <td className="sergvasdrg">Coupon Discount :</td>
                               <td className="sergvasdrg">
-                                (-){formatPrice(appliedDiscount)}
+                                (-){formatPrice(appliedDiscount, { showDecimals: true })}
                               </td>
                             </tr>
                           )}
@@ -1558,7 +1567,8 @@ export const Cart = () => {
 
                     <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
                       <div className="doewjirwerwer">
-                        <input type="checkbox" id="gft" className="m-1" />
+                        <input type="checkbox" id="gft" className="m-1" checked={isGift}
+                            onChange={(e) => setIsGift(e.target.checked)}/>
 
                         <label htmlFor="gft">This is a gift item</label>
                       </div>
@@ -2029,7 +2039,7 @@ export const Cart = () => {
                             <tr>
                               <td className="sergvasdrg">Coupon Discount :</td>
                               <td className="sergvasdrg">
-                                (-){formatPrice(appliedDiscount)}
+                                (-){formatPrice(appliedDiscount, {showDecimals: true})}
                               </td>
                             </tr>
                           )}
@@ -2088,7 +2098,8 @@ export const Cart = () => {
 
                     <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
                       <div className="doewjirwerwer">
-                        <input type="checkbox" id="gft" className="m-1" />
+                        <input type="checkbox" id="gft" className="m-1" checked={isGift}
+                            onChange={(e) => setIsGift(e.target.checked)}/>
 
                         <label htmlFor="gft">This is a gift item</label>
                       </div>
@@ -2305,8 +2316,16 @@ export const Cart = () => {
 
                   const coupon = couponItems.find(c => c.code === e.target.value);
                   if (coupon) {
-                    setSelectedDiscount(parseInt(coupon.value));
-                    setAppliedDiscount(parseInt(coupon.value));
+
+                    let discount = 0;
+                    if (coupon.type === "percent") {
+                      discount = (Number(totalPrice.cart_totalPrice) * parseInt(coupon.value)) / 100;
+                    } else {
+                      discount = parseInt(coupon.value); // flat amount
+                    }
+
+                    setSelectedDiscount(discount);
+                    setAppliedDiscount(discount);
 
                     if (coupon.apply_ShippingCost === "Yes") {
                       setFreeShipping(true);
@@ -2369,8 +2388,16 @@ export const Cart = () => {
                     disabled={couponApplied}
                     onChange={() => {
                       setSelectedCoupon(couponItemsVal.code);
-                      setSelectedDiscount(parseInt(couponItemsVal.value));
-                      setAppliedDiscount(parseInt(couponItemsVal.value));
+                      // setSelectedDiscount(parseInt(couponItemsVal.value));
+                      // setAppliedDiscount(parseInt(couponItemsVal.value));
+                      let discount = 0;
+                      if (couponItemsVal.type === "percent") {
+                        discount = (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100;
+                      } else {
+                        discount = parseInt(couponItemsVal.value); // flat amount
+                      }
+                      setSelectedDiscount(discount);
+                      setAppliedDiscount(discount);
                     }}
                   />
 
@@ -2418,9 +2445,18 @@ export const Cart = () => {
                         e.preventDefault();
 
                         setSelectedCoupon(couponItemsVal.code);
-                        setSelectedDiscount(parseInt(couponItemsVal.value));
-                        setAppliedDiscount(parseInt(couponItemsVal.value));
+                        // setSelectedDiscount(parseInt(couponItemsVal.value));
+                        // setAppliedDiscount(parseInt(couponItemsVal.value));
                         setCouponApplied(true);
+
+                        let discount = 0;
+                        if (couponItemsVal.type === "percent") {
+                          discount = (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100;
+                        } else {
+                          discount = parseInt(couponItemsVal.value); // flat amount
+                        }
+                        setSelectedDiscount(discount);
+                        setAppliedDiscount(discount);
 
                         if (couponItemsVal.apply_ShippingCost === "Yes") {
                           setFreeShipping(true);
@@ -2558,13 +2594,29 @@ export const Cart = () => {
               <div className="col-lg-12 mb-2">
                 <div className="row align-items-center">
                   <div className="col-3">
-                    <input 
+                    {/* <input 
                       type="text" 
                       className="form-control"
                       name="shipping_mobileCode" 
                       value={shippingData.shipping_mobileCode}
                       onChange={handleInputChange}
-                    />
+                    /> */}
+                    <select 
+                      name="shipping_mobileCode" 
+                      className="form-select h-100"
+                      value={shippingData.shipping_mobileCode}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Select Country Code</option>
+                      {shippingCountry.map((item) => (
+                        <option
+                          key={item.country_code}
+                          value={`+${item.country_code}`}
+                        >
+                          +{item.country_code}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="col-9">
@@ -2766,13 +2818,29 @@ export const Cart = () => {
               <div className="col-lg-12 mb-2">
                 <div className="row align-items-center">
                   <div className="col-3">
-                    <input 
+                    {/* <input 
                       type="text" 
                       className="form-control"
                       name="billing_mobileCode" 
                       value={billingData.billing_mobileCode}
                       onChange={handleInputChangeBilling}
-                    />
+                    /> */}
+                    <select 
+                      name="billing_mobileCode" 
+                      className="form-select h-100"
+                      value={billingData.billing_mobileCode}
+                      onChange={handleInputChangeBilling}
+                    >
+                      <option value="">Select Country Code</option>
+                      {shippingCountry.map((item) => (
+                        <option
+                          key={item.country_code}
+                          value={`+${item.country_code}`}
+                        >
+                          +{item.country_code}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="col-9">

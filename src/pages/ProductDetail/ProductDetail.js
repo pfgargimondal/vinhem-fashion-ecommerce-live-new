@@ -337,8 +337,8 @@ export const ProductDetail = () => {
   // Handle size change
   // ------------------------------
   const handleSizeChange = (e) => {
-    const newSize = e.target.value;
-    setSelectedSize(newSize);
+    const newSize = e.target.value.split(" - ").join("-");
+    setSelectedSize(e.target.value);
 
     const allSizes = productDetails?.data?.product_allSize || [];
     const base = productDetails?.data || {};
@@ -480,13 +480,17 @@ export const ProductDetail = () => {
   }, [productDetails]);
 
  const handleAddToCart = async () => {
-  // const hasSizes = productDetails?.data?.product_allSize?.length > 0;
 
-  // // ✅ 1. Validate main size
-  // if (hasSizes && !selectedSize) {
-  //   alert("Please select a size before adding to cart.");
-  //   return;
-  // }
+  if(productDetails?.data?.stitching_option === "Ready To Wear"){
+
+    const hasSizes = productDetails?.data?.product_allSize?.length > 0;
+    // ✅ 1. Validate main size
+    if (hasSizes && !selectedSize) {
+      alert("Please select a size before adding to cart.");
+      return;
+    }
+  }
+  
 
   // ✅ 2. Validate accessory sizes (if selected)
   const turbanSize = document.getElementById("product_turbanSize")?.value || "";

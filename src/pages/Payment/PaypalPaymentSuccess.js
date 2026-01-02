@@ -45,17 +45,22 @@ export const PaypalPaymentSuccess = () => {
         const countryData = JSON.parse(localStorage.getItem("selectedCurrency"));
         const country = countryData.country_name;
 
+        const coupon_code = localStorage.getItem("coupon_code");
+        const coupon_discount = localStorage.getItem("coupon_discount");
+        const is_gift = localStorage.getItem("is_gift");
+
         const placeOrderResponse = await placeOrderAPI({
           token,
           payment_method: "pay_pal",
           shipping_address: shippingFinalAddress,
           billing_address: billingFinalAddress,
           country: country,
-          coupon_code: null,
-          coupon_discount: 0,
+          coupon_code: coupon_code,
+          coupon_discount: coupon_discount,
           paypal_transaction_id: transactionId,
           amount_payable: amount,
           shipping_charge: shipping_charge,
+          is_gift: is_gift ? 1 : 0,
         });
 
         if (placeOrderResponse?.success) {

@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
 export const ShippingAddress = ({ address, onEdit, onRemove }) => (
+    <>
+    <div className="delojowerer py-3 px-4 d-flex align-items-center ">
+    <i class="bi me-3 bi-exclamation-triangle-fill"></i>
+    <p className="mb-0">A valid Indian mobile is required for seamless delivery. 
+        Before delivery of this order, you will get a one-time passowrd on {address?.shippingNumber}
+        <span className="ms-1" onClick={onEdit}>Edit</span></p>
+    </div>
 
     <div className="ojasdaskkse p-4 pb-0">
         <div className="sddgeweeeerr d-flex mb-3 align-items-center justify-content-between">
@@ -40,4 +47,5 @@ export const ShippingAddress = ({ address, onEdit, onRemove }) => (
             <Link to="#" onClick={onRemove}><i class="bi me-1 bi-trash3"></i> REMOVE</Link>
         </div>
     </div>
+    </>
 );
