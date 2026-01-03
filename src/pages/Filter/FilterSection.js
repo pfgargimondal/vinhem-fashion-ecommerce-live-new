@@ -8,13 +8,14 @@ import Tab from 'react-bootstrap/Tab';
 
 
 export default function FilterSection({ setResFltrMenu, allFilterMappingdata, filterCategories, category, subcategory }) {
-  const { minPrice, maxPrice, setPrice, setMainCategory, setSubCategory, setFilterCategory, color, setColor, setMaterial, setDesigner, setPlusSize, setOccasion, setSize, setCelebrity, setShippingTime, resetFilter } = useFilter();
+  const { minPrice, maxPrice, setPrice, setMainCategory, setSubCategory, setFilterCategory, 
+    color, setColor, setMaterial, setDesigner, setPlusSize, setOccasion, setSize, setCelebrity, setShippingTime, resetFilter } = useFilter();
   const [selectedTheme, setSelectedTheme] = useState("");
   const [sbctgry, setSbctgry] = useState(null);
   const [insdSbctgry, setInsdSbctgry] = useState(null);
   const [expandedFilters, setExpandedFilters] = useState({});
 
-  console.log(filterCategories);
+  console.log(filterCategories, 'filterCategories');
 
   console.log(category);
 
@@ -215,11 +216,22 @@ const handleMaxEnter = (e) => {
 
         <div className="dkewjriwehrnjhweijrwer mb-4">
           <div className="disenihrenjr mb-3 pt-4 pb-3 d-flex align-items-center justify-content-between">
-            <h5 className="mb-0">{category === "all-products"
+            <h5 className="mb-0">
+              {/* {category === "all-products"
               ? "Main Categories"
               : category && subcategory
               ? `${category.replace(/-/g, " ")} - ${subcategory.replace(/-/g, " ")}`
-              : category}
+              : category} */}
+
+              {
+                category === "all-products"
+                  ? "Main Categories"
+                  : subcategory
+                  ? "Sub Categories"
+                  : category
+                  ? "Main Categories"
+                  : ""
+              }
             </h5>
 
             <i className="bi bi-chevron-down"></i>
@@ -440,6 +452,7 @@ const handleMaxEnter = (e) => {
                     );
                   })
                 ) : (
+
                   FilterMappingdata.filter_values.split(",").slice(0, valuesToShow).map((item, indexdsvd) => (
                     <div key={`${FilterMappingdata.id}-${indexdsvd}`} className="radio-wrapper-5 px-2 mb-2">
                       <div className="cdwehjirnweijrowejrowejr">
