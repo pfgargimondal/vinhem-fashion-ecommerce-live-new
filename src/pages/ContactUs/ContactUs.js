@@ -16,7 +16,7 @@ export const ContactUs = () => {
       setLoading(true);
       try {
         const getresponse = await http.get("/get-contact-us-details");
-        setContactUsDetails(getresponse.data);
+        setContactUsDetails(getresponse.data.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -26,6 +26,8 @@ export const ContactUs = () => {
 
     fetchContactUsData();
   }, []);
+
+  console.log(ContactUsDetails);
 
   const fileInputRef = useRef(null);
 
@@ -170,51 +172,51 @@ export const ContactUs = () => {
   return (
     <div className={` ${styles.jvjhubjkjoij} mt-5`}>
       <div className="container">
-        <h1> {ContactUsDetails.data?.title && ContactUsDetails.data.title} </h1>
+        <h1> {ContactUsDetails.contact_details?.title && ContactUsDetails.contact_details.title} </h1>
         <div
           className={styles.p1}
           dangerouslySetInnerHTML={{
             __html:
-              ContactUsDetails.data?.description &&
-              ContactUsDetails.data.description,
+              ContactUsDetails.contact_details?.description &&
+              ContactUsDetails.contact_details.description,
           }} 
         />
 
         <br/>
 
         <div className={styles.addressSection}>
-            {ContactUsDetails.data?.office_status === 'warehouse_office' && (
+            {ContactUsDetails.contact_details?.warehouse_office_status === 1 && (
               <>
                 <h3>Warehouse Address: (Operation Center)</h3>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: ContactUsDetails.data?.wholeale_address || "",
+                    __html: ContactUsDetails.contact_details?.wholeale_address || "",
                   }}
                 />
               </>
             )}
 
-            {ContactUsDetails.data?.office_status === 'regd_office' && (
+            {ContactUsDetails.contact_details?.regd_office_status === 1 && (
               <>
                 <h3 className={styles.sjkdefnvb}>Regd. Office Address: </h3>
                 <div
                   dangerouslySetInnerHTML={{
                     __html:
-                      ContactUsDetails.data?.regd_address &&
-                      ContactUsDetails.data.regd_address,
+                      ContactUsDetails.contact_details?.regd_address &&
+                      ContactUsDetails.contact_details.regd_address,
                   }}
                 />
               </>
             )}
 
-            {ContactUsDetails.data?.office_status === 'branch_office' && (
+            {ContactUsDetails.contact_details?.branch_office_status === 1 && (
               <>
                 <h3> Branch Office Address: (Operation Center) </h3>
                 <div
                   dangerouslySetInnerHTML={{
                     __html:
-                      ContactUsDetails.data?.branch_office_address &&
-                      ContactUsDetails.data.branch_office_address,
+                      ContactUsDetails.contact_details?.branch_office_address &&
+                      ContactUsDetails.contact_details.branch_office_address,
                   }}
                 />
               </>
@@ -222,8 +224,8 @@ export const ContactUs = () => {
         
         <br />
         <p>
-          {ContactUsDetails.data?.form_title &&
-            ContactUsDetails.data.form_title}
+          {ContactUsDetails.contact_details?.form_title &&
+            ContactUsDetails.contact_details.form_title}
         </p>
         <div className={styles.xfhgjhusfgsd}>
             <div className="container">
@@ -286,10 +288,11 @@ export const ContactUs = () => {
                                            <div className={styles.dfdfg5www5}>
                                                 <select name="need_help" id="" value={inputs.need_help} className="form-select" onChange={handleChange}>
                                                     <option value="">Choose One..</option>
-                                                    <option value="Check the status of order">Check the status of order</option>
-                                                    <option value="Question about our producct">Question about our producct</option>
-                                                    <option value="Technical assistance">Technical assistance</option>
-                                                    <option value="Shiping information">Shiping information</option>
+                                                    {ContactUsDetails.contact_question?.map((item, index) => (
+                                                      <option key={index} value={item.question}>
+                                                        {item.question}
+                                                      </option>
+                                                    ))}
                                                 </select>
                                                 <p style={{ color: "red" }}>{errors.need_help}</p>
                                             </div>
