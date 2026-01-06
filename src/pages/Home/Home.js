@@ -464,7 +464,7 @@ export const Home = () => {
                       </div>
                       <div className="cfgncfgb sdfseeerrrr aedqeqweqqee">
                         <h4>{homepage?.data?.section9_title1}</h4>
-                        <p>{homepage?.data?.section9_description1}</p>
+                        <p className="mb-0">{homepage?.data?.section9_description1}</p>
                       </div>
                     </div>
                   {/* </Link> */}
@@ -481,7 +481,7 @@ export const Home = () => {
 
                       <div className="cfgncfgb sdfseeerrrr aedqeqweqqee">
                         <h4>{homepage?.data?.section9_title2}</h4>
-                        <p>{homepage?.data?.section9_description2}</p>
+                        <p className="mb-0">{homepage?.data?.section9_description2}</p>
                       </div>                  
                     </div>
                   {/* </Link> */}

@@ -286,6 +286,18 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   const [currency, Setcurrency] = useState([]);
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
 
+  useEffect(() => {
+    const handleCurrencyDropdownClose = () => {
+      setShowCurrencyDropdown(false);
+    }
+
+    document.body.addEventListener("click", handleCurrencyDropdownClose);
+
+    return () => {
+      document.body.removeEventListener("click", handleCurrencyDropdownClose);
+    }
+  }, []);
+
 
   useEffect(() => {
       const fetchMainCategory = async () => {
@@ -429,7 +441,10 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                           <div className="custom-currency-dropdown wlojdfiwejrower d-none position-relative">
                             <button
                                 className="currency-toggle-btn d-flex align-items-center"
-                                onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setShowCurrencyDropdown(prev => !prev);
+                                }}
                               >
                                 <span className="me-2">
                                   <img
@@ -450,7 +465,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                               </button>
 
                             {showCurrencyDropdown && (
-                              <div className="osjoidhwjiwer dwelorjwemr-res position-absolute bg-white shadow rounded-3 mt-2 p-2">
+                              <div onClick={(e) => e.stopPropagation()} className="osjoidhwjiwer dwelorjwemr-res position-absolute bg-white shadow rounded-3 mt-2 p-2">
                                 <div className="dmndfkswndfiofrsmk position-relative">
                                   <input type="text" placeholder="Search for a region" value={searchCurrency}
                                     onChange={(e) => setSearchCurrency(e.target.value)} className="form-control py-1" />
@@ -519,7 +534,10 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                           <div className="custom-currency-dropdown sfwedweweeqweqwe position-relative">
                             <button
                                 className="currency-toggle-btn d-flex align-items-center"
-                                onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setShowCurrencyDropdown(prev => !prev);
+                                }}
                               >
                                 <span className="me-2">
                                   <img
@@ -540,7 +558,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                               </button>
 
                             {showCurrencyDropdown && (
-                              <div className="osjoidhwjiwer position-absolute bg-white shadow rounded-3 mt-2 p-2">
+                              <div onClick={(e) => e.stopPropagation()} className="osjoidhwjiwer position-absolute bg-white shadow rounded-3 mt-2 p-2">
                                 <div className="dmndfkswndfiofrsmk position-relative">
                                   <input type="text" placeholder="Search for a region" value={searchCurrency}
                                     onChange={(e) => setSearchCurrency(e.target.value)} className="form-control py-1" />

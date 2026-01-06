@@ -75,7 +75,7 @@ header .header-top {
   border-bottom: 1px solid var(--light-background-color);
   box-shadow: rgba(0, 0, 0, 0.45) 0px 12px 20px -20px;
   position: relative;
-  z-index: 9;  
+  z-index: 9999;  
 }
 header .header-top .doeiwhrkwdeor{
   width: 11.32rem;
@@ -160,7 +160,7 @@ header .header-top .doewhruiwerwer_right ul li span {
   font-size: 0.8rem;
 }
 .header-main-wrapper{
-  width: 85%;
+  width: 80%;
   margin-inline: auto;
   display: flex;
   justify-content: space-between;
