@@ -9,6 +9,7 @@ const filterInitialState = {
     mainCategory: [],
     subCategory: [],
     filterCategory: [],
+    filterCategoryName: [],
     color: [],
     material: [],
     designer: [],    
@@ -82,8 +83,6 @@ export const FilterProvider = ({children}) => {
         });
     }
 
-    console.log(state.mainCategory)
-
 
     //sub category
 
@@ -109,8 +108,6 @@ export const FilterProvider = ({children}) => {
             return mainMatch && subMatch;
         });
     }
-
-    console.log(state.subCategory)
 
 
     
@@ -147,7 +144,44 @@ export const FilterProvider = ({children}) => {
         });
     }
 
-    console.log(state.filterCategory)
+
+
+    //filter category name
+
+    function setFilterCategoryName(filterCategoryName) {
+        dispatch({
+            type: "FILTER_CATEGORY_NAME",
+            payload: filterCategoryName.toLowerCase()
+        });
+    }
+
+    function filterFilterCategoryName(products) {
+        if (!state.filterCategoryName.length) {
+            return products;
+        }
+
+        return products.filter(product => {
+            const productCategories = product?.filter_categories;
+
+            if (!productCategories) return false;
+
+            if (typeof productCategories === "string") {
+            return productCategories
+                .toLowerCase()
+                .split(",")
+                .map(v => v.trim())
+                .some(cat => state.filterCategoryName.includes(cat));
+            }
+
+            if (Array.isArray(productCategories)) {
+            return productCategories
+                .map(v => v.toLowerCase())
+                .some(cat => state.filterCategoryName.includes(cat));
+            }
+
+            return false;
+        });
+    }
 
     
 
@@ -370,7 +404,7 @@ export const FilterProvider = ({children}) => {
         }
     }
 
-    console.log(state.sortBy)
+    // console.log(state.sortBy)
 
     
 
@@ -461,13 +495,15 @@ export const FilterProvider = ({children}) => {
                                             filterDesigner(
                                                 filterMaterial(
                                                     filterColor(
-                                                        filterFilterCategory(
-                                                            filterSubCategory(
-                                                                filterMainCategory(
-                                                                    filterPrice(state.productList)
+                                                        filterFilterCategoryName(
+                                                            filterFilterCategory(
+                                                                filterSubCategory(
+                                                                    filterMainCategory(
+                                                                        filterPrice(state.productList)
+                                                                    )
                                                                 )
                                                             )
-                                                        )
+                                                        )                                                        
                                                     )
                                                 )
                                             )
@@ -500,6 +536,8 @@ export const FilterProvider = ({children}) => {
         setSubCategory,
         filterCtgry: state.filterCategory,
         setFilterCategory,
+        filterCategoryName: state.filterCategoryName,
+        setFilterCategoryName,
         color: state.color,
         setColor,
         material: state.material,

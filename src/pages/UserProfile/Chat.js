@@ -13,7 +13,7 @@ export const Chat = () => {
       // eslint-disable-next-line
     const [loadingMessages, setLoadingMessages] = useState(false);
 
-    console.log(messages)
+    // console.log(messages)
 
 
     useEffect(() => {

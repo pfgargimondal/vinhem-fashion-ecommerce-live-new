@@ -57,6 +57,14 @@ export const filterReducer = (state, action) => {
             };
         }
 
+        case "FILTER_CATEGORY_NAME":
+            return {
+                ...state,
+                filterCategoryName: state.filterCategoryName.includes(action.payload)
+                ? state.filterCategoryName.filter(item => item !== action.payload)
+                : [...state.filterCategoryName, action.payload],
+            };
+
         case "COLOR": {
             const clickedColor = payload.color;
             if (!clickedColor) return state;
@@ -214,6 +222,7 @@ export const filterReducer = (state, action) => {
                 mainCategory: [],
                 subCategory: [],
                 filterCategory: [],
+                filterCategoryName: [],
                 color: [],
                 material: [],
                 designer: [],    

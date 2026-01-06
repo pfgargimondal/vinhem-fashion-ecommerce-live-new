@@ -27,7 +27,7 @@ export const ContactUs = () => {
     fetchContactUsData();
   }, []);
 
-  console.log(ContactUsDetails);
+  // console.log(ContactUsDetails);
 
   const fileInputRef = useRef(null);
 

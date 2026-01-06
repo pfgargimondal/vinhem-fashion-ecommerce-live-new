@@ -47,7 +47,7 @@ export const ChatProfileDetails = ({ setChatProfileDetailsShow }) => {
       setMessages(prev => [...prev, botReply]);
 
     } catch (error) {
-      console.log("Chat error:", error);
+      // console.log("Chat error:", error);
 
       setMessages(prev => [
         ...prev,

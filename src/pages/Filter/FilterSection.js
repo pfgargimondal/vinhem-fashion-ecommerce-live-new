@@ -8,16 +8,15 @@ import Tab from 'react-bootstrap/Tab';
 
 
 export default function FilterSection({ setResFltrMenu, allFilterMappingdata, filterCategories, category, subcategory }) {
-  const { minPrice, maxPrice, setPrice, setMainCategory, setSubCategory, setFilterCategory, 
-    color, setColor, setMaterial, setDesigner, setPlusSize, setOccasion, setSize, setCelebrity, setShippingTime, resetFilter } = useFilter();
+  const { minPrice, maxPrice, setPrice, setMainCategory, setSubCategory, setFilterCategory, setFilterCategoryName, color, setColor, setMaterial, setDesigner, setPlusSize, setOccasion, setSize, setCelebrity, setShippingTime, resetFilter } = useFilter();
   const [selectedTheme, setSelectedTheme] = useState("");
   const [sbctgry, setSbctgry] = useState(null);
   const [insdSbctgry, setInsdSbctgry] = useState(null);
   const [expandedFilters, setExpandedFilters] = useState({});
 
-  console.log(filterCategories, 'filterCategories');
+  // console.log(filterCategories, 'filterCategories');
 
-  console.log(category);
+  // console.log(category);
 
 
   const toggleFilterExpand = (filterOption) => {
@@ -27,7 +26,7 @@ export default function FilterSection({ setResFltrMenu, allFilterMappingdata, fi
     }));
   };
 
-  console.log(allFilterMappingdata);
+  // console.log(allFilterMappingdata, "hi");
   
 
   const toTitleCase = (str = "") =>
@@ -67,6 +66,10 @@ export default function FilterSection({ setResFltrMenu, allFilterMappingdata, fi
 
       case "shipping_time":
         setShippingTime(value);
+        break;
+
+      case "filter_category_name":
+        setFilterCategoryName(value);
         break;
 
       default:
@@ -414,7 +417,8 @@ const handleMaxEnter = (e) => {
           return (
             <div key={FilterMappingdata.id} className="dkewjriwehrnjhweijrwer mb-4">
               <div className="disenihrenjr mb-3 pb-3 d-flex align-items-center justify-content-between">
-                <h5 className="mb-0">{FilterMappingdata?.filter_option === 'filter_category_name'
+                <h5 className="mb-0">
+                  {FilterMappingdata?.filter_option === 'filter_category_name'
                     ? 'Categories (F)'
                     : toTitleCase(FilterMappingdata?.filter_option || '')
                   }
@@ -457,30 +461,37 @@ const handleMaxEnter = (e) => {
                   })
                 ) : (
 
-                  FilterMappingdata.filter_values.split(",").slice(0, valuesToShow).map((item, indexdsvd) => (
-                    <div key={`${FilterMappingdata.id}-${indexdsvd}`} className="radio-wrapper-5 px-2 mb-2">
-                      <div className="cdwehjirnweijrowejrowejr">
-                        <div className="checkbox-wrapper-33">
-                          <label htmlFor={`${FilterMappingdata.id}-${indexdsvd}`} className="checkbox">
-                            <input
-                              id={`${FilterMappingdata.id}-${indexdsvd}`}
-                              name={FilterMappingdata.filter_option}
-                              value={item.trim().toLowerCase()}
-                              onChange={() => handleSelect(FilterMappingdata.filter_option, item.trim().toLowerCase())}
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
-                            <span className="checkbox__symbol">
-                              <svg aria-hidden="true" className="icon-checkbox" width="28px" height="28px" viewBox="0 0 28 28" version="1" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
-                            <p className="checkbox__textwrapper">{item.trim()}</p>
-                          </label>
+                  FilterMappingdata.filter_values.split(",").slice(0, valuesToShow).map((item, indexdsvd) => {
+                    const safeId = `${FilterMappingdata.filter_option}-${item
+                      .trim()
+                      .replace(/\s+/g, "-")
+                      .toLowerCase()}-${indexdsvd}`;
+
+                    return (
+                      <div key={`${FilterMappingdata.id}-${indexdsvd}`} className="radio-wrapper-5 px-2 mb-2">
+                        <div className="cdwehjirnweijrowejrowejr">
+                          <div className="checkbox-wrapper-33">
+                            <label htmlFor={safeId} className="checkbox">
+                              <input
+                                id={safeId}
+                                name={FilterMappingdata.filter_option}
+                                value={item.trim().toLowerCase()}
+                                onChange={() => handleSelect(FilterMappingdata.filter_option, item.trim().toLowerCase())}
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
+                              <span className="checkbox__symbol">
+                                <svg aria-hidden="true" className="icon-checkbox" width="28px" height="28px" viewBox="0 0 28 28" version="1" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
+                              <p className="checkbox__textwrapper">{item.trim()}</p>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    )
+                  })
                 )}
               </div>
 
@@ -712,29 +723,36 @@ const handleMaxEnter = (e) => {
                             );
                           })
                         ) : (
-                          FilterMappingdata.filter_values.split(",").map((item, indexdsvd) => (
-                            <div key={`${dvbfbxdfbg}-${indexdsvd}`} className="radio-wrapper-5 px-2 mb-3">
-                              <div className="cdwehjirnweijrowejrowejr">
-                                <div className="checkbox-wrapper-33">
-                                  <label htmlFor={`${dvbfbxdfbg}-${indexdsvd}`} className="checkbox">
-                                    <input
-                                      id={`${dvbfbxdfbg}-${indexdsvd}`}
-                                      name={FilterMappingdata.filter_option}
-                                      onChange={() => handleSelect(FilterMappingdata.filter_option, item.trim())}                            
-                                      className="checkbox__trigger visuallyhidden" type="checkbox" />
-                                    
-                                    <span className="checkbox__symbol">
-                                      <svg aria-hidden="true" className="icon-checkbox" width="28px" height="28px" viewBox="0 0 28 28" version="1" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4 14l8 7L24 7"></path>
-                                      </svg>
-                                    </span>
-                                    
-                                    <p className="checkbox__textwrapper">{item.trim()}</p>
-                                  </label>
+                          FilterMappingdata.filter_values.split(",").map((item, indexdsvd) => {
+                            const safeId = `${FilterMappingdata.filter_option}-${item
+                              .trim()
+                              .replace(/\s+/g, "-")
+                              .toLowerCase()}-${indexdsvd}`;
+                            
+                              return (
+                                <div key={`${dvbfbxdfbg}-${indexdsvd}`} className="radio-wrapper-5 px-2 mb-3">
+                                  <div className="cdwehjirnweijrowejrowejr">
+                                    <div className="checkbox-wrapper-33">
+                                      <label htmlFor={`${dvbfbxdfbg}-${indexdsvd}`} className="checkbox">
+                                        <input
+                                          id={`${dvbfbxdfbg}-${indexdsvd}`}
+                                          name={FilterMappingdata.filter_option}
+                                          onChange={() => handleSelect(FilterMappingdata.filter_option, item.trim())}                            
+                                          className="checkbox__trigger visuallyhidden" type="checkbox" />
+                                        
+                                        <span className="checkbox__symbol">
+                                          <svg aria-hidden="true" className="icon-checkbox" width="28px" height="28px" viewBox="0 0 28 28" version="1" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 14l8 7L24 7"></path>
+                                          </svg>
+                                        </span>
+                                        
+                                        <p className="checkbox__textwrapper">{item.trim()}</p>
+                                      </label>
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          ))
+                              )
+                          })
                         )}
                       </div>
                     </Tab.Pane>

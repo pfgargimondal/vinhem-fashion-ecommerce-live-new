@@ -9,7 +9,7 @@ export const NewIn = () => {
   const [resFltrMenu, setResFltrMenu] = useState(false);
 
   useEffect(() => {
-    console.log('Selected Theme:', selectedTheme);
+    // console.log('Selected Theme:', selectedTheme);
   }, [selectedTheme]);
 
 
