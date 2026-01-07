@@ -441,6 +441,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                           <div className="custom-currency-dropdown wlojdfiwejrower d-none position-relative">
                             <button
                                 className="currency-toggle-btn d-flex align-items-center"
+
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setShowCurrencyDropdown(prev => !prev);
@@ -536,7 +537,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                                 className="currency-toggle-btn d-flex align-items-center"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  setShowCurrencyDropdown(prev => !prev);
+                                  setShowCurrencyDropdown(!showCurrencyDropdown);
                                 }}
                               >
                                 <span className="me-2">
@@ -633,9 +634,9 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                             </>
                           ):(
                             <>
-                              <li className="DRhgbsxfnhbf"><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li>
+                              <li onClick={handleLoginModal} className="DRhgbsxfnhbf"><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li>
                               <li className="infrm-menu-divider">|</li>
-                              <li><i class="bi bi-handbag"></i> Bag <span>0</span></li>
+                              <li onClick={handleLoginModal}><i class="bi bi-handbag"></i> Bag <span>0</span></li>
                             </>
                           )}
 
