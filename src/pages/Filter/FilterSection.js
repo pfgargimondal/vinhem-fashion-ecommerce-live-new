@@ -724,6 +724,7 @@ const handleMaxEnter = (e) => {
                           })
                         ) : (
                           FilterMappingdata.filter_values.split(",").map((item, indexdsvd) => {
+                            // eslint-disable-next-line
                             const safeId = `${FilterMappingdata.filter_option}-${item
                               .trim()
                               .replace(/\s+/g, "-")
