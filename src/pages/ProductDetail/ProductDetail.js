@@ -830,6 +830,9 @@ export const ProductDetail = () => {
                                   "encoded_image_url_4",
                                   "encoded_image_url_5",
                                   "encoded_image_url_6",
+                                  "encoded_image_url_7",
+                                  "encoded_image_url_8",
+                                  "encoded_image_url_9",
                                 ].map((key, index) => {
                                   const img =
                                     productDetails?.data?.product_image?.[key];
@@ -977,6 +980,9 @@ export const ProductDetail = () => {
                                   "encoded_image_url_4",
                                   "encoded_image_url_5",
                                   "encoded_image_url_6",
+                                  "encoded_image_url_7",
+                                  "encoded_image_url_8",
+                                  "encoded_image_url_9",
                                 ].map((key, index) => {
                                   const img =
                                     productDetails?.data?.product_image?.[key];
@@ -2860,6 +2866,9 @@ export const ProductDetail = () => {
                       "encoded_image_url_4",
                       "encoded_image_url_5",
                       "encoded_image_url_6",
+                      "encoded_image_url_7",
+                      "encoded_image_url_8",
+                      "encoded_image_url_9",
                     ].map((key, index) => {
                       const img = productDetails?.data?.product_image?.[key];
                       const tabKey = `img-${index + 1}`;
@@ -2897,6 +2906,9 @@ export const ProductDetail = () => {
                     "encoded_image_url_4",
                     "encoded_image_url_5",
                     "encoded_image_url_6",
+                    "encoded_image_url_7",
+                    "encoded_image_url_8",
+                    "encoded_image_url_9",
                   ].map((key, index) => {
                     const img = productDetails?.data?.product_image?.[key];
                     const tabKey = `img-${index + 1}`;
