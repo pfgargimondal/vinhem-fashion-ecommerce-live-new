@@ -12,13 +12,12 @@ import "swiper/css/pagination"; // if using pagination
 import { FooterTopComponent } from "../../components/Others/FooterTopComponent";
 // import { Link } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
+import { Link } from "react-router-dom";
 
 export const Testimonial = () => {
     const [loading, setLoading] = useState(false);
     const [TestimonialDetails, setTestimonialDetails] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-
-    const testimonialPerPage = 24;
 
     useEffect(() => {
         const fetchTestimonial = async () => {
@@ -32,17 +31,17 @@ export const Testimonial = () => {
                 setLoading(false);
             }
         };
-
         fetchTestimonial();
     }, []);
 
     // ✅ SAFE DEFAULT (prevents undefined crash)
     const testimonials = TestimonialDetails?.testimonial_content || [];
 
-    const totalPages = Math.ceil(testimonials.length / testimonialPerPage);
+    const ITEMS_PER_PAGE = 6;
+    const totalPages = Math.ceil(testimonials.length / ITEMS_PER_PAGE);
 
-    const indexOfLastTestimonial = currentPage * testimonialPerPage;
-    const indexOfFirstTestimonial = indexOfLastTestimonial - testimonialPerPage;
+    const indexOfLastTestimonial = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstTestimonial = indexOfLastTestimonial - ITEMS_PER_PAGE;
 
     const currentTestimonial = testimonials.slice(
         indexOfFirstTestimonial,
@@ -52,16 +51,19 @@ export const Testimonial = () => {
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     const handlePrev = () => {
-        if (currentPage > 1) {
-            setCurrentPage(prev => prev - 1);
-        }
+     setCurrentPage((prev) => Math.max(prev - 1, 1));
     };
 
     const handleNext = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(prev => prev + 1);
-        }
+     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     };
+
+    const [expandedIndex, setExpandedIndex] = useState(null);
+
+    const toggleExpand = (index) => {
+        setExpandedIndex(expandedIndex === index ? null : index);
+    };
+    
 
     if (loading) {
         return <Loader />;
@@ -255,8 +257,6 @@ export const Testimonial = () => {
 
                         </div>
 
-
-
                         <div class="fgdfvbdf">
                             <div class="row">
                                 <div class="col-lg-3">
@@ -297,10 +297,6 @@ export const Testimonial = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-
 
                                         </div>
 
@@ -627,66 +623,87 @@ export const Testimonial = () => {
                 </div>
             </div>
 
-
             <div className="diewrjweorwer mt-5">
                 <div className="container-fluid">
                     <h2 className="text-center">What Our Customers Say About Us</h2>
 
                     <div className="doewjorjwoejrwer mt-3">
                         <div className="row">
-                            {currentTestimonial?.map((contentVal) => (
-                                <div className="col-lg-4 mb-3">
-                                    <div className="oeijmewrwer bg-white d-flex p-2">
-                                        <div className="col-lg-3">
-                                            <div className="djewojewr_left">
-                                                <img src={`${TestimonialDetails?.testimonial_url}/${contentVal?.image}`} alt="" />                                    
-                                            </div>
-                                        </div>
-
-                                        <div className="col-lg-9">
-                                            <div className="djewojewr_right ps-3">
-                                                <div className="deiwuiwehrjwer">
-                                                    <div className="doiwejrwer d-flex justify-content-between">
-                                                        <div className="doiwejjrwerwer d-flex align-items-center">
-                                                            <div className="dinewjhwer me-1 text-center text-white">{contentVal?.name?.charAt(0).toUpperCase()}</div>
-
-                                                            <div className="doinweiewrwer">
-                                                                <h5 className="mb-1">{contentVal.name}</h5>
-
-                                                                <h6 className="mb-0">from {contentVal.location}</h6>
-                                                            </div>
-                                                        </div>
-
-                                                        <p className="sadfdtwrwrwr mb-0">
-                                                            {[...Array(5)].map((_, index) => (
-                                                                <i
-                                                                key={index}
-                                                                className={`fa-solid fa-star me-1 ${
-                                                                    index < contentVal.testimonial_rating ? "text-warning" : "text-secondary"
-                                                                }`}
-                                                                ></i>
-                                                            ))}
-                                                        </p>
-                                                    </div>  
-
-                                                    <h5 className="duiwehrwerwer my-2">{contentVal.head_title}</h5>                              
-
-                                                    <p className="sftgrewrrr mb-0">{contentVal.description}</p>
+                            {currentTestimonial?.map((contentVal, index) => (
+                                
+                                    <div className="col-lg-4 mb-3">
+                                        <Link to={contentVal.link_url}>
+                                        <div className="oeijmewrwer d-flex p-2">
+                                            <div className="col-lg-3">
+                                                <div className="djewojewr_left">
+                                                    <img src={`${TestimonialDetails?.testimonial_url}/${contentVal?.image}`} alt="" />                                    
                                                 </div>
+                                            </div>
 
-                                                <h6 className="dwerfqwer mb-0">
-                                                    {new Date(contentVal.testimonial_date)
-                                                    .toLocaleDateString("en-US", {
-                                                        month: "long",
-                                                        day: "2-digit",
-                                                        year: "numeric",
-                                                    })
-                                                    .replace(",", "")}
-                                                </h6>
+                                            <div className="col-lg-9">
+                                                <div className="djewojewr_right ps-5">
+                                                    <div className="deiwuiwehrjwer">
+                                                        <div className="doiwejrwer d-flex justify-content-between">
+                                                            <div className="doiwejjrwerwer d-flex align-items-center">
+                                                                <div className="dinewjhwer me-1 text-center text-white">{contentVal?.name?.charAt(0).toUpperCase()}</div>
+
+                                                                <div className="doinweiewrwer">
+                                                                    <h5 className="mb-1">{contentVal.name}</h5>
+
+                                                                    <h6 className="mb-0">from {contentVal.location}</h6>
+                                                                </div>
+                                                            </div>
+
+                                                            <p className="sadfdtwrwrwr mb-0">
+                                                                {[...Array(5)].map((_, index) => (
+                                                                    <i
+                                                                    key={index}
+                                                                    className={`fa-solid fa-star me-1 ${
+                                                                        index < contentVal.testimonial_rating ? "text-warning" : "text-secondary"
+                                                                    }`}
+                                                                    ></i>
+                                                                ))}
+                                                            </p>
+                                                        </div>  
+
+                                                        <h5 className="duiwehrwerwer my-2">{contentVal.head_title}</h5>                              
+
+                                                        <p
+                                                            className={`sftgrewrrr mb-0 ${
+                                                                expandedIndex === index ? "expanded" : ""
+                                                            }`}
+                                                        >
+                                                            {contentVal.description}
+                                                        </p>
+
+                                                        {contentVal.description.length > 120 && (
+                                                            <div className="dewoihrwer text-end mt-1">
+                                                                <span
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        toggleExpand(index);
+                                                                    }}>
+                                                                    {expandedIndex === index ? "See Less" : "See More…"}
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    <h6 className="dwerfqwer mb-0">
+                                                        {new Date(contentVal.testimonial_date)
+                                                        .toLocaleDateString("en-US", {
+                                                            month: "long",
+                                                            day: "2-digit",
+                                                            year: "numeric",
+                                                        })
+                                                        .replace(",", "")}
+                                                    </h6>
+                                                </div>
                                             </div>
                                         </div>
+                                        </Link>
                                     </div>
-                                </div>
                             ))}
 
                             {/* <div className="col-lg-4 mb-3">
@@ -733,467 +750,7 @@ export const Testimonial = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 mb-3">
-                                <div className="oeijmewrwer bg-white d-flex align-items-center p-2">
-                                    <div className="col-lg-3">
-                                        <div className="djewojewr_left">
-                                            <img src="./images/2.jpg" alt="" />                                    
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-9">
-                                        <div className="djewojewr_right ps-3">
-                                            <div className="deiwuiwehrjwer">
-                                                <div className="doiwejrwer d-flex justify-content-between">
-                                                    <div className="doiwejjrwerwer d-flex align-items-center">
-                                                        <div className="dinewjhwer me-1 text-center text-white">S</div>
-
-                                                        <div className="doinweiewrwer">
-                                                            <h5 className="mb-1">Shreya Agarwal</h5>
-
-                                                            <h6 className="mb-0">from India</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <p className="sadfdtwrwrwr mb-0">
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-
-                                                        <i class="fa-solid me-1 fa-star"></i>
-                                                    </p>
-                                                </div>  
-
-                                                <h5 className="duiwehrwerwer my-2">Loved the outfit.</h5>                              
-
-                                                <p className="sftgrewrrr mb-0">Loved the outfit... material is really good and the fit is perfect</p>
-                                            </div>
-
-                                            <h6 className="dwerfqwer mb-0">December 16 2025</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
+                            </div>*/}
                         </div>
                     </div>
                     {TestimonialDetails?.testimonial_content?.length > 0 && (
