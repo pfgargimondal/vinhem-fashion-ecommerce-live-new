@@ -418,9 +418,16 @@ const handleMaxEnter = (e) => {
             <div key={FilterMappingdata.id} className="dkewjriwehrnjhweijrwer mb-4">
               <div className="disenihrenjr mb-3 pb-3 d-flex align-items-center justify-content-between">
                 <h5 className="mb-0">
-                  {FilterMappingdata?.filter_option === 'filter_category_name'
+                  {/* {FilterMappingdata?.filter_option === 'filter_category_name'
                     ? 'Categories (F)'
                     : toTitleCase(FilterMappingdata?.filter_option || '')
+                  } */}
+                  {
+                    FilterMappingdata?.filter_option === 'filter_category_name'
+                      ? 'Categories (F)'
+                      : FilterMappingdata?.filter_option === 'celebrity'
+                      ? 'Styles'
+                      : toTitleCase(FilterMappingdata?.filter_option || '')
                   }
                 </h5>
                 <i className="bi bi-chevron-down"></i>

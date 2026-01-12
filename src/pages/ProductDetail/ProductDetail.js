@@ -317,6 +317,7 @@ export const ProductDetail = () => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
+  const [sizeAccordingPrice, setSizeAccordingPrice] = useState(0);
 
   const [selectedStitchOption, setSelectedStitchOption] = useState("");
   const [isTurbanChecked, setIsTurbanChecked] = useState(false);
@@ -386,7 +387,7 @@ export const ProductDetail = () => {
     } else {
       finalPrice = sellingPrice;
     }
-
+    setSizeAccordingPrice(finalPrice);
     setSelectedPrice(finalPrice);
   };
 
@@ -714,6 +715,7 @@ export const ProductDetail = () => {
       weekday: "long",
       day: "numeric",
       month: "long",
+      year: "numeric",
     });
 
     setDeliveryMsg(`Delivering to this location by ${formattedDate}`);
@@ -1132,7 +1134,10 @@ export const ProductDetail = () => {
                         <h4 className="d-flex mb-1">
                           <span className="discounted-price d-flex align-items-center">
                             MRP :{" "}
-                            {formatPrice(productDetails?.data?.selling_price)}
+                            {/* {formatPrice(productDetails?.data?.selling_price)} */}
+                            {sizeAccordingPrice === 0 ? (formatPrice(productDetails?.data?.selling_price))
+                            :(formatPrice(sizeAccordingPrice))
+                            }
                           </span>
 
                           <span className="gdfg55 d-flex align-items-center ms-2">
@@ -1303,7 +1308,7 @@ export const ProductDetail = () => {
                               </div>
                             </div>
 
-                            <hr class="mt-0" style={{ width: "86%" }} />
+                            <hr class="mt-0" style={{ width: "91%" }} />
 
                             <div className="d-flex align-items-center sdfasdctgerrrrwe mb-3">
                               <div className="select-form-drpdwn me-3">
@@ -1820,7 +1825,7 @@ export const ProductDetail = () => {
                             </span>
                           </h4>
 
-                          <p class="mb-0">(Incl. services)</p>
+                          <p class="mb-0">(Inclusive of all services)</p>
                         </div>
 
                         <div className="dfgndfjhgdf">
@@ -2349,7 +2354,7 @@ export const ProductDetail = () => {
                     <div className="odnwejihrwerwer sticky-top mt-5">
                       <div className="dowehjkrhweirwer mb-5">
                         <div className="podmkwejrwer dowehkrhweor">
-                          <h4 className="mb-0">Matching Products</h4>
+                          <h4 className="mb-0" style={{textAlign: "center"}}>Matching Products</h4>
                         </div>
 
                         <hr />
@@ -2584,7 +2589,7 @@ export const ProductDetail = () => {
             : "size-guide-modal size-guide-modal-hide"
         } position-fixed bg-white`}
       >
-        <div className="size-guide-modal-header d-flex align-items-center justify-content-between px-4 py-3">
+        <div className="size-guide-modal-header d-flex align-items-center justify-content-end px-4 py-3">
           {productDetails?.data?.product_category?.toLowerCase() ===
             "accessories" && (
             <h4 className="mb-1">

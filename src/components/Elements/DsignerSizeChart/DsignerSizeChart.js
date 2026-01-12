@@ -34,7 +34,7 @@ export const DesignerSizeChart = ({ productDetails }) => {
                 </div>
 
                 <div className="oidahijeoijer d-flex align-items-center">
-                  <p className="mb-0">in</p>
+                  <p className="mb-0">In</p>
 
                   <div className="checkbox-wrapper-2 mx-1">
                     <input
@@ -45,7 +45,7 @@ export const DesignerSizeChart = ({ productDetails }) => {
                     />
                   </div>
 
-                  <p className="mb-0">cms</p>
+                  <p className="mb-0">Cm</p>
                 </div>
               </div>
               <div className="jnmkjhihewirwer mt-3">
@@ -99,7 +99,7 @@ export const DesignerSizeChart = ({ productDetails }) => {
                 </div>
 
                 <div className="oidahijeoijer d-flex align-items-center">
-                  <p className="mb-0">in</p>
+                  <p className="mb-0">In</p>
 
                   <div className="checkbox-wrapper-2 mx-1">
                     <input
@@ -110,7 +110,7 @@ export const DesignerSizeChart = ({ productDetails }) => {
                     />
                   </div>
 
-                  <p className="mb-0">cms</p>
+                  <p className="mb-0">Cm</p>
                 </div>
               </div>
               <div className="jnmkjhihewirwer mt-3">
@@ -122,24 +122,24 @@ export const DesignerSizeChart = ({ productDetails }) => {
                           <th>Size</th>
                           <th>UK</th>
                           <th>US</th>
-                          <th>Bust ({isCms ? "cm" : "in"})</th>
-                          <th>Waist ({isCms ? "cm" : "in"})</th>
-                          <th>Hip ({isCms ? "cm" : "in"})</th>
+                          <th>Bust ({isCms ? "Cm" : "In"})</th>
+                          <th>Waist ({isCms ? "Cm" : "In"})</th>
+                          <th>Hip ({isCms ? "Cm" : "In"})</th>
 
                           {/* Dynamic headers for extra fields */}
                           {firstSizeChart?.extra1 && (
                             <th>
-                              {firstSizeChart.extra1} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra1} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra2 && (
                             <th>
-                              {firstSizeChart.extra2} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra2} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra3 && (
                             <th>
-                              {firstSizeChart.extra3} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra3} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                         </tr>
@@ -198,25 +198,25 @@ export const DesignerSizeChart = ({ productDetails }) => {
                           <th>Size</th>
                           <th>UK</th>
                           <th>US</th>
-                          <th>Chest ({isCms ? "cm" : "in"})</th>
-                          <th>Shoulder ({isCms ? "cm" : "in"})</th>
-                          <th>Waist ({isCms ? "cm" : "in"})</th>
-                          <th>Length ({isCms ? "cm" : "in"})</th>
+                          <th>Chest ({isCms ? "Cm" : "In"})</th>
+                          <th>Shoulder ({isCms ? "Cm" : "In"})</th>
+                          <th>Waist ({isCms ? "Cm" : "In"})</th>
+                          <th>Length ({isCms ? "Cm" : "In"})</th>
 
                           {/* Dynamic headers for extra fields */}
                           {firstSizeChart?.extra1 && (
                             <th>
-                              {firstSizeChart.extra1} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra1} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra2 && (
                             <th>
-                              {firstSizeChart.extra2} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra2} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra3 && (
                             <th>
-                              {firstSizeChart.extra3} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra3} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                         </tr>
@@ -276,24 +276,24 @@ export const DesignerSizeChart = ({ productDetails }) => {
                         <tr>
                           <th>Size</th>
                           <th>Age</th>
-                          <th>Top Chest ({isCms ? "cm" : "in"})</th>
-                          <th>Top Length ({isCms ? "cm" : "in"})</th>
-                          <th>Bottom Length ({isCms ? "cm" : "in"})</th>
+                          <th>Top Chest ({isCms ? "Cm" : "In"})</th>
+                          <th>Top Length ({isCms ? "Cm" : "In"})</th>
+                          <th>Bottom Length ({isCms ? "Cm" : "In"})</th>
 
                           {/* Dynamic headers for extra fields */}
                           {firstSizeChart?.extra1 && (
                             <th>
-                              {firstSizeChart.extra1} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra1} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra2 && (
                             <th>
-                              {firstSizeChart.extra2} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra2} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                           {firstSizeChart?.extra3 && (
                             <th>
-                              {firstSizeChart.extra3} ({isCms ? "cm" : "in"})
+                              {firstSizeChart.extra3} ({isCms ? "Cm" : "In"})
                             </th>
                           )}
                         </tr>
