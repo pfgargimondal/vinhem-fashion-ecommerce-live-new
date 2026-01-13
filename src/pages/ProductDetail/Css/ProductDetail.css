@@ -1787,7 +1787,7 @@ p.sidifsdiyhr{
 }
 
 .small-image-arrow{
-  right: 38%;
+  right: 50%;
   transform: translateX(50%);
   z-index: 999;
   cursor: pointer;
@@ -1825,4 +1825,12 @@ p.sidifsdiyhr{
   transform: scale(1.1);
   transition: 0.1s ease-in-out;
   cursor: pointer;
+}
+
+.doenwkjriwerwer{
+  transform: translateY(0.9rem);
+}
+
+.coisdefisdhifhsdjifjhosd .swiper-slide{
+  height: auto !important;
 }

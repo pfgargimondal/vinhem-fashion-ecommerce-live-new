@@ -2372,7 +2372,7 @@ export const ProductDetail = () => {
                             ]}
                             direction="vertical"
                             slidesPerView={4}
-                            spaceBetween={30}
+                            spaceBetween={15}
                             loop={true}
                             mousewheel={true}
                             pagination={{ clickable: true }}
