@@ -1,12 +1,36 @@
 @media only screen and (min-width: 3001px){
     .small-image-tabs .nav-item {
-        min-height: 173px;
-        max-height: 173px;
+        min-height: 120px;
+        max-height: 120px;
     }
 
     .small-image-tabs .nav-item img,
     .small-image-tabs .nav-item video {
-        max-height: 153px;
+        max-height: 120px;
+    }
+
+    .zoom-gallery-modal .small-image-tabs .nav-item{
+        min-height: 135px;
+        max-height: 135px;
+        margin: 1rem 1.6rem;
+    }
+
+    .zoom-gallery-modal .nav.flex-column {
+        overflow-y: auto;
+        max-height: 79vh;
+        overflow-x: hidden;
+        display: inherit;
+    }
+
+    .zoom-gallery-modal .small-image-tabs{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .zoom-gallery-modal .nav.flex-column {
+        max-height: 79vh;
+        margin-top: 0;
     }
 }
 
@@ -16,13 +40,34 @@
 
 @media only screen and (max-width: 3000px){
     .small-image-tabs .nav-item {
-        min-height: 173px;
-        max-height: 173px;
+        min-height: 120px;
+        max-height: 120px;
     }
 
     .small-image-tabs .nav-item img,
     .small-image-tabs .nav-item video {
         max-height: 153px;
+    }
+
+    .zoom-gallery-modal .small-image-tabs .nav-item{
+        min-height: 135px;
+        max-height: 135px;
+        margin: 1rem 1.6rem;
+    }
+
+    .zoom-gallery-modal .nav.flex-column {
+        max-height: 79vh;
+        margin-top: 0;
+    }
+
+    .zoom-gallery-modal .small-image-tabs{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .zoom-gallery-modal .nav.flex-column {
+        max-height: 79vh;
     }
 }
 
@@ -32,13 +77,30 @@
 
 @media only screen and (max-width: 2550px){
     .small-image-tabs .nav-item {
-        min-height: 173px;
-        max-height: 173px;
+        min-height: 120px;
+        max-height: 120px;
     }
 
     .small-image-tabs .nav-item img,
     .small-image-tabs .nav-item video {
-        max-height: 153px;
+        max-height: 135px;
+    }
+
+    .zoom-gallery-modal .small-image-tabs .nav-item{
+        min-height: 135px;
+        max-height: 135px;
+        margin: 1rem 1.6rem;
+    }
+
+    .zoom-gallery-modal .nav.flex-column {
+        max-height: 79vh;
+        margin-top: 0;
+    }
+
+    .zoom-gallery-modal .small-image-tabs{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 

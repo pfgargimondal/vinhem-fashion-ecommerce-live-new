@@ -810,7 +810,7 @@ export const ProductDetail = () => {
                       >
                         <Row>
                           <Col
-                            xs={3}
+                            xs={2}
                             className="small-image-tabs pe-0 position-relative"
                           >
                             {productDetails?.data?.product_image
@@ -900,7 +900,7 @@ export const ProductDetail = () => {
                             )}
                           </Col>
 
-                          <Col xs={9} className="large-image-tab">
+                          <Col xs={10} className="large-image-tab">
                             <div className="doerfkwerewrewr position-relative">
                               {/* <Tab.Content>
                               {productDetails?.data?.product_image?.encoded_image_url_1 && (
@@ -1273,8 +1273,8 @@ export const ProductDetail = () => {
                           "Ready To Wear" && (
                           <div className="jlksdeflksdfk">
                             <div className="d-flex align-items-center justify-content-between mb-2">
-                              <label className="form-label mb-0">
-                                <b>Select Your Size</b>
+                              <label className="form-label asdadadwdwdadad mb-0">
+                                <h4>Select Your Size</h4>
                               </label>
 
                               <div className="dfhdfhd pe-5">
@@ -1310,8 +1310,8 @@ export const ProductDetail = () => {
 
                             <hr class="mt-0" style={{ width: "91%" }} />
 
-                            <div className="d-flex align-items-center sdfasdctgerrrrwe mb-3">
-                              <div className="select-form-drpdwn me-3">
+                            <div className="d-flex align-items-center justify-content-between sdfasdctgerrrrwe mb-3">
+                              <div className="select-form-drpdwn weqwthyuytredfgw me-3">
                                 <div className="dgndfjgdf">
                                   <select
                                     name="product_size"
@@ -1429,7 +1429,7 @@ export const ProductDetail = () => {
                               handleQuantitySelect(Number(e.target.value))
                             }
                             disabled={!availableQty}
-                            className="form-select select-form-drpdwn"
+                            className="form-select weqwthyuytredfgw select-form-drpdwn"
                           >
                             {availableQty > 0 ? (
                               Array.from({ length: availableQty }, (_, i) => (
@@ -1495,7 +1495,7 @@ export const ProductDetail = () => {
                               </div>
 
                               <div className="slkdnfkmslkmr d-flex align-items-center">
-                                <div className="select-form-drpdwn me-3">
+                                <div className="select-form-drpdwn dfgsfsfggfrfreerr me-3">
                                   <select
                                     name="product_turbanSize"
                                     className="form-select"
@@ -1629,7 +1629,7 @@ export const ProductDetail = () => {
                               </div>
 
                               <div className="slkdnfkmslkmr d-flex align-items-center">
-                                <div className="select-form-drpdwn me-3">
+                                <div className="select-form-drpdwn dfgsfsfggfrfreerr me-3">
                                   <select
                                     name="product_mojriSize"
                                     className="form-select"
@@ -1815,7 +1815,7 @@ export const ProductDetail = () => {
                         </div>
                       )}
 
-                      <div className="dowejkrnwerwer d-flex align-items-center mt-4">
+                      <div className="dowejkrnwerwer justify-content-between d-flex align-items-center mt-4">
                         <div className="doenwkjriwerwer">
                           <h4 className="mb-2 me-2">
                             You Pay :&nbsp;
@@ -1828,7 +1828,7 @@ export const ProductDetail = () => {
                           <p class="mb-0">(Inclusive of all services)</p>
                         </div>
 
-                        <div className="dfgndfjhgdf">
+                        <div className="dfgndfjhgdf sdfgsefgderrqewertwr">
                           <button
                             className="btn btn-main px-3 me-4"
                             onClick={handleAddToCart}
@@ -2749,7 +2749,7 @@ export const ProductDetail = () => {
         } position-fixed bg-white`}
       >
         <div className="s-s-m-header d-flex align-items-center justify-content-between p-3 border-bottom">
-          <h4 className="mb-0">Share</h4>
+          <h4 className="mb-0">SHARE</h4>
 
           <i class="bi bi-x-lg" onClick={() => setShareModal(false)}></i>
         </div>

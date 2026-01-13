@@ -38,7 +38,7 @@
 }
 
 .nw-arrvl{
-  left: -1%;
+  left: 5%;
   position: absolute;
   top: 3%;
   background-image: url("/public/images/ni.png");
@@ -48,7 +48,7 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  line-height: 2.5;
+  line-height: 2.6;
   height: 42px;
   text-align: center;
   width: 80px !important;

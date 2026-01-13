@@ -209,7 +209,7 @@
 }
 
 .kjidbwejgrwerwer{
-  width: 87%;
+  width: 92%;
 }
 
 .kjidbwejgrwerwer i {
@@ -533,7 +533,7 @@ p.sidifsdiyhr{
 }
 
 .zoom-gallery-modal .small-image-arrow {
-  right: 45%;
+  right: 50%;
 }
 
 .modal-backdrop{
@@ -1777,7 +1777,7 @@ p.sidifsdiyhr{
 }
 
 .doijijewjuewr{
-  max-height: 93vh;
+  max-height: 64vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -1786,8 +1786,12 @@ p.sidifsdiyhr{
   height: 0;
 }
 
+.deiwhirhwejpekr.sticky-top .small-image-tabs{
+  height: 63vh;
+}
+
 .small-image-arrow{
-  right: 50%;
+  right: 54%;
   transform: translateX(50%);
   z-index: 999;
   cursor: pointer;
@@ -1811,12 +1815,12 @@ p.sidifsdiyhr{
 }
 
 .dfhdfhd p span{
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 
 .dfhdfhd p img{
-  width: 1.6rem;
+  width: 1.4rem;
   margin-right: 0.5rem;
   transition: 0.1s ease-in-out;
 }
@@ -1833,4 +1837,31 @@ p.sidifsdiyhr{
 
 .coisdefisdhifhsdjifjhosd .swiper-slide{
   height: auto !important;
+}
+
+/**/
+
+.select-form-drpdwn.weqwthyuytredfgw{
+  width: 30%;
+}
+
+.select-form-drpdwn.weqwthyuytredfgw select.form-select,
+.select-form-drpdwn.weqwthyuytredfgw{
+  font-weight: 500;
+}
+
+.select-form-drpdwn.dfgsfsfggfrfreerr{
+  width: 55%;
+}
+
+.select-form-side{
+  padding-inline: 4rem;
+}
+
+.dfgndfjhgdf.sdfgsefgderrqewertwr{
+  padding-inline: 3rem;
+}
+
+.asdadadwdwdadad{
+  font-weight: 500;
 }
