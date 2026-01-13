@@ -895,15 +895,19 @@ export const Cart = () => {
               <div className="row justify-content-between">
                 <div className="col-lg-8">
                   <div className="diwebjrwert_left">
-                    <h4 className="mb-4">YOUR SHOPPING CART</h4>
-
-                    <div className="odnwejirhwerwer py-2 px-3">
-                      <p className="mb-0 d-flex align-items-center">
-                        Shop for ₹6,004 more to get additional offers on your order.
-                        To know more
-                        <button className="btn ms-2 py-2 btn-main">
-                          <i class="bi me-1 bi-whatsapp"></i> Chat With Us
-                        </button>
+                    <div className="odnwejirhwerwer py-2 px-3 d-flex">
+                      <h4 className="mb-1 mt-2" style={{borderRight:"3px solid #616161", paddingRight: "11px"}}>YOUR SHOPPING CART</h4>
+                      <p className="mb-1 mt-1 d-flex align-items-center" style={{paddingLeft: "11px"}}>
+                        To get additional offers on your order or to know more
+                        <a
+                            href="https://wa.me/917003672926"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <button className="btn ms-2 py-2 btn-main">
+                              <i class="bi me-1 bi-whatsapp"></i> Chat With Us
+                            </button>
+                        </a>
                       </p>
                     </div>
 
@@ -1156,15 +1160,17 @@ export const Cart = () => {
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
-                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              <span style={{ textDecoration: "line-through", color: "var(--text-lighter-gray-color)"}}>
+                                {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              </span>&nbsp;&nbsp;
+                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
                             </td>
                           </tr>
 
                           <tr>
                             <td>Vinhem Discount :</td>
 
-                            <td>
+                            <td style={{color:"green"}}>
                               (-) 
                               {/* <i class="bi bi-currency-rupee"></i> */}
                               {formatPrice(totalPrice.total_discount_price, { showDecimals: true })}
@@ -1244,7 +1250,7 @@ export const Cart = () => {
                       </span>
                     </div>
 
-                    <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
+                    {/* <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
                       <div className="doewjirwerwer">
                         <input type="checkbox" id="gft" className="m-1" checked={isGift}
                             onChange={(e) => setIsGift(e.target.checked)}/>
@@ -1253,7 +1259,7 @@ export const Cart = () => {
                       </div>
 
                       <span>Free Gift Wrap</span>
-                    </div>
+                    </div> */}
 
                     <div className="oiasmdjweijrwerwer py-2 mb-4 d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-3">
                       <label className="mb-0">Total Payable</label>
@@ -1444,15 +1450,18 @@ export const Cart = () => {
 
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
-                              {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
-                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              
+                              <span style={{ textDecoration: "line-through", color: "var(--text-lighter-gray-color)"}}>
+                                {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              </span>&nbsp;&nbsp;
+                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
                             </td>
                           </tr>
 
                           <tr>
                             <td>Vinhem Discount :</td>
 
-                            <td>
+                            <td style={{color:"green"}}>
                               (-) 
                               {/* <i class="bi bi-currency-rupee"></i> */}
                               {formatPrice(totalPrice.total_discount_price, { showDecimals: true })}
@@ -1496,29 +1505,39 @@ export const Cart = () => {
                             <td>
                               {freeShipping ? (
                                 <span className="sergvasdrg">
-                                  (-{formatPrice(shippingDiscount, { showDecimals: true })})
+                                  (-) {formatPrice(shippingDiscount, { showDecimals: true })}
                                 </span>
-                              ) : shippingCharge === null ? (
-                                formatPrice(0, { showDecimals: true })
-                              ) : (
+                              ) : 
+                              // shippingCharge === null ? 
+                              // (
+                              //   formatPrice(0, { showDecimals: true })
+                              // ) : 
+                              (
                                 formatPrice(shippingCharge, { showDecimals: true })
                               )}
                             </td>
                           </tr>
-                          {appliedDiscount > 0 && !freeShipping && (
+                          {appliedDiscount > 0 && !freeShipping ? (
                             <tr>
-                              <td className="sergvasdrg">Coupon Discount :</td>
+                              <td className="">Coupon Discount :</td>
                               <td className="sergvasdrg">
-                                (-){formatPrice(appliedDiscount, { showDecimals: true })}
+                                (-) {formatPrice(appliedDiscount, { showDecimals: true })}
                               </td>
                             </tr>
-                          )}
+                          ) : appliedDiscount > 0 && freeShipping ? (
+                            <tr>
+                              <td className="">Coupon Discount :</td>
+                              <td className="sergvasdrg">
+                                (-) {formatPrice(shippingCharge, { showDecimals: true })}
+                              </td>
+                            </tr>
+                          ):null}
                           <tr>
-                            <td>After Discount</td>
+                            <td>Total Payable :</td>
                               <td style={{display: "flex", alignItems: "center", justifyContent: "end"}}>
-                                  <span style={{ textDecoration: "line-through", color: "#999" }}>
+                                  {/* <span style={{ textDecoration: "line-through", color: "#999" }}>
                                     {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
-                                  </span>&nbsp;
+                                  </span>&nbsp; */}
                                   {formatPrice(
                                   freeShipping
                                     ? (
@@ -1975,14 +1994,17 @@ export const Cart = () => {
                             <td>
                               {/* <i class="bi bi-currency-rupee"></i> */}
                               {/* {formatPrice(totalPrice.total_selling_price, { showDecimals: true })} */}
-                              {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              <span style={{ textDecoration: "line-through", color: "var(--text-lighter-gray-color)"}}>
+                                {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
+                              </span>&nbsp;&nbsp;
+                              {formatPrice(totalPrice.total_selling_price, { showDecimals: true })}
                             </td>
                           </tr>
 
                           <tr>
                             <td>Vinhem Discount :</td>
 
-                            <td>
+                            <td style={{color:"green"}}>
                               (-) 
                               {/* <i class="bi bi-currency-rupee"></i> */}
                               {formatPrice(totalPrice.total_discount_price, { showDecimals: true })}
@@ -2026,29 +2048,40 @@ export const Cart = () => {
                             <td>
                               {freeShipping ? (
                                 <span className="sergvasdrg">
-                                  (-{formatPrice(shippingDiscount, { showDecimals: true })})
+                                  (-) {formatPrice(shippingDiscount, { showDecimals: true })}
                                 </span>
-                              ) : shippingCharge === null ? (
-                                formatPrice(0, { showDecimals: true })
-                              ) : (
+                              ) : 
+                              // shippingCharge === null ? (
+                              //   formatPrice(0, { showDecimals: true })
+                              // ) : 
+                              (
                                 formatPrice(shippingCharge, { showDecimals: true })
                               )}
                             </td>
                           </tr>
-                          {appliedDiscount > 0 && !freeShipping && (
+             
+                          {appliedDiscount > 0 && !freeShipping ? (
                             <tr>
-                              <td className="sergvasdrg">Coupon Discount :</td>
+                              <td className="">Coupon Discount :</td>
                               <td className="sergvasdrg">
-                                (-){formatPrice(appliedDiscount, {showDecimals: true})}
+                                (-) {formatPrice(appliedDiscount, { showDecimals: true })}
                               </td>
                             </tr>
-                          )}
+                          ) : appliedDiscount > 0 && freeShipping ? (
+                            <tr>
+                              <td className="">Coupon Discount :</td>
+                              <td className="sergvasdrg">
+                                (-) {formatPrice(shippingCharge, { showDecimals: true })}
+                              </td>
+                            </tr>
+                          ):null}
+
                           <tr>
-                            <td>After Discount</td>
+                            <td>Total Payable :</td>
                               <td style={{display: "flex", alignItems: "center", justifyContent: "end"}}>
-                                  <span style={{ textDecoration: "line-through", color: "#999" }}>
+                                  {/* <span style={{ textDecoration: "line-through", color: "#999" }}>
                                     {formatPrice(totalPrice.total_mrp_price, { showDecimals: true })}
-                                  </span>&nbsp;
+                                  </span>&nbsp; */}
 
                                   {formatPrice(
                                   freeShipping
@@ -2096,7 +2129,7 @@ export const Cart = () => {
                       </span>
                     </div>
 
-                    <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
+                    {/* <div className="dweoihrwerwer aiksndjhugwerwerw d-flex align-items-center justify-content-between p-2">
                       <div className="doewjirwerwer">
                         <input type="checkbox" id="gft" className="m-1" checked={isGift}
                             onChange={(e) => setIsGift(e.target.checked)}/>
@@ -2105,7 +2138,7 @@ export const Cart = () => {
                       </div>
 
                       <span>Free Gift Wrap</span>
-                    </div>
+                    </div> */}
 
                     <div className="oiasmdjweijrwerwer py-2 mb-4 d-flex align-items-center justify-content-between zsdvfdesdeadfrer mt-3">
                       <label className="mb-0">Total Payable</label>
@@ -2311,37 +2344,36 @@ export const Cart = () => {
                 className="form-control"
                 placeholder="Enter Coupon Code"
                 value={selectedCoupon}
+                disabled={couponApplied}
                 onChange={(e) => {
-                  setSelectedCoupon(e.target.value);
+                  const value = e.target.value;
+                  setSelectedCoupon(value);
 
-                  const coupon = couponItems.find(c => c.code === e.target.value);
-                  if (coupon) {
+                  const coupon = couponItems.find(c => c.code === value);
 
-                    let discount = 0;
-                    if (coupon.type === "percent") {
-                      discount = (Number(totalPrice.cart_totalPrice) * parseInt(coupon.value)) / 100;
-                    } else {
-                      discount = parseInt(coupon.value); // flat amount
-                    }
-
-                    setSelectedDiscount(discount);
-                    setAppliedDiscount(discount);
-
-                    if (coupon.apply_ShippingCost === "Yes") {
-                      setFreeShipping(true);
-                      setShippingDiscount(shippingCharge);
-                    } else {
-                      setFreeShipping(false);
-                      setShippingDiscount(0);
-                    }
-                  } else {
+                  if (!coupon || !coupon.is_applicable) {
                     setSelectedDiscount(0);
                     setAppliedDiscount(0);
                     setFreeShipping(false);
                     setShippingDiscount(0);
+                    return;
+                  }
+
+                  let discount = coupon.type === "percent"
+                    ? (Number(totalPrice.cart_totalPrice) * parseInt(coupon.value)) / 100
+                    : parseInt(coupon.value);
+
+                  setSelectedDiscount(discount);
+                  setAppliedDiscount(discount);
+
+                  if (coupon.apply_ShippingCost === "Yes") {
+                    setFreeShipping(true);
+                    setShippingDiscount(shippingCharge);
+                  } else {
+                    setFreeShipping(false);
+                    setShippingDiscount(0);
                   }
                 }}
-                disabled={couponApplied}
               />
 
 
@@ -2350,7 +2382,11 @@ export const Cart = () => {
                 <button
                   type="button"
                   className="btn position-absolute btn-main"
-                  onClick={() => setCouponApplied(true)}
+                  onClick={() => {
+                    const coupon = couponItems.find(c => c.code === selectedCoupon);
+                    if (!coupon || !coupon.is_applicable) return;
+                    setCouponApplied(true);
+                  }}
                 >
                   Apply
                 </button>
@@ -2385,17 +2421,16 @@ export const Cart = () => {
                     type="radio"
                     className="d-none position-absolute"
                     checked={selectedCoupon === couponItemsVal.code}
-                    disabled={couponApplied}
+                    disabled={couponApplied || !couponItemsVal.is_applicable}
                     onChange={() => {
+                      if (!couponItemsVal.is_applicable) return;
+
                       setSelectedCoupon(couponItemsVal.code);
-                      // setSelectedDiscount(parseInt(couponItemsVal.value));
-                      // setAppliedDiscount(parseInt(couponItemsVal.value));
-                      let discount = 0;
-                      if (couponItemsVal.type === "percent") {
-                        discount = (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100;
-                      } else {
-                        discount = parseInt(couponItemsVal.value); // flat amount
-                      }
+
+                      let discount = couponItemsVal.type === "percent"
+                        ? (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100
+                        : parseInt(couponItemsVal.value);
+
                       setSelectedDiscount(discount);
                       setAppliedDiscount(discount);
                     }}
@@ -2403,7 +2438,7 @@ export const Cart = () => {
 
                   <label
                     htmlFor={couponItemsVal.code}
-                    className="w-100 position-relative"
+                    className={`w-100 position-relative ${!couponItemsVal.is_applicable ? "coupon-disabled" : ""}`}
                   >
                     <div class="coupon">
                       <div class="left">
@@ -2417,10 +2452,9 @@ export const Cart = () => {
                           <h2 className="mb-0">
                             {/* <i class="bi bi-currency-rupee"></i> */}
                             {couponItemsVal.type === 'percent'
-                              ? `${couponItemsVal.value} % OFF`
-                              : `${formatPrice(parseInt(couponItemsVal.value))} OFF`
+                              ? `${Math.round(couponItemsVal.value)}% OFF`
+                              : `${formatPrice(Math.round(couponItemsVal.value))} OFF`
                             }
-                            
                           </h2>
 
                           <small>
@@ -2438,23 +2472,27 @@ export const Cart = () => {
                     <i class="bi copn-checked-icon position-absolute bi-check-circle-fill"></i>
                   </label>
 
+                  {!couponItemsVal.is_applicable && (
+                    <p className="text-danger mt-2 text-center">
+                      {couponItemsVal.disable_reason}
+                    </p>
+                  )}
+
                   <div className="fsdrwedewee mt-4 text-center">
                     <Link
                       to=""
+                      className={!couponItemsVal.is_applicable ? "disabled" : ""}
                       onClick={(e) => {
                         e.preventDefault();
+                        if (!couponItemsVal.is_applicable) return;
 
                         setSelectedCoupon(couponItemsVal.code);
-                        // setSelectedDiscount(parseInt(couponItemsVal.value));
-                        // setAppliedDiscount(parseInt(couponItemsVal.value));
                         setCouponApplied(true);
 
-                        let discount = 0;
-                        if (couponItemsVal.type === "percent") {
-                          discount = (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100;
-                        } else {
-                          discount = parseInt(couponItemsVal.value); // flat amount
-                        }
+                        let discount = couponItemsVal.type === "percent"
+                          ? (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100
+                          : parseInt(couponItemsVal.value);
+
                         setSelectedDiscount(discount);
                         setAppliedDiscount(discount);
 

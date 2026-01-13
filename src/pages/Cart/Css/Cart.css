@@ -1,12 +1,12 @@
 .cart-wrapper .diwebjrwert_left h4 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 .cart-wrapper .diwebjrwert_left .odnwejirhwerwer {
   background: #f5f5f5;
   border-radius: 5px;
 }
 .cart-wrapper .diwebjrwert_left .odnwejirhwerwer p {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 .cart-wrapper .diwebjrwert_left .odnwejirhwerwer p .btn-main {
   font-size: 0.9rem;
@@ -165,11 +165,13 @@
 .cart-wrapper .diwebjrwert_right .oiasmdjweijrwerwer.zsdvfdesdeadfrer label {
   font-size: 1.3rem;
   margin-left: 0.6rem;
+  font-weight: 500;
 }
 
 .cart-wrapper .diwebjrwert_right .oiasmdjweijrwerwer.zsdvfdesdeadfrer span {
   font-size: 1.3rem;
   margin-right: 0.5rem;
+  font-weight: 500;
 }
 
 .cart-wrapper .diwebjrwert_right .uiwdhiwerwerwer .btn-main:last-child {
@@ -617,6 +619,16 @@ h6.sadcadaededee,
 
 .jidnwenjrwerwer .center small {
   letter-spacing: 1px !important;
+}
+
+.coupon-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 
