@@ -7,7 +7,7 @@ import axios from "axios";
 //     }
 // });
 
-export const BASE_URL = "http://fastwork.space";
+export const BASE_URL = "https://fastwork.space";
 
 const http = axios.create({
   baseURL: `${BASE_URL}/api/`,
