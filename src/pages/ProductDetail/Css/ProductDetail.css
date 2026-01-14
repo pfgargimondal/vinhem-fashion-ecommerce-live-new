@@ -937,33 +937,15 @@ p.sidifsdiyhr{
 
 .jidnwenjrwerwer .coupon {
 	 width: 100%;
-	 height: 75px;
-	 border-radius: 10px;
+	 border-radius: 1.5rem;
 	 overflow: hidden;
 	 margin: auto;
-	 filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
 	 display: flex;
 	 align-items: stretch;
 	 position: relative;
-	 text-transform: uppercase;
 }
- .jidnwenjrwerwer .coupon::before, .jidnwenjrwerwer .coupon::after {
-	 content: "";
-	 position: absolute;
-	 top: 0;
-	 width: 50%;
-	 height: 100%;
-	 z-index: -1;
-}
- .jidnwenjrwerwer .coupon::before {
-	 left: 0;
-	 background-image: radial-gradient(circle at 0 50%, transparent 25px, gold 26px);
-}
- .jidnwenjrwerwer .coupon::after {
-	 right: 0;
-	 background-image: radial-gradient(circle at 100% 50%, transparent 25px, gold 26px);
-}
- .jidnwenjrwerwer .coupon > div {
+
+.jidnwenjrwerwer .coupon > div {
 	 display: flex;
 	 align-items: center;
 	 justify-content: center;
@@ -973,7 +955,6 @@ p.sidifsdiyhr{
 	 border-right: 2px dashed rgba(0, 0, 0, 0.13);
 }
  .jidnwenjrwerwer .left div {
-	 transform: rotate(-90deg);
 	 white-space: nowrap;
 	 font-weight: bold;
    margin-left: 1.4rem;
@@ -982,11 +963,21 @@ p.sidifsdiyhr{
  .jidnwenjrwerwer .center {
 	 flex-grow: 1;
 	 text-align: center;
+   background: #FBF2ED;
+   padding: 1.5rem;
 }
  .jidnwenjrwerwer .right {
-	 width: 80px;
-   padding-right: 1rem;
-	 background-image: radial-gradient(circle at 100% 50%, transparent 25px, #fff 26px);
+	 width: 180px;
+   background: var(--pink-main-color);
+}
+
+.jidnwenjrwerwer .coupon-disabled .right{
+  background: #F87374;
+}
+
+h4.oijiwuihfih-eiuheir{
+  color: var(--grey-border-color);
+  text-transform: uppercase;
 }
 
 .skdncfjsdbcfksdnf .btn-main{
@@ -1013,11 +1004,20 @@ p.sidifsdiyhr{
 }
 
  .jidnwenjrwerwer .right div {
-	 font-family: "Libre Barcode 128 Text", cursive;
 	 font-size: 1rem;
 	 font-weight: 400;
-	 transform: rotate(-90deg);
 }
+
+.dsekbjnerewr h5{
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.dsekbjnerewr{
+  padding: 10px;
+  transform: rotate(-90deg);
+}
+
  .jidnwenjrwerwer .center h2 {
 	 background: #000;
 	 color: gold;
@@ -1027,8 +1027,20 @@ p.sidifsdiyhr{
    border-radius: 5px;
 }
  .jidnwenjrwerwer .center h3 {
-	 font-size: 1rem;
+	 font-size: 3rem;
+   font-family: "Merriweather", serif;
 }
+
+.jidnwenjrwerwer .coupon .center > div h6{
+  display: inline-block;
+  font-weight: 400;
+  border-bottom: 1px solid var(--text-lighter-gray-color);
+}
+
+.jidnwenjrwerwer .coupon .center > div h5{
+  font-weight: 600;
+}
+
  .jidnwenjrwerwer .center small {
 	 font-size: 0.625rem;
 	 font-weight: 600;

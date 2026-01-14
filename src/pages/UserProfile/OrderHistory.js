@@ -153,29 +153,29 @@ export const OrderHistory = () => {
     };
 
     const handleCancelOrder = async (order) => {
-    const confirmCancel = window.confirm("Are you sure you want to cancel this order?");
-    if (!confirmCancel) return;
+        const confirmCancel = window.confirm("Are you sure you want to cancel this order?");
+        if (!confirmCancel) return;
 
-    try {
-        const token = localStorage.getItem("token");
-        const response = await http.post(
-        `/user/cancel-order/${order.order_id}`,
-        {},
-        {
-            headers: { Authorization: `Bearer ${token}` },
-        }
-        );
+        try {
+            const token = localStorage.getItem("token");
+            const response = await http.post(
+            `/user/cancel-order/${order.order_id}`,
+            {},
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+            );
 
-        if (response.data.success) {
-        alert("Your order has been cancelled successfully!");
-        navigate("/order-history"); 
-        } else {
-        alert(`${response.data.message || "Failed to cancel order"}`);
+            if (response.data.success) {
+                alert("Your order cancelled request sent successfully!");
+                navigate("/order-history"); 
+            } else {
+                alert(`${response.data.message || "Failed to sent request"}`);
+            }
+        } catch (err) {
+            console.error(err);
+            alert(" Something went wrong while cancelling the order.");
         }
-    } catch (err) {
-        console.error(err);
-        alert(" Something went wrong while cancelling the order.");
-    }
     };
 
 
@@ -284,9 +284,26 @@ export const OrderHistory = () => {
 
                                                         <div className={`d-flex ${styles.dweknriwehrwer} align-items-center justify-content-between`}>
                                                             {orderHistoryVal.order_status === "Placed" ? (
-                                                                <button className={`btn ${styles.cncl_ordr} border-0 px-0`} onClick={() => handleCancelOrder(orderHistoryVal)}>
-                                                                    <i className="bi me-1 bi-folder-x"></i> Cancel Order
-                                                                </button>
+                                                                    orderHistoryVal.cancel_request === "Requested" ? (
+                                                                        <button className="btn border-0 px-0 text-muted" disabled>
+                                                                        <i className="bi me-1 bi-clock-history"></i> Cancellation Request Pending
+                                                                        </button>
+                                                                    ) : orderHistoryVal.order_status === "Declined" ? (
+                                                                        <button className="btn border-0 px-0 text-muted" disabled>
+                                                                        <i className="bi me-1 bi-clock-history"></i> Cancellation Declined By Admin
+                                                                        </button>
+                                                                    ) : orderHistoryVal.order_status === "Approved" ? (
+                                                                        <button className="btn border-0 px-0 text-muted" disabled>
+                                                                        <i className="bi me-1 bi-clock-history"></i> Cancel Approved
+                                                                        </button>
+                                                                    ) : (
+                                                                        <button
+                                                                        className={`btn ${styles.cncl_ordr} border-0 px-0`}
+                                                                        onClick={() => handleCancelOrder(orderHistoryVal)}
+                                                                        >
+                                                                        <i className="bi me-1 bi-folder-x"></i> Cancel Order
+                                                                        </button>
+                                                                    )
                                                                 ) : orderHistoryVal.order_status === "Pending" ? (
                                                                 <button className="btn border-0 px-0 text-muted">
                                                                     <i className="bi me-1 bi-clock-history"></i> Pending Order

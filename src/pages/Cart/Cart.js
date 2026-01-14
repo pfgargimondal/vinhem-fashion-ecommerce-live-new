@@ -670,8 +670,8 @@ export const Cart = () => {
     
 
     const countryData = JSON.parse(localStorage.getItem("selectedCurrency"));
-    const country = countryData?.country_name;
-    const currency_code = countryData?.currency_code;
+    const country = countryData.country_name;
+    const currency_code = countryData.currency_code;
 
     useEffect(() => {
       const savedGift = localStorage.getItem("is_gift");
@@ -2441,31 +2441,65 @@ export const Cart = () => {
                     className={`w-100 position-relative ${!couponItemsVal.is_applicable ? "coupon-disabled" : ""}`}
                   >
                     <div class="coupon">
-                      <div class="left">
-                        <div>Coupon</div>
-                      </div>
-
                       <div class="center">
                         <div>
-                          <h3>Get Extra</h3>
+                          <h3>{couponItemsVal.code}</h3>
 
-                          <h2 className="mb-0">
-                            {/* <i class="bi bi-currency-rupee"></i> */}
+                          <h6 className="pb-2">Valid until &nbsp;
+                            <b>{ValidityDate(couponItemsVal.expiry_date)}</b></h6>
+
+                          <h5>Get instant discount worth &nbsp;
                             {couponItemsVal.type === 'percent'
-                              ? `${Math.round(couponItemsVal.value)}% OFF`
-                              : `${formatPrice(Math.round(couponItemsVal.value))} OFF`
+                              ? `${Math.round(couponItemsVal.value)}%`
+                              : `${formatPrice(Math.round(couponItemsVal.value))}`
                             }
-                          </h2>
+                          </h5>
 
-                          <small>
-                            Valid until{" "}
-                            {ValidityDate(couponItemsVal.expiry_date)}
-                          </small>
+                          <div className="fsdrwedewee mt-2 text-center">
+                            <Link
+                              to=""
+                              className={!couponItemsVal.is_applicable ? "disabled" : ""}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (!couponItemsVal.is_applicable) return;
+
+                                setSelectedCoupon(couponItemsVal.code);
+                                setCouponApplied(true);
+
+                                let discount = couponItemsVal.type === "percent"
+                                  ? (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100
+                                  : parseInt(couponItemsVal.value);
+
+                                setSelectedDiscount(discount);
+                                setAppliedDiscount(discount);
+
+                                if (couponItemsVal.apply_ShippingCost === "Yes") {
+                                  setFreeShipping(true);
+                                  setShippingDiscount(shippingCharge);
+                                } else {
+                                  setFreeShipping(false);
+                                  setShippingDiscount(0);
+                                }
+                              }}
+                            >
+                              TAP TO APPLY
+                            </Link>
+                          </div>
                         </div>
                       </div>
 
                       <div class="right">
-                        <div>{couponItemsVal.code}</div>
+                        {/* <div>{couponItemsVal.code}</div> */}
+
+                        <div className="sdsgfsede text-center">
+                          <div className="dsekbjnerewr">
+                            <h5 className="text-white mb-1">VOUCHER</h5>
+
+                            <img src="./images/cpncde.png" className="img-fluid" alt="" />
+                          </div>
+
+                          <h6 className="text-white mb-0" style={{marginTop: "1rem"}}>*T&C Apply</h6>
+                        </div>
                       </div>
                     </div>
 
@@ -2473,41 +2507,10 @@ export const Cart = () => {
                   </label>
 
                   {!couponItemsVal.is_applicable && (
-                    <p className="text-danger mt-2 text-center">
+                    <h4 className="oijiwuihfih-eiuheir mt-3 text-center">
                       {couponItemsVal.disable_reason}
-                    </p>
-                  )}
-
-                  <div className="fsdrwedewee mt-4 text-center">
-                    <Link
-                      to=""
-                      className={!couponItemsVal.is_applicable ? "disabled" : ""}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (!couponItemsVal.is_applicable) return;
-
-                        setSelectedCoupon(couponItemsVal.code);
-                        setCouponApplied(true);
-
-                        let discount = couponItemsVal.type === "percent"
-                          ? (Number(totalPrice.cart_totalPrice) * parseInt(couponItemsVal.value)) / 100
-                          : parseInt(couponItemsVal.value);
-
-                        setSelectedDiscount(discount);
-                        setAppliedDiscount(discount);
-
-                        if (couponItemsVal.apply_ShippingCost === "Yes") {
-                          setFreeShipping(true);
-                          setShippingDiscount(shippingCharge);
-                        } else {
-                          setFreeShipping(false);
-                          setShippingDiscount(0);
-                        }
-                      }}
-                    >
-                      TAP TO APPLY
-                    </Link>
-                  </div>
+                    </h4>
+                  )}                  
                 </div>
               ))}
             </div>
