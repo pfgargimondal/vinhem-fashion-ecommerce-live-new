@@ -432,11 +432,11 @@ const applyPriceFilter = (min, max) => {
             </div>
           </div>
 
-          {allFilterMappingdata?.map((FilterMappingdata) => {
+          {allFilterMappingdata?.filter(item => item.filter_option !== 'filter_category_name').map((FilterMappingdata) => {
             const totalValues = FilterMappingdata.filter_values.split(",").length;
             const isExpanded = expandedFilters[FilterMappingdata.filter_option] || false;
             const valuesToShow = isExpanded ? totalValues : 6;
-
+ 
             return (
               <div key={FilterMappingdata.id} className="dkewjriwehrnjhweijrwer mb-4">
                 <div className="disenihrenjr mb-3 pb-3 d-flex align-items-center justify-content-between">

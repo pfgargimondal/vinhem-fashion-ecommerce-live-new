@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Loader/Loader";
 import http from "../../../http";
 import { useAuth } from "../../../context/AuthContext";
@@ -178,6 +178,52 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
 
   //sign up / log in end
 
+  const [newsletteremail, setNewsletteremail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!newsletteremail) return;
+
+    try {
+      setLoading(true);
+      const res = await http.post("/store-newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        newsletteremail: newsletteremail || '',
+      });
+
+      if (res.data.success) {
+      
+        toast.success("Thank you for subscribing!", {
+          style: {
+            background: "#2ecc71",
+            color: "#fff",
+          },
+        });
+
+        setNewsletteremail("");
+      }else{
+        toast.error(res.data.message || "Something went wrong", {
+          style: {
+            background: "#e74c3c", // red for error
+            color: "#fff",
+          },
+        });
+        setNewsletteremail("");
+      }
+    } catch (err) {
+      setMessage("Server error. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   return (
     <>
@@ -280,9 +326,28 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
                   <p>Subscribe and get extra <span className="dgsdfhdrgh">₹500</span> off</p>
 
                   <div className="position-relative">
-                    <input type="search" className="form-control" placeholder="Email id" />
+                    <form onSubmit={handleSubmit} className="position-relative">
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Email id"
+                        value={newsletteremail}
+                        onChange={(e) => setNewsletteremail(e.target.value)}
+                        required
+                      />
 
-                    <button className="btn position-absolute btn-main px-3"><i className="bi bi-send"></i></button>
+                      <button
+                        type="submit"
+                        className="btn position-absolute btn-main px-3"
+                        disabled={loading}
+                      >
+                        <i className="bi bi-send"></i>
+                      </button>
+
+                      {message && (
+                        <small className="text-success d-block mt-2">{message}</small>
+                      )}
+                    </form>
                   </div>
                 </div>
               </div>
@@ -572,6 +637,12 @@ export const Footer = ({ shouldHideFullHeaderFooterRoutes }) => {
           </div>
         </div>
       </div>
+
+      <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          style={{ zIndex: 9999999999 }}
+      />
     </>
   )
 }

@@ -32,6 +32,7 @@ import { DesignerSizeChart } from "../../components/Elements/DsignerSizeChart/Ds
 import { useCart } from "../../context/CartContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import Loader from "../../components/Loader/Loader";
+import { useAuthModal } from "../../context/AuthModalContext";
 
 export const ProductDetail = () => {
   const { token, user } = useAuth();
@@ -55,6 +56,7 @@ export const ProductDetail = () => {
   const [activeKey, setActiveKey] = useState("img-1");
   const [chatProfileDetailsShow, setChatProfileDetailsShow] = useState(false);
   const [videoMute, setVideoMute] = useState(true);
+  const { handleLoginModal } = useAuthModal();
 
   const scrollRef = useRef(null);
   const scrollLargeRef = useRef(null);
@@ -1113,10 +1115,8 @@ export const ProductDetail = () => {
                             </>
                           ) : (
                             <>
-                              <Link to="/login">
-                                <i class="fa-regular fa-heart"></i>
-                                <i class="fa-solid d-none fa-heart"></i>
-                              </Link>
+                              <i class="fa-regular fa-heart" onClick={handleLoginModal}></i>
+                              <i class="fa-solid d-none fa-heart"></i>
                             </>
                           )}
                         </div>
@@ -1157,8 +1157,41 @@ export const ProductDetail = () => {
                         {productDetails?.data?.stitching_option !==
                           "Ready To Wear" && (
                           <div class="diwenjrbwebrwehgrwer">
-                            <h4 class="pb-2">Stitching Options</h4>
-                            <hr class="mt-0" style={{ width: "86%" }} />
+                            <div className="d-flex align-items-center justify-content-between">
+                              <h4 class="pb-2">Stitching Options</h4>
+
+                              <div className="dfhdfhd">
+                                  <p className="d-flex align-items-center mb-0">
+                                    <span className="me-2">SHARE:</span>
+
+                                    <img
+                                      src="/images/whatsapp.png"
+                                      alt="Share on Whatsapp"
+                                      onClick={handleWhatsAppShare}
+                                    />
+
+                                    <img
+                                      src="/images/facebook.png"
+                                      alt="Share on Facebook"
+                                      onClick={handleFacebookShare}
+                                    />
+
+                                    <img
+                                      src="/images/twitter.png"
+                                      alt="Share on Twitter"
+                                      onClick={handleTwitterShare}
+                                    />
+
+                                    <img
+                                      src="/images/pinterest.png"
+                                      alt="Share on Pinterest"
+                                      onClick={handlePinterestShare}
+                                    />
+                                  </p>
+                                </div>
+                            </div>
+
+                            <hr class="mt-0" style={{ width: "91%" }} />                              
                           </div>
                         )}
 
@@ -1279,7 +1312,7 @@ export const ProductDetail = () => {
 
                               <div className="dfhdfhd pe-5">
                                 <p className="d-flex align-items-center mb-0">
-                                  <span className="me-2">Share:</span>
+                                  <span className="me-2">SHARE:</span>
 
                                   <img
                                     src="/images/whatsapp.png"
@@ -1494,7 +1527,7 @@ export const ProductDetail = () => {
                                 </p>
                               </div>
 
-                              <div className="slkdnfkmslkmr d-flex align-items-center">
+                              <div className="slkdnfkmslkmr d-flex justify-content-between align-items-center">
                                 <div className="select-form-drpdwn dfgsfsfggfrfreerr me-3">
                                   <select
                                     name="product_turbanSize"
@@ -1628,7 +1661,7 @@ export const ProductDetail = () => {
                                 </p>
                               </div>
 
-                              <div className="slkdnfkmslkmr d-flex align-items-center">
+                              <div className="slkdnfkmslkmr d-flex justify-content-between align-items-center">
                                 <div className="select-form-drpdwn dfgsfsfggfrfreerr me-3">
                                   <select
                                     name="product_mojriSize"
@@ -1829,21 +1862,42 @@ export const ProductDetail = () => {
                         </div>
 
                         <div className="dfgndfjhgdf sdfgsefgderrqewertwr">
-                          <button
-                            className="btn btn-main px-3 me-4"
-                            onClick={handleAddToCart}
-                            disabled={cartLoading}
-                          >
-                            <i class="bi bi-bag me-1"></i>{" "}
-                            {cartLoading ? "Adding..." : "Add to Cart"}
-                          </button>
+                          {user ? (
+                            <>
+                              <button
+                                className="btn btn-main px-3 me-4"
+                                onClick={handleAddToCart}
+                                disabled={cartLoading}
+                              >
+                                <i class="bi bi-bag me-1"></i>{" "}
+                                {cartLoading ? "Adding..." : "Add to Cart"}
+                              </button>
 
-                          <button
-                            className="btn btn-main btn-transparent px-3"
-                            onClick={handleBuyNow}
-                          >
-                            <i class="bi bi-bag me-1"></i> Buy Now
-                          </button>
+                              <button
+                                className="btn btn-main btn-transparent px-3"
+                                onClick={handleBuyNow}
+                              >
+                                <i class="bi bi-bag me-1"></i> Buy Now
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="btn btn-main px-3 me-4"
+                                onClick={handleLoginModal}
+                              >
+                                <i class="bi bi-bag me-1"></i>Add to Cart
+                              </button>
+
+                              <button
+                                className="btn btn-main btn-transparent px-3"
+                                onClick={handleLoginModal}
+                              >
+                                <i class="bi bi-bag me-1"></i> Buy Now
+                              </button>
+                            </>
+                          )}
+                          
                         </div>
                       </div>
 

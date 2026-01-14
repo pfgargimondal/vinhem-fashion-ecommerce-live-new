@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { AboutUs, ContactUs, Filter, Home, Login, OnSale, PageNotFound, ProductDetail, Register, Wedding, TermsCondition, PrivacyPolicy, ReturnPolicy, OrderPolicy, ShippingPolicy, Testimonial, Career, Profile, CancelOrder, OrderHistory, ChangePassword, Wishlist, Cart, Blog, BlogDetails, Invoice, BecomeVendor, Checkout, Chat, TrackOrder, FAQ, PaymentOptions, ThankYou, OrderDetails, PaypalPaymentSuccess, RazorpayPaymentSuccess} from "../pages";
+import { AboutUs, ContactUs, Filter, Home, OnSale, PageNotFound, ProductDetail, Wedding, TermsCondition, PrivacyPolicy, ReturnPolicy, OrderPolicy, ShippingPolicy, Testimonial, Career, Profile, CancelOrder, OrderHistory, ChangePassword, Wishlist, Cart, Blog, BlogDetails, Invoice, BecomeVendor, Checkout, Chat, TrackOrder, FAQ, PaymentOptions, ThankYou, OrderDetails, PaypalPaymentSuccess, RazorpayPaymentSuccess} from "../pages";
 import ProtectedRoute from "../components/ProtectedRoute ";
 
 export const AllRoutes = () => {
@@ -20,8 +20,8 @@ export const AllRoutes = () => {
       <Route path="festive-shop" element={ <FestiveShop /> } /> */}
 
       <Route path="products/:slug" element={ <ProductDetail /> } />
-      <Route path="register" element={ <Register /> } />
-      <Route path="login" element={ <Login /> } />
+      {/* <Route path="register" element={ <Register /> } />
+      <Route path="login" element={ <Login /> } /> */}
       <Route path="terms-&-condition" element={ <TermsCondition /> } />
       <Route path="privacy-policy" element={ <PrivacyPolicy /> } />
       <Route path="return-policy" element={ <ReturnPolicy /> } />

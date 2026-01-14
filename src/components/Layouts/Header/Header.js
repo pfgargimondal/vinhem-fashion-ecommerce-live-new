@@ -1,5 +1,5 @@
   // eslint-disable-next-line
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { SwiperSlide } from 'swiper/react';
 import { useAuth } from "../../../context/AuthContext";
@@ -13,6 +13,7 @@ import 'swiper/css';
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useCurrency } from "../../../context/CurrencyContext";
+import { useAuthModal } from "../../../context/AuthModalContext";
 
 export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, shouldHideHeaderCategoryRoutes }) => {
   const [resMenu, setResMenu] = useState(false);
@@ -30,10 +31,20 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
   const searchRef = useRef(null);
   const searchRefRes = useRef(null);
   const [resCtgyDrpdwn, setResCtgyDrpdwn] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
-  const [loginModalBackdrop, setLoginModalBackdrop] = useState(false);
-  const [otpModal, setOtpModal] = useState(false);
-  const [completeLoginModal, setCompleteLoginModal] = useState(false);
+  // const [loginModal, setLoginModal] = useState(false);
+  // const [loginModalBackdrop, setLoginModalBackdrop] = useState(false);
+  // const [otpModal, setOtpModal] = useState(false);
+  // const [completeLoginModal, setCompleteLoginModal] = useState(false);
+  const {
+    loginModal,
+    loginModalBackdrop,
+    otpModal,
+    completeLoginModal,
+    setOtpModal,
+    setCompleteLoginModal,
+    handleLoginModal,
+    handleLoginClose,
+  } = useAuthModal();
   const [emailToggle, setEmailToggle] = useState(false);
   const [selectedCode, setSelectedCode] = useState("+91");
   const [countryCodes, setCountryCodes] = useState([]);
@@ -59,8 +70,6 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     countryCode: ""
   });
 
-  // const [loginModal, setLoginModal] = useState(true);
-  // const [loginModalBackdrop, setLoginModalBackdrop] = useState(true);
 
   useEffect(() => {
       const fetchCountryCode = async () => {
@@ -136,9 +145,9 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
       });
 
       setIsNewUser(res.data.action === "register");
-
+      handleLoginClose();
       setOtpModal(true);
-      setLoginModal(false);
+      // setLoginModal(false);
       setOtp(["", "", "", "", "", ""]);
     } catch (err) {
       alert(err.response?.data?.message || "Something went wrong");
@@ -171,8 +180,10 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
             }
           });
 
-          setOtpModal(false);
-          setLoginModalBackdrop(false);
+          // setOtpModal(false);
+          // setLoginModalBackdrop(false);
+          handleLoginClose();
+          navigate("/");
         }
 
         // 🔥 NEW USER → COMPLETE SIGNUP
@@ -225,9 +236,13 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
         }
       });
 
+      
+      // setLoginModalBackdrop(false);
+      handleLoginClose();
       setCompleteLoginModal(false);
-      setLoginModalBackdrop(false);
+
       navigate("/");
+
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");
     } finally {
@@ -367,19 +382,21 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
     setUserDropdown(false);
   }, [pathName]);
 
+
+
   //login modal
 
-  const handleLoginModal = () => {
-    setLoginModal(!loginModal);
-    setLoginModalBackdrop(!loginModalBackdrop);
-  };
+  // const handleLoginModal = () => {
+  //   setLoginModal(!loginModal);
+  //   setLoginModalBackdrop(!loginModalBackdrop);
+  // };
 
-  const handleLoginClose = () => {
-    setLoginModal(false);
-    setLoginModalBackdrop(false);
-    setOtpModal(false);
-    setCompleteLoginModal(false);
-  };
+  // const handleLoginClose = () => {
+  //   setLoginModal(false);
+  //   setLoginModalBackdrop(false);
+  //   setOtpModal(false);
+  //   setCompleteLoginModal(false);
+  // };
 
 
 
@@ -634,9 +651,9 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                             </>
                           ):(
                             <>
-                              <li onClick={handleLoginModal} className="DRhgbsxfnhbf"><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li>
+                              <li onClick={() => handleLoginModal()} className="DRhgbsxfnhbf"><i class="bi bi-heart"></i> &nbsp;Wishlist <span>0</span></li>
                               <li className="infrm-menu-divider">|</li>
-                              <li onClick={handleLoginModal}><i class="bi bi-handbag"></i> Bag <span>0</span></li>
+                              <li onClick={() => handleLoginModal()}><i class="bi bi-handbag"></i> Bag <span>0</span></li>
                             </>
                           )}
 
@@ -740,9 +757,11 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                       <div className="header-main-wrapper">
                           {mainCategory?.map((category) => {
 
-                            const bannerCat = mainCategory.find(
-                              item => item.mainCategory_banner?.length > 0
-                            );
+                            // const bannerCat = mainCategory.find(
+                            //   item => item.mainCategory_banner?.length > 0
+                            // );
+                            const mainBanner = category.mainCategory_banner?.[0];
+                            const hasBanner = category.mainCategory_banner?.length > 0;
 
                             return (
                               <SwiperSlide key={category.id}>
@@ -759,6 +778,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                                             <div className="ojkmiweee_left py-3">
                                               <div className="row">
                                                 {category.head_categories?.map((headCat) => (
+                                                  
                                                   <div className="col-lg-4" key={headCat.id}>
                                                     <div className="oieniuiewr_inner">
                                                       <h5>{headCat.headCategories_name}</h5>
@@ -801,67 +821,80 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                                             </div>
                                           </div>
 
+                                          {hasBanner && (
                                           <div className="col-lg-7">
                                             <div className="ojkmiweee_right">
-                                              <div className="row">
+                                              <div className="row"> 
                                                 <div className="col-lg-7">
                                                   <div className="row">
-                                                    <div className="col-lg-6">
-                                                      <div className="vertical-image">
-                                                        <div className="pkopkerrwer sfsdfweweweqwq text-center">
-                                                          <img
-                                                            src={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage_url}/${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage1}`}
-                                                            className="w-100"
-                                                            alt={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle1}`}
-                                                          />
-                                                          <div className="dkewbjnrkwejrwer mt-2">
-                                                            <a href={bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle1}>SHOP NOW</a>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
+                                                    {[1, 2].map((i) => (
+                                                      <div className="col-lg-6" key={i}>
+                                                        <div className="vertical-image">
+                                                          <div className="pkopkerrwer sfsdfweweweqwq text-center">
+                                                            <img
+                                                              src={`${mainBanner?.category_bannerImage_url}/${mainBanner?.[`category_bannerImage${i}`]}`}
+                                                              className="w-100"
+                                                              alt={mainBanner?.[`category_bannerTitle${i}`]}
+                                                            />
 
-                                                    <div className="col-lg-6">
+                                                            <div className="dkewbjnrkwejrwer mt-2">
+                                                              <a
+                                                                href={mainBanner?.[`category_bannerURL${i}`]}
+                                                              >
+                                                                SHOP NOW
+                                                              </a>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    ))}
+
+                                                    {/* <div className="col-lg-6">
                                                       <div className="vertical-image">
                                                         <div className="pkopkerrwer sfsdfweweweqwq text-center">
                                                           <img
-                                                            src={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage_url}/${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage1}`}
+                                                            src={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage_url}/${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage2}`}
                                                             className="w-100"
-                                                            alt={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle1}`}
+                                                            alt={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle2}`}
                                                           />
                                                           <div className="dkewbjnrkwejrwer mt-2">
                                                             <a href={bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle1}>SHOP NOW</a>
                                                           </div>
                                                         </div>
                                                       </div>
-                                                    </div>
+                                                    </div> */}
                                                   </div>
                                                 </div>                                    
 
                                                 <div className="col-lg-5">
-                                                  <div className="pkopkerrwer safsrfwee text-center mb-4">
-                                                    <Link to="/">
-                                                      <img
-                                                          src={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage_url}/${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage3}`}
+                                                  {[3, 4].map((i) => (
+                                                    <div className="pkopkerrwer safsrfwee text-center mb-4" key={i}>
+                                                      <Link
+                                                        to={mainBanner?.[`category_bannerURL${i}`]}
+                                                      >
+                                                        <img
+                                                          src={`${mainBanner?.category_bannerImage_url}/${mainBanner?.[`category_bannerImage${i}`]}`}
                                                           className="w-100"
-                                                          alt={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle3}`}
+                                                          alt={mainBanner?.[`category_bannerTitle${i}`]}
                                                         />
-                                                    </Link>
-                                                  </div>
+                                                      </Link>
+                                                    </div>
+                                                  ))}
 
-                                                  <div className="pkopkerrwer safsrfwee text-center mb-4">
-                                                    <Link to="/">
+                                                  {/* <div className="pkopkerrwer safsrfwee text-center mb-4">
+                                                    <Link to={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerURL4}`}>
                                                       <img
                                                         src={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage_url}/${bannerCat?.mainCategory_banner?.[0]?.category_bannerImage4}`}
                                                         className="w-100"
                                                         alt={`${bannerCat?.mainCategory_banner?.[0]?.category_bannerTitle4}`}
                                                       />
                                                     </Link>
-                                                  </div>
+                                                  </div> */}
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
+                                          )}
                                         </div>
                                       </div>
                                     </div>
@@ -1026,7 +1059,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
       <div onClick={handleLoginClose} className={`${loginModalBackdrop ? "login-modal-backdrop" : "login-modal-backdrop login-modal-backdrop-hide"} position-fixed w-100 h-100`}></div>
 
       <div className={`${loginModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
-        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {setLoginModal(false); setLoginModalBackdrop(false);}}>
+        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {handleLoginClose(); handleLoginClose();}}>
           <i class="fa-solid fa-xmark"></i>
         </div>
 
@@ -1102,11 +1135,11 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
 
       <div className={`${otpModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
         <div className="doiwejrojwekrwer d-flex justify-content-between align-items-center pb-3">
-          <div className="dowehirhwerwer d-flex align-items-center" onClick={() => {setOtpModal(false); setLoginModal(true);}}>
+          <div className="dowehirhwerwer d-flex align-items-center" onClick={() => {setOtpModal(false); handleLoginModal();}}>
             <i class="fa-solid me-1 fa-arrow-left"></i> <span>Back</span>
           </div>
 
-          <div className="weohfjkwenuirhwer" onClick={() => {setOtpModal(false); setLoginModalBackdrop(false);}}>
+          <div className="weohfjkwenuirhwer" onClick={() => {setOtpModal(false); handleLoginClose();}}>
             <i class="fa-solid fa-xmark"></i>
           </div>
         </div>
@@ -1125,7 +1158,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                 {otpContact.email}
               </>
             )}
-            <span onClick={() => {setOtpModal(false); setLoginModal(true);}}> Edit</span></p>
+            <span onClick={() => {setOtpModal(false); handleLoginModal();}}> Edit</span></p>
 
             <div className="doijewijrwer">
               <div className="d-flex align-items-center">
@@ -1165,7 +1198,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
                 </div>
 
                 <div className="col-lg-6">
-                  <div onClick={() => {setOtpModal(false); setLoginModal(true); setEmailToggle(true);}} className="dowejriwehrewr d-flex align-items-center p-2">
+                  <div onClick={() => {setOtpModal(false); handleLoginModal(); setEmailToggle(true);}} className="dowejriwehrewr d-flex align-items-center p-2">
                     <i class="fa-regular me-2 fa-envelope"></i>
                     <p className="mb-0">Continue with Email</p>
                   </div>
@@ -1179,7 +1212,7 @@ export const Header = ({ shouldHideHeader, shouldHideFullHeaderFooterRoutes, sho
       {/*login complete start*/}      
 
       <div className={`${completeLoginModal ? "login-modal" : "login-modal login-modal-hide"} bg-white px-4 py-2 position-fixed`}>
-        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {setCompleteLoginModal(false); setLoginModalBackdrop(false);}}>
+        <div className="weohfjkwenuirhwer position-absolute" onClick={() => {setCompleteLoginModal(false); handleLoginClose();}}>
           <i class="fa-solid fa-xmark"></i>
         </div>
 

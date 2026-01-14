@@ -670,8 +670,8 @@ export const Cart = () => {
     
 
     const countryData = JSON.parse(localStorage.getItem("selectedCurrency"));
-    const country = countryData.country_name;
-    const currency_code = countryData.currency_code;
+    const country = countryData?.country_name;
+    const currency_code = countryData?.currency_code;
 
     useEffect(() => {
       const savedGift = localStorage.getItem("is_gift");

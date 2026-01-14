@@ -69,6 +69,7 @@
 .dfhdfhd {
   display: flex;
   align-items: baseline;
+  padding-inline: 3rem;
 }
 .dfhdfhd i {
   color: rgb(29, 37, 56);
@@ -1842,7 +1843,7 @@ p.sidifsdiyhr{
 /**/
 
 .select-form-drpdwn.weqwthyuytredfgw{
-  width: 30%;
+  width: 55%;
 }
 
 .select-form-drpdwn.weqwthyuytredfgw select.form-select,

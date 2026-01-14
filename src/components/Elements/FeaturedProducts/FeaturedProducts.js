@@ -4,9 +4,10 @@ import { useAuth } from "../../../context/AuthContext";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useCurrency } from "../../../context/CurrencyContext";
+import { useAuthModal } from "../../../context/AuthModalContext";
 
 export const FeaturedProducts = ({ featuredProduct }) => {
-
+    const { handleLoginModal } = useAuthModal();
     const { formatPrice } = useCurrency();
 
     const { user } = useAuth();
@@ -78,23 +79,20 @@ export const FeaturedProducts = ({ featuredProduct }) => {
                       </>
                     ) : (
                       <>
-                        <Link to="/login">
-                          <button
+
+                        <button onClick={ handleLoginModal }
                             className="btn-cart mb-1"
                             type="button"
                           >
                             <i class="fa-solid fa-cart-arrow-down"></i>
-                          </button>
-                        </Link>
-                        <Link to="/login">
-                          <button
+                        </button>
+                        <button onClick={ handleLoginModal }
                             className="btn-wishlist"
                             type="button"
                           >
                             <i class="fa-regular fa-heart"></i>
                             <i class="fa-solid d-none fa-heart"></i>
-                          </button>
-                        </Link>
+                        </button>
                       </>
                     )}
                   </div>
@@ -161,23 +159,19 @@ export const FeaturedProducts = ({ featuredProduct }) => {
                         </>
                       ) : (
                         <>
-                          <Link to="/login">
-                            <button
+                            <button onClick={handleLoginModal}
                               className="btn-cart mb-1"
                               type="button"
                             >
                               <i class="fa-solid fa-cart-arrow-down"></i>
                             </button>
-                          </Link>
-                          <Link to="/login">
                             <button
                               className="btn-wishlist"
-                              type="button"
+                              type="button" onClick={handleLoginModal}
                             >
                               <i class="fa-regular fa-heart"></i>
                               <i class="fa-solid d-none fa-heart"></i>
                             </button>
-                          </Link>
                         </>
                       )}
                     </div>
