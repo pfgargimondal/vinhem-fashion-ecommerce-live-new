@@ -56,13 +56,13 @@ export const Wedding = () => {
             </SwiperSlide>
 
             <SwiperSlide>
-              <Link to={WeddingDetails?.data?.section1_url}>
+              <Link to={WeddingDetails?.data?.section1_url_2}>
               <img src={`${WeddingDetails?.image_url}/${WeddingDetails?.data?.section1to4?.section1_image2}`} className="img-fluid" alt="Slide 2" />
               </Link>
             </SwiperSlide>
 
             <SwiperSlide>
-              <Link to={WeddingDetails?.data?.section1_url}>
+              <Link to={WeddingDetails?.data?.section1_url_3}>
               <img src={`${WeddingDetails?.image_url}/${WeddingDetails?.data?.section1to4?.section1_image3}`} className="img-fluid" alt="Slide 2" />
               </Link>
             </SwiperSlide>
