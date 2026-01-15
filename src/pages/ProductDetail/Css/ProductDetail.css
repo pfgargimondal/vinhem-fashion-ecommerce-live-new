@@ -69,7 +69,7 @@
 .dfhdfhd {
   display: flex;
   align-items: baseline;
-  padding-inline: 3rem;
+  padding-right: 3.5rem;
 }
 .dfhdfhd i {
   color: rgb(29, 37, 56);
@@ -404,12 +404,12 @@ p.sidifsdiyhr{
 .small-image-tabs .nav-item {
   width: auto;
   text-align: center;
-  margin: 0 0 0.2rem auto;
-  min-height: 120px;
+  margin: 0 0.5rem 0.2rem 0;
+  min-height: 94px;
   line-height: 1;
   overflow: hidden;
   position: relative;
-  max-height: 120px;
+  max-height: 94px;
 }
 .small-image-tabs .nav-item img {
   max-width: 100%;
@@ -500,11 +500,17 @@ p.sidifsdiyhr{
   cursor: zoom-in;
 }
 
+.deiwhirhwejpekr.sticky-top{
+  top: 20%;
+}
+
 .close-btn {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
   font-size: 1.8rem;
+  width: 32px;
+  height: 39px;
   background: none;
   border: none;
   color: #000;
@@ -1790,9 +1796,9 @@ h4.oijiwuihfih-eiuheir{
 }
 
 .doijijewjuewr{
-  max-height: 64vh;
+  max-height: 75vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .doijijewjuewr::-webkit-scrollbar{
@@ -1800,22 +1806,22 @@ h4.oijiwuihfih-eiuheir{
 }
 
 .deiwhirhwejpekr.sticky-top .small-image-tabs{
-  height: 63vh;
+  height: 67vh;
 }
 
 .small-image-arrow{
-  right: 54%;
+  right: 50%;
   transform: translateX(50%);
   z-index: 999;
   cursor: pointer;
 }
 
 .small-image-up-arrow{
-  top: -3%;
+  top: -4%;
 }
 
 .small-image-down-arrow{
-  bottom: -3%;
+  bottom: -2%;
 }
 
 .small-image-arrow i{
@@ -1877,4 +1883,9 @@ h4.oijiwuihfih-eiuheir{
 
 .asdadadwdwdadad{
   font-weight: 500;
+}
+
+.sidifsdiyhr span{
+  font-size: 1.5rem;
+  color: var(--black-background-color);
 }

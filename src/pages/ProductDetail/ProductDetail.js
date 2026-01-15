@@ -801,9 +801,10 @@ export const ProductDetail = () => {
                 </ul>
               </div>
 
-              <div className="daojdosjrjwejrwer">
-                <div className="row">
-                  <div className="col-lg-6">
+              <div className="llmdlkmewlrjwerewr">
+                <div className="daojdosjrjwejrwer">
+                  <div className="row">
+                    <div className="col-lg-6">
                     <div className="deiwhirhwejpekr sticky-top">
                       <Tab.Container
                         id="left-tabs-example"
@@ -902,7 +903,7 @@ export const ProductDetail = () => {
                             )}
                           </Col>
 
-                          <Col xs={10} className="large-image-tab">
+                          <Col xs={9} className="large-image-tab">
                             <div className="doerfkwerewrewr position-relative">
                               {/* <Tab.Content>
                               {productDetails?.data?.product_image?.encoded_image_url_1 && (
@@ -1073,9 +1074,9 @@ export const ProductDetail = () => {
                         </Row>
                       </Tab.Container>
                     </div>
-                  </div>
+                    </div>
 
-                  <div className="col-lg-6">
+                    <div className="col-lg-6">
                     <div className="dfghjdfgdfgf ps-2 pt-2">
                       <div className="dsfbsdghfjs mb-1">
                         <div className="fgnjdfgfd">
@@ -2070,9 +2071,13 @@ export const ProductDetail = () => {
                         </div>
                       </div>
                     </div>
+                    </div>
                   </div>
+                </div>
 
-                  <div className="col-lg-9 mt-5">
+                <div className="dwgerrfwefwrwrer">
+                  <div className="row">
+                    <div className="col-lg-9 mt-5">
                     <div className="odnwejihrwerwer mt-5">
                       <div className="dowehjkrhweirwer mb-5">
                         <div className="podmkwejrwer d-flex justify-content-between align-items-center">
@@ -2402,9 +2407,9 @@ export const ProductDetail = () => {
                         <b>VinHem Fashion Pvt Ltd, Assembled in india</b>
                       </p>
                     </div>
-                  </div>
+                    </div>
 
-                  <div className="col-lg-3 mt-5">
+                    <div className="col-lg-3 mt-5">
                     <div className="odnwejihrwerwer sticky-top mt-5">
                       <div className="dowehjkrhweirwer mb-5">
                         <div className="podmkwejrwer dowehkrhweor">
@@ -2536,6 +2541,7 @@ export const ProductDetail = () => {
                           </Swiper>
                         </div>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>
